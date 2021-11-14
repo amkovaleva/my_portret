@@ -1,0 +1,27 @@
+h1{
+    margin: 1.5rem 0 3rem;
+}
+
+main .container{
+    margin-bottom: 3rem;
+}
+.grid-view table.table .action-column{
+    width: 40px;
+    padding-top: 0;
+    padding-bottom: 0;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 25px;
+    letter-spacing: .75rem;
+}
+.grid-view  table.table th {
+    white-space: break-spaces;
+}
+
+.grid-view  table.table td img {
+    max-width: 60px
+}
+#edit-form img{
+    max-width: 100%;
+    max-height: 100px;
+}
