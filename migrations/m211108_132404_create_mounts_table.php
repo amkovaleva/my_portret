@@ -14,11 +14,11 @@ class m211108_132404_create_mounts_table extends Migration
     {
         $this->createTable('{{%mounts}}', [
             'id' => $this->primaryKey(),
-            'colour_id' => $this->integer()->notNull(),
+            'colour_id' => $this->integer()->notNull()->defaultValue(1),
             'portrait_format_id' => $this->integer()->notNull()->defaultValue(1),
             'frame_format_id' => $this->integer()->notNull()->defaultValue(1),
-            'add_length' => $this->smallInteger(2)->notNull(),
-            'add_width' => $this->smallInteger(2)->notNull()
+            'add_length' => $this->decimal(5, 2)->notNull()->defaultValue(1),
+            'add_width' => $this->decimal(5, 2)->notNull()->defaultValue(1)
         ]);
         $this->addForeignKey(
             'fk-mounts-colour_id',
@@ -66,7 +66,7 @@ class m211108_132404_create_mounts_table extends Migration
 
         $this->createTable('{{%background_colors}}', [
             'id' => $this->primaryKey(),
-            'colour_id' => $this->integer()->notNull()
+            'colour_id' => $this->integer()->notNull()->defaultValue(1)
         ]);
         $this->addForeignKey(
             'fk-background_colors-colour_id',

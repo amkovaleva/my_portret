@@ -17,7 +17,7 @@ class AdminController extends Controller
             return false;
 
         if (Yii::$app->user->isGuest)
-            $this->redirect(Url::to('user/login'));
+            $this->redirect(Url::to('/user/login'));
 
         return true;
     }

@@ -42,6 +42,15 @@ The minimum requirement by this project template that your Web server supports P
 
 INSTALLATION
 ------------
+### Развернуть проект:
+
+1. Выгрузить из гита
+2. Создать базу данных. Если нужно подправить config/db.php.
+3. composer update
+4. ./yii migrate --migrationNamespaces=Da\\User\\Migration
+Если будет ругаться на m211114_182855_add_admin_user - ничего страшного. Выполнится в пункте 6.
+5. ./yii migrate --migrationPath=@yii/rbac/migrations
+6. ./yii migrate
 
 ### Install via Composer
 

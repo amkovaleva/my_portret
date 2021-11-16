@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
     'method' => 'POST',
     'action' =>  Url::to(["/admin/background-colour/update", 'id' => $model->id]),
     'enableAjaxValidation' => true,
-    'validationUrl' => Url::to(["/admin/background-colours/validate", 'id' => $model->id]),
+    'validationUrl' => Url::to(["/admin/background-colour/validate", 'id' => $model->id]),
 ]); ?>
 
 

@@ -22,8 +22,8 @@ use yii\widgets\ActiveForm;
     array('prompt'=>Yii::t('admin/base', 'empty_list')) ); ?>
 <?= $form->field($model, 'frame_format_id')->dropDownList(ArrayHelper::map(Format::find()->asArray()->all(), 'id', 'name'),
     array('prompt'=>Yii::t('admin/base', 'empty_list')) ); ?>
-<?= $form->field($model, 'add_width')->textInput(['type' => 'number']) ?>
-<?= $form->field($model, 'add_length')->textInput(['type' => 'number']) ?>
+<?= $form->field($model, 'add_width')->textInput(['type' => 'number', 'step'=> 0.01]) ?>
+<?= $form->field($model, 'add_length')->textInput(['type' => 'number', 'step'=> 0.01]) ?>
 
 <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
 

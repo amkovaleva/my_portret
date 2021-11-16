@@ -14,7 +14,8 @@ class m211108_121706_create_formats_table extends Migration
     {
         $this->createTable('{{%colours}}', [
             'id' => $this->primaryKey(),
-            'name' => $this->string()->notNull()->unique()->defaultValue('Белый')
+            'name' => $this->string()->notNull()->unique()->defaultValue('Белый'),
+            'code' => $this->string()->notNull()->unique()->defaultValue('#fff')
         ]);
 
         $this->createTable('{{%formats}}', [
@@ -30,11 +31,11 @@ class m211108_121706_create_formats_table extends Migration
             true
         );
 
-        $arr = array('Белый', 'Черный', 'Светло-серый', 'Темно-серый');
+        $arr = array(['Белый', '#fff'], ['Черный', '#000'], ['Светло-серый', '#ABB2B9 '], ['Темно-серый', '#2C3E50']);
         foreach ($arr as &$value) {
             $this->insert(
                 '{{%colours}}',
-                ['name' => $value]
+                ['name' => $value[0], 'code' => $value[1]]
             );
         }
         $this->insert(

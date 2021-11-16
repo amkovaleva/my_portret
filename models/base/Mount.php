@@ -19,7 +19,7 @@ class Mount extends ActiveRecord
     {
         return [
             [['colour_id', 'portrait_format_id', 'frame_format_id', 'add_length', 'add_width'], 'required'],
-            [['add_length', 'add_width'], 'integer'],
+            [['add_length', 'add_width'], 'number'],
             [['colour_id', 'portrait_format_id','frame_format_id'], 'unique',
                 'targetAttribute' =>['colour_id', 'portrait_format_id', 'frame_format_id']],
         ];

@@ -16,7 +16,7 @@ class m211108_122916_create_frames_table extends Migration
             'id' => $this->primaryKey(),
             'colour_id' => $this->integer()->notNull()->defaultValue(1),
             'format_id' => $this->integer()->notNull()->defaultValue(1),
-            'width' => $this->smallInteger()->notNull()->defaultValue(2),
+            'width' => $this->decimal(5, 2)->notNull()->defaultValue(2),
             'imageFile' => $this->string()->notNull()->defaultValue('')
         ]);
         $this->addForeignKey(

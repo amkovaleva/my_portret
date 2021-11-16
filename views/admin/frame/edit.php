@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
     array('prompt'=>Yii::t('admin/base', 'empty_list')) ); ?>
 <?= $form->field($model, 'format_id')->dropDownList(ArrayHelper::map(Format::find()->asArray()->all(), 'id', 'name'),
     array('prompt'=>Yii::t('admin/base', 'empty_list')) ); ?>
-<?= $form->field($model, 'width')->textInput(['type' => 'number']) ?>
+<?= $form->field($model, 'width')->textInput(['type' => 'number', 'step' => 0.01]) ?>
 
 <?= $form->field($model, 'image')->fileInput() ?>
     <div class="form-group">

@@ -19,7 +19,7 @@ class BackgroundColour extends ActiveRecord
     {
         return [
             [['colour_id'], 'required'],
-            [['colour_id'], 'unique']
+            ['colour_id', 'unique']
         ];
     }
 

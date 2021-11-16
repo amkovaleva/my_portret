@@ -18,17 +18,19 @@ class Colour extends ActiveRecord
     public function rules()
     {
         return [
-            ['name', 'required'],
-            ['name', 'unique']
+            [['name', 'code'], 'required'],
+            ['name', 'unique'],
+            ['code', 'unique']
         ];
     }
 
     public function attributeLabels()
     {
-        $lan_dir = 'admin/formats';
+        $lan_dir = 'admin/colours';
         return [
             'id' => Yii::t($lan_dir, 'id'),
-            'name' => Yii::t($lan_dir, 'name')
+            'name' => Yii::t($lan_dir, 'name'),
+            'code' => Yii::t($lan_dir, 'code'),
         ];
     }
 

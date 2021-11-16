@@ -23,7 +23,7 @@ class Frame extends ActiveRecord
     {
         return [
             [['colour_id', 'format_id', 'width', 'imageFile'], 'required'],
-            [['width'], 'integer'],
+            [['width'], 'number'],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg', 'maxSize' => 1024 * 1024 * 15], //15 Mb
         ];
     }
