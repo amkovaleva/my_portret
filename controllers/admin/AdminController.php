@@ -3,12 +3,25 @@
 namespace app\controllers\admin;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
 class AdminController extends Controller
 {
+
+    public function beforeAction($action)
+    {
+        if(! parent::beforeAction($action))
+            return false;
+
+        if (Yii::$app->user->isGuest)
+            $this->redirect(Url::to('user/login'));
+
+        return true;
+    }
+
     public function actionLoadDelModal()
     {
         Yii::$app->response->format = Response::FORMAT_HTML;

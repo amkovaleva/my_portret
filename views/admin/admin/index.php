@@ -6,6 +6,8 @@ $models = array('prices', 'colours', 'formats', 'mounts', 'frames', 'background-
 $text_go = Yii::t('admin/base', 'text_go')
 ?>
 
+<h1>Тут будет информация о заказах, а пока...</h1>
+
 <div class="row m-4">
     <?php foreach ($models
 

@@ -22,10 +22,6 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -52,11 +48,28 @@ $config = [
             'showScriptName' => false,
             'rules' => $url_rules,
         ],
-
         'i18n' => [
             'translations' => $translations,
         ],
 
+    ],
+    'modules' => [
+        'user' => [
+            'class' => Da\User\Module::class,
+            'administratorPermissionName' => 'admin',
+            'enableRegistration' => false,
+            'enableEmailConfirmation' => false,
+            'allowPasswordRecovery' => false,
+            'controllerMap' => [
+                'security' => [
+                    'class' => \Da\User\Controller\SecurityController::class,
+                    'on ' . \Da\User\Event\FormEvent::EVENT_AFTER_LOGIN => function (\Da\User\Event\FormEvent $event) {
+                        \Yii::$app->controller->redirect(['/admin']);
+                        \Yii::$app->end();
+                    }
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];

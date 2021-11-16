@@ -49,6 +49,18 @@ AdminAsset::register($this);
         'items' => [
 
             ['label' => Yii::t('admin/base', 'settings'), 'items' => $subMenus],
+            Yii::$app->user->isGuest ? (
+            ['label' => Yii::t('usuario', 'Login'), 'url' => ['/user/login']]
+            ) : (
+                '<li>'
+                . Html::beginForm(['/user/logout'], 'post')
+                . Html::submitButton(
+                    Yii::t('usuario', 'Logout') .' (' . Yii::$app->user->identity->username . ')',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'
+            ),
         ],
     ]);
     NavBar::end();

@@ -25,7 +25,17 @@ $config = [
                 ],
             ],
         ],
+
+        'authManager'  => [
+            'class'        => 'yii\rbac\DbManager',
+            //            'defaultRoles' => ['guest'],
+        ],
         'db' => $db,
+    ],
+    'modules' => [
+        'user' => [
+            'class' => Da\User\Module::class,
+        ],
     ],
     'params' => $params,
     /*
