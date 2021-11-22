@@ -37,7 +37,7 @@ AdminAsset::register($this);
             'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
         ],
     ]);
-    $models = array('prices', 'colours', 'formats', 'mounts', 'frames', 'background-colours', 'background-materials', 'paint-materials', 'portrait-types');
+    $models = array('prices', 'colours', 'formats', 'mounts', 'frames', 'background-colours', 'background-materials', 'paint-materials', 'portrait-types', 'frame-mount-images');
     $subMenus = array();
 
     foreach ($models as &$model_name){

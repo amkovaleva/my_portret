@@ -14,7 +14,7 @@ class SearchFrame extends Frame
     public function rules()
     {
         return [
-            [['colour_name', 'format_name', 'width'], 'safe'],
+            [['colour_name', 'format_name', 'width', 'name'], 'safe'],
         ];
     }
 
@@ -30,7 +30,7 @@ class SearchFrame extends Frame
             'query' => $query,
             'sort' => [
                 'attributes' => [
-                    'width',
+                    'width', 'name',
                     'colour_name' => [
                         'asc' => ['colour_name' => SORT_ASC],
                         'desc' => ['colour_name' => SORT_DESC],
@@ -56,6 +56,9 @@ class SearchFrame extends Frame
 
         if ($this->format_name)
             $query->andFilterWhere(['like',  'pf.name', $this->format_name]);
+
+        if ($this->name)
+            $query->andFilterWhere(['like',  Frame::tableName().'.name', $this->name]);
 
         return $dataProvider;
     }

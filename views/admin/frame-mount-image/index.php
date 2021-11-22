@@ -6,7 +6,7 @@ use yii\widgets\Pjax;
 
 ?>
 
-<h1><?= Yii::t('admin/frames', 'title') ?></h1>
+<h1><?= Yii::t('admin/frame-mount-images', 'title') ?></h1>
 <?php Pjax::begin(['id' => 'pjax', 'options' => ['neverTimeout' => true]]) ?>
 <div class="row">
     <div id="form-container" class="col-lg-4">
@@ -18,16 +18,18 @@ use yii\widgets\Pjax;
             'filterModel' => $searchModel,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-                'name',
                 [
-                    'attribute' => 'colour_name',
-                    'value' => 'colour_name',
+                    'attribute' => 'mount_colour',
+                    'value' => 'mount_colour',
                 ],
                 [
-                    'attribute' => 'format_name',
-                    'value' => 'format_name',
+                    'attribute' => 'mount_portrait_format',
+                    'value' => 'mount_portrait_format',
                 ],
-                'width',
+                [
+                    'attribute' => 'frame_name',
+                    'value' => 'frame_name',
+                ],
                 [
                     'attribute' => 'imageFile',
                     'format' => 'image',

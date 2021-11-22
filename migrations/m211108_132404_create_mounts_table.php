@@ -20,6 +20,13 @@ class m211108_132404_create_mounts_table extends Migration
             'add_length' => $this->decimal(5, 2)->notNull()->defaultValue(1),
             'add_width' => $this->decimal(5, 2)->notNull()->defaultValue(1)
         ]);
+
+        $this->createIndex(
+            'ind-mounts-unique',
+            '{{%mounts}}',
+            ['colour_id', 'portrait_format_id', 'frame_format_id'],
+            true
+        );
         $this->addForeignKey(
             'fk-mounts-colour_id',
             '{{%mounts}}',
@@ -66,8 +73,9 @@ class m211108_132404_create_mounts_table extends Migration
 
         $this->createTable('{{%background_colors}}', [
             'id' => $this->primaryKey(),
-            'colour_id' => $this->integer()->notNull()->defaultValue(1)
+            'colour_id' => $this->integer()->unique()->notNull()->defaultValue(1)
         ]);
+
         $this->addForeignKey(
             'fk-background_colors-colour_id',
             '{{%background_colors}}',
@@ -79,6 +87,37 @@ class m211108_132404_create_mounts_table extends Migration
         $this->insert( '{{%background_colors}}', [ 'colour_id' => 1]);
         $this->insert( '{{%background_colors}}', [ 'colour_id' => 3]);
         $this->insert( '{{%background_colors}}', [ 'colour_id' => 4]);
+
+
+        $this->createTable('{{%frame_mount_images}}', [
+            'id' => $this->primaryKey(),
+            'mount_id' => $this->integer()->notNull()->defaultValue(1),
+            'frame_id' => $this->integer()->notNull()->defaultValue(1),
+            'imageFile' => $this->string()->notNull()->defaultValue('')
+        ]);
+
+        $this->createIndex(
+            'ind-frame_mount_images-unique',
+            '{{%frame_mount_images}}',
+            ['mount_id', 'frame_id'],
+            true
+        );
+
+        $this->addForeignKey(
+            'fk-frame_mount_images-mount_id',
+            '{{%frame_mount_images}}',
+            'mount_id',
+            '{{%mounts}}',
+            'id'
+        );
+        $this->addForeignKey(
+            'fk-frame_mount_images-frame_id',
+            '{{%frame_mount_images}}',
+            'frame_id',
+            '{{%frames}}',
+            'id'
+        );
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 6, 'mount_id' => 2, 'imageFile' => '6_2.png']);
     }
 
     /**
@@ -86,6 +125,7 @@ class m211108_132404_create_mounts_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropTable('{{%frame_mount_images}}');
         $this->dropTable('{{%mounts}}');
         $this->dropTable('{{%background_colors}}');
     }

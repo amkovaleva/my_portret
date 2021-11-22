@@ -32,4 +32,9 @@ class PortraitType extends ActiveRecord
         ];
     }
 
+
+    public function getPrices()
+    {
+        return $this->hasMany(Price::class, ['portrait_type_id' => 'id']);
+    }
 }

@@ -56,4 +56,9 @@ class Mount extends ActiveRecord
     {
         return $this->hasOne(Format::class, ['id' => 'frame_format_id']);
     }
+
+    public function getInfo()
+    {
+        return $this->colour->name . " " . $this->portraitFormat->name;
+    }
 }

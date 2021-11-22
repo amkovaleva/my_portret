@@ -36,4 +36,9 @@ class Format extends ActiveRecord
         ];
     }
 
+    public function getPrices()
+    {
+        return $this->hasMany(Price::class, ['format_id' => 'id']);
+    }
+
 }

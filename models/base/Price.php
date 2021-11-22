@@ -65,4 +65,5 @@ class Price extends ActiveRecord
         return $this->hasOne(Format::class, ['id' => 'format_id']);
     }
 
+
 }

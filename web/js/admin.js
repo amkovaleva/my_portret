@@ -73,6 +73,8 @@ let initGridActions = function () {
 let initFormActions = function () {
     let editForm = $('#edit-form'),
         file_input = editForm.find('input[type=file]'),
+        id_input = editForm.find('input[type=hidden][id]'),
+        id = id_input.val(),
         model_img = editForm.find('img');
 
     editForm.unbind('submit').submit((event) => {
@@ -107,6 +109,29 @@ let initFormActions = function () {
                 model_img[0].src = URL.createObjectURL(file)
             }
         });
+
+    let need_callback_change = $('select[change_url]');
+    let change_callback = (event) => {
+        if(id !== id_input.val()){
+            id = id_input.val();
+            return;
+        }
+        let el = $(event.target);
+        sendPost(el.attr('change_url') + '/' + el.val(), (info) => {
+            let updated_list = $('#'+ info.id)
+            updated_list.html('');
+            updated_list.append($('<option>').text('--'));
+            if (info.length === 0 || info.items.length === 0)
+                return;
+            info.items.forEach(option => {
+                let op = $('<option>');
+                op.attr('value', option.id);
+                op.text(option.name);
+                updated_list.append(op);
+            })
+        });
+    };
+    need_callback_change.unbind('change', change_callback).bind('change', change_callback);
 };
 
 let initBaseActions = function () {

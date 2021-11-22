@@ -6,14 +6,16 @@ use Yii;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
+use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class AdminController extends Controller
 {
 
     public function beforeAction($action)
     {
-        if(! parent::beforeAction($action))
+        if (!parent::beforeAction($action))
             return false;
 
         if (Yii::$app->user->isGuest)
@@ -93,11 +95,13 @@ class AdminController extends Controller
         return null;
     }
 
-    public function searchModel(){
+    public function searchModel()
+    {
         return null;
     }
 
-    public function getTitle(){
+    public function getTitle()
+    {
         return Yii::t('admin/base', 'admin_title');
     }
 
@@ -105,6 +109,20 @@ class AdminController extends Controller
     {
         $request = Yii::$app->getRequest();
         return $request->isPost && $model->load($request->post());
+    }
+
+    public function saveWithImage($model)
+    {
+        $image = UploadedFile::getInstance($model, 'image');
+        if (isset($image))
+            $model->imageFile = $model->imgName . '.' . $image->extension;
+
+        $res = $model->save();
+
+        if ($res && isset($image))
+            $model->saveImage($image);
+
+        return $res;
     }
 
 }

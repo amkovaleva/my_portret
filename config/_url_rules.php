@@ -1,10 +1,15 @@
 <?php
 $rules = [
+    'order' => 'order/index',
+    'POST order/change' => 'order/change',
+
+
     'POST admin/admin/load-del-modal' => 'admin/admin/load-del-modal',
     'GET admin' => 'admin/admin/admin',
+    'POST /admin/frame-mount-image/change/<frame_id:\d+>' => 'admin/frame-mount-image/change',
 ];
 
-$models = array('colour', 'format', 'mount', 'frame', 'background-colour', 'background-material', 'paint-material', 'portrait-type', 'price');
+$models = array('colour', 'format', 'mount', 'frame', 'background-colour', 'background-material', 'paint-material', 'portrait-type', 'price', 'frame-mount-image');
 $post_actions = array('validate', 'update', 'delete', 'edit');
 
 foreach ($models as &$model_name) {

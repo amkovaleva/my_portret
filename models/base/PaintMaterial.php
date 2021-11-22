@@ -32,4 +32,8 @@ class PaintMaterial extends ActiveRecord
         ];
     }
 
+    public function getPrices()
+    {
+        return $this->hasMany(Price::class, ['paint_material_id' => 'id']);
+    }
 }

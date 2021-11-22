@@ -32,4 +32,8 @@ class BackgroundMaterial extends ActiveRecord
         ];
     }
 
+    public function getPrices()
+    {
+        return $this->hasMany(Price::class, ['bg_material_id' => 'id']);
+    }
 }

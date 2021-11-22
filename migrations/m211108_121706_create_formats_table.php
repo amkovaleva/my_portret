@@ -50,6 +50,10 @@ class m211108_121706_create_formats_table extends Migration
             '{{%formats}}',
             ['name' => 'A2', 'length' => 50, 'width' => 40 ]
         );
+        $this->insert(
+            '{{%formats}}',
+            ['name' => 'A1', 'length' => 70, 'width' => 50 ]
+        );
     }
 
     /**

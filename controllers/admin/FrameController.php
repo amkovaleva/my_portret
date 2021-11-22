@@ -6,7 +6,6 @@ use app\models\base\Frame;
 use app\models\base\search\SearchFrame;
 use Yii;
 use yii\web\Response;
-use yii\web\UploadedFile;
 
 class FrameController extends AdminController
 {
@@ -17,17 +16,7 @@ class FrameController extends AdminController
         $model = $this->getModelById($id);
 
         if (parent::isModelLoaded($model)) {
-            $image = UploadedFile::getInstance($model, 'image');
-            if(isset($image))
-                $model->imageFile = ($model->getIsNewRecord() ? '0' : $model->id) . '.' . $image->extension;
-
-            $res = $model->save();
-            if($res)
-            {
-                if(isset($image))
-                    $image->saveAs(Frame::UPLOAD_FOLDER.  $model->id . '.' . $image->extension);
-
-            }
+            $res = $this->saveWithImage($model);
             return ['success' => $res];
         }
         return [];

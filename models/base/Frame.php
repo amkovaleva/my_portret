@@ -3,12 +3,9 @@
 namespace app\models\base;
 
 use Yii;
-use yii\db\ActiveRecord;
-use yii\web\UploadedFile;
 
-class Frame extends ActiveRecord
+class Frame extends BaseImage
 {
-    public $image;
     const UPLOAD_FOLDER = 'uploads/frames/';
 
     /**
@@ -22,30 +19,12 @@ class Frame extends ActiveRecord
     public function rules()
     {
         return [
-            [['colour_id', 'format_id', 'width', 'imageFile'], 'required'],
+            [['colour_id', 'format_id', 'width', 'imageFile', 'name'], 'required'],
             [['width'], 'number'],
+            [['name'], 'string'],
+            [['name'], 'unique'],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg', 'maxSize' => 1024 * 1024 * 15], //15 Mb
         ];
-    }
-
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-
-        if ($insert || isset($changedAttributes['imageFile'])) {
-            $fileInfo = explode('.', $this->imageFile);
-            $fileInfo[0] = $this->id;
-            $this->updateAttributes(['imageFile' => implode('.', $fileInfo)]);
-
-            if (!$insert)
-                $this->clearImage();
-        }
-    }
-
-    public function afterDelete()
-    {
-        parent::afterDelete();
-        $this->clearImage();
     }
 
     public function attributeLabels()
@@ -60,6 +39,7 @@ class Frame extends ActiveRecord
             'format_name' => Yii::t($lan_dir, 'format'),
             'image' => Yii::t($lan_dir, 'image'),
             'imageFile' => Yii::t($lan_dir, 'image'),
+            'name' => Yii::t($lan_dir, 'name'),
         ];
     }
 
@@ -73,15 +53,8 @@ class Frame extends ActiveRecord
         return $this->hasOne(Format::class, ['id' => 'format_id']);
     }
 
-    public function getImageUrl()
-    {
-        if(!$this->imageFile)
-            return '';
-        return Yii::$app->request->baseUrl.'/'.Frame::UPLOAD_FOLDER . $this->imageFile;
+    public function getImgName(){
+        return $this->getIsNewRecord() ? '0' : $this->id;
     }
 
-    public function clearImage()
-    {
-        array_map('unlink', glob(Yii::$app->basePath . '/web/' . Frame::UPLOAD_FOLDER . $this->id . '.*'));
-    }
 }
