@@ -1,10 +1,6 @@
-<?= $this->render('/admin/partials/_only_name_index',
-    [
-        'model' => $model,
-        'base_url' => '/admin/portrait-type',
-        'title' => Yii::t('admin/portrait-types', 'title'),
-
-        'dataProvider' => $dataProvider,
-        'searchModel' => $searchModel,
-    ]
-) ?>
+<?= $this->render('/admin/partials/_index', [
+    'model' => $model,
+    'model_name' => 'portrait-type',
+    'dataProvider' => $dataProvider,
+    'searchModel' => $searchModel
+]) ?>

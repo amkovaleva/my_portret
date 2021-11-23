@@ -1,5 +1,4 @@
 <?php
-
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 $url_rules = require __DIR__ . '/_url_rules.php';

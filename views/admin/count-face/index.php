@@ -1,7 +1,7 @@
 <?= $this->render('/admin/partials/_index', [
     'model' => $model,
-    'model_name' => 'colour',
+    'model_name' => 'count-face',
     'dataProvider' => $dataProvider,
     'searchModel' => $searchModel,
-    'columns' => [ 'name',  'code']
+    'columns' => ['min', 'max', 'coefficient']
 ]) ?>

@@ -12,7 +12,7 @@ let openModal = function (modal_id = 'modal-del') {
 
 let sendPost = function (url, callback, need_clear_link = true) {
     $.post(url, callback).fail(function () {
-        alert("error");
+        console.log("error");
     }).always(function () {
         if (need_clear_link)
             pressed_link = null;
@@ -102,11 +102,15 @@ let initFormActions = function () {
         $.pjax.reload({container: '#pjax', async: false});
     });
 
+
     if(file_input.length && model_img.length)
+        if(!model_img.attr('src'))
+            model_img.hide();
         file_input.unbind('change').change(() => {
             const [file] = file_input[0].files
             if (file) {
                 model_img[0].src = URL.createObjectURL(file)
+                model_img.show();
             }
         });
 

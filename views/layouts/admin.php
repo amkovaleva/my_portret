@@ -37,11 +37,12 @@ AdminAsset::register($this);
             'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
         ],
     ]);
-    $models = array('prices', 'colours', 'formats', 'mounts', 'frames', 'background-colours', 'background-materials', 'paint-materials', 'portrait-types', 'frame-mount-images');
+    $models = Yii::$app->params['admin_models'];
     $subMenus = array();
 
     foreach ($models as &$model_name){
-        $subMenus[] =  ['label' => Yii::t('admin/'.$model_name, 'title'), 'url' => Url::to('/admin/'.$model_name)];
+        $dir = 'admin/'.$model_name . 's';
+        $subMenus[] =  ['label' => Yii::t($dir, 'title'), 'url' => Url::to('/'.$dir)];
     }
 
     echo Nav::widget([

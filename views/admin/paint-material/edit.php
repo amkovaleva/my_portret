@@ -1,2 +1,5 @@
-
-<?= $this->render('/admin/partials/_only_name_edit', ['model' => $model, 'base_url' => '/admin/paint-material']) ?>
+<?= $this->render('/admin/partials/_edit', [
+    'model' => $model,
+    'model_name' =>  'paint-material',
+    'default' => true,
+]) ?>

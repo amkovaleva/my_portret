@@ -3,9 +3,8 @@ $fileMap = [
     'app/base' => 'base.php',
 ];
 
-$models = array('colour', 'format', 'mount', 'frame', 'background-colour', 'background-material', 'paint-material', 'portrait-type', 'price', 'frame-mount-image');
 
-foreach ($models as &$model_name)
+foreach ($params['admin_models'] as &$model_name)
     $fileMap['app/'.$model_name] = $model_name . '.php';
 
 return [

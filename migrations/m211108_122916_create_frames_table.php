@@ -35,8 +35,8 @@ class m211108_122916_create_frames_table extends Migration
             'id'
         );
 
-        $format_ids = array(1, 2, 3);
-        $format_names = array('A4', 'A3', 'A2');
+        $format_ids = array(1, 2, 3, 4);
+        $format_names = array('A4', 'A3', 'A2', 'A1');
         $colour_ids = array(1, 2);
         $colour_names = array('Белая', 'Черная');
         $i = 1;

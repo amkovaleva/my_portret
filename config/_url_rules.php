@@ -9,10 +9,9 @@ $rules = [
     'POST /admin/frame-mount-image/change/<frame_id:\d+>' => 'admin/frame-mount-image/change',
 ];
 
-$models = array('colour', 'format', 'mount', 'frame', 'background-colour', 'background-material', 'paint-material', 'portrait-type', 'price', 'frame-mount-image');
 $post_actions = array('validate', 'update', 'delete', 'edit');
 
-foreach ($models as &$model_name) {
+foreach ($params['admin_models'] as &$model_name) {
     $model_base_url = 'admin/'. $model_name;
 
     $rules['GET ' . $model_base_url .'s'] = $model_base_url. '/index';

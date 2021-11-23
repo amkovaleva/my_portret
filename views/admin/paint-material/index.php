@@ -1,10 +1,7 @@
-<?= $this->render('/admin/partials/_only_name_index',
-    [
-        'model' => $model,
-        'base_url' => '/admin/paint-material',
-        'title' => Yii::t('admin/paint-materials', 'title'),
+<?= $this->render('/admin/partials/_index', [
+    'model' => $model,
+    'model_name' => 'paint-material',
+    'dataProvider' => $dataProvider,
+    'searchModel' => $searchModel
+]) ?>
 
-        'dataProvider' => $dataProvider,
-        'searchModel' => $searchModel,
-    ]
-) ?>
