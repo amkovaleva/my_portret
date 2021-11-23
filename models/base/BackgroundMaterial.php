@@ -18,8 +18,9 @@ class BackgroundMaterial extends ActiveRecord
     public function rules()
     {
         return [
-            ['name', 'required'],
-            ['name', 'unique']
+            [['name', 'is_mount'], 'required'],
+            ['name', 'unique'],
+            ['is_mount', 'boolean']
         ];
     }
 
@@ -28,7 +29,8 @@ class BackgroundMaterial extends ActiveRecord
         $lan_dir = 'admin/background-materials';
         return [
             'id' => Yii::t($lan_dir, 'id'),
-            'name' => Yii::t($lan_dir, 'name')
+            'name' => Yii::t($lan_dir, 'name'),
+            'is_mount' => Yii::t($lan_dir, 'is_mount')
         ];
     }
 

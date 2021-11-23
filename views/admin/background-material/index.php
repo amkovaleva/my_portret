@@ -2,5 +2,6 @@
     'model' => $model,
     'model_name' => 'background-material',
     'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel
+    'searchModel' => $searchModel,
+    'columns' => ['name', 'is_mount:boolean']
 ]) ?>
