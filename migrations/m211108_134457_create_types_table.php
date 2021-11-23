@@ -14,15 +14,17 @@ class m211108_134457_create_types_table extends Migration
     {
         $this->createTable('{{%bg_materials}}', [
             'id' => $this->primaryKey(),
-            'name' => $this->string()->notNull()->unique()->defaultValue('Бумага')
+            'name' => $this->string()->notNull()->unique()->defaultValue('Бумага'),
+            'is_mount' => $this->boolean()->notNull()->defaultValue(true)
         ]);
-        $this->insert('{{%bg_materials}}', ['name' => 'Бумага']);
-        $this->insert('{{%bg_materials}}', ['name' => 'Холст с подрамником']);
+        $this->insert('{{%bg_materials}}', ['name' => 'Бумага', 'is_mount' => true]);
+        $this->insert('{{%bg_materials}}', ['name' => 'Холст с подрамником', 'is_mount' => false]);
 
         $this->createTable('{{%paint_materials}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull()->unique()->defaultValue('Карандаш')
         ]);
+
         $this->insert('{{%paint_materials}}', ['name' => 'Карандаш']);
         $this->insert('{{%paint_materials}}', ['name' => 'Масло']);
 
@@ -31,7 +33,8 @@ class m211108_134457_create_types_table extends Migration
             'name' => $this->string()->notNull()->unique()->defaultValue('Портрет')
         ]);
 
-        $this->insert('{{%portrait_types}}', ['name' => 'Портрет']);
+        $this->insert('{{%portrait_types}}', ['name' => 'Гиперреализм']);
+        $this->insert('{{%portrait_types}}', ['name' => 'Фотореализм']);
         $this->insert('{{%portrait_types}}', ['name' => 'Скетч']);
 
 

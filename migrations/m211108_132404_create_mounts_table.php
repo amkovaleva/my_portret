@@ -49,27 +49,23 @@ class m211108_132404_create_mounts_table extends Migration
             'id'
         );
 
-        $this->insert(
-            '{{%mounts}}',
-            [
-                'colour_id' => 1,
-                'portrait_format_id' => 2,
-                'frame_format_id' => 3,
-                'add_length' => 5,
-                'add_width' => 5
-            ]
-        );
-        $this->insert(
-            '{{%mounts}}',
-            [
-                'colour_id' => 2,
-                'portrait_format_id' => 2,
-                'frame_format_id' => 3,
-                'add_length' => 5,
-                'add_width' => 5
-            ]
-        );
+        $formats = [1, 2, 3];
+        $colours = [1, 2];
+        $spaces = [[5, 4.5], [5, 5], [10, 5]];
 
+        foreach ($formats as &$f_id) {
+            $space = $spaces[$f_id - 1];
+            foreach ($colours as &$c_id) {
+                $this->insert('mounts',
+                    [
+                        'colour_id' => $c_id,
+                        'portrait_format_id' => $f_id,
+                        'frame_format_id' => $f_id + 1,
+                        'add_length' => $space[0],
+                        'add_width' => $space[1]
+                    ]);
+            }
+        }
 
         $this->createTable('{{%background_colors}}', [
             'id' => $this->primaryKey(),
@@ -102,7 +98,6 @@ class m211108_132404_create_mounts_table extends Migration
             ['mount_id', 'frame_id'],
             true
         );
-
         $this->addForeignKey(
             'fk-frame_mount_images-mount_id',
             '{{%frame_mount_images}}',
@@ -117,7 +112,18 @@ class m211108_132404_create_mounts_table extends Migration
             '{{%frames}}',
             'id'
         );
-        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 6, 'mount_id' => 2, 'imageFile' => '6_2.png']);
+        //A3
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 3, 'mount_id' => 1, 'imageFile' => '3_1.png']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 4, 'mount_id' => 1, 'imageFile' => '4_1.png']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 4, 'mount_id' => 2, 'imageFile' => '4_2.png']);
+        //A2
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 5, 'mount_id' => 3, 'imageFile' => '5_3.png']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 6, 'mount_id' => 3, 'imageFile' => '6_3.png']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 6, 'mount_id' => 4, 'imageFile' => '6_4.png']);
+        //A1
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 7, 'mount_id' => 5, 'imageFile' => '7_5.png']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 8, 'mount_id' => 5, 'imageFile' => '8_5.png']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 8, 'mount_id' => 6, 'imageFile' => '8_6.png']);
     }
 
     /**
