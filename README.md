@@ -51,6 +51,7 @@ INSTALLATION
 Если будет ругаться на m211114_182855_add_admin_user - ничего страшного. Выполнится в пункте 6.
 5. ./yii migrate --migrationPath=@yii/rbac/migrations
 6. ./yii migrate
+7. Не за быть дать доступ на запись в дирректории runtime, web/assets, web/uploads
 
 ### Install via Composer
 
