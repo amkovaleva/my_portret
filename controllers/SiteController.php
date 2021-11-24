@@ -10,6 +10,14 @@ use app\models\ContactForm;
 class SiteController extends Controller
 {
 
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action))
+            return false;
+
+        Yii::$app->assetManager->bundles['yii\bootstrap4\BootstrapAsset']  = false;
+        return true;
+    }
     /**
      * {@inheritdoc}
      */

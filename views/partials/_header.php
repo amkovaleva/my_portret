@@ -15,7 +15,7 @@ use yii\bootstrap4\NavBar;
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => Yii::t('app/orders', 'title'), 'url' => ['order/index']],
+            ['label' => Yii::t('app/orders', 'title'), 'url' => ['/order/index']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             ['label' => 'About', 'url' => ['/site/about']],
         ],

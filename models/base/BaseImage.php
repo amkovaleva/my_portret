@@ -40,15 +40,19 @@ class BaseImage extends ActiveRecord
     }
 
 
+    public function getImgName(){
+        return $this->getIsNewRecord() ? '0' : $this->id;
+    }
+
     public function clearImage()
     {
         array_map('unlink', glob(Yii::$app->basePath . '/web/' . static::UPLOAD_FOLDER . $this->imgName . '.*'));
     }
 
-    public function saveImage($uploadedImage)
+    public function saveImage($uploadedImage, $needRotateToVertical = true)
     {
         $imgRes = $uploadedImage->saveAs(static::UPLOAD_FOLDER . $this->imageFile);
-        if (!$imgRes)
+        if (!$imgRes || !$needRotateToVertical)
             return;
 
         $image = Image::make(Yii::getAlias('@web_dir') . '/' . static::UPLOAD_FOLDER . $this->imageFile);

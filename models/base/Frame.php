@@ -53,8 +53,5 @@ class Frame extends BaseImage
         return $this->hasOne(Format::class, ['id' => 'format_id']);
     }
 
-    public function getImgName(){
-        return $this->getIsNewRecord() ? '0' : $this->id;
-    }
 
 }

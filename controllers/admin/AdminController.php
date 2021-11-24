@@ -8,7 +8,6 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
-use Intervention\Image\ImageManagerStatic as Image;
 
 class AdminController extends Controller
 {

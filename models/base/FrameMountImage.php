@@ -47,6 +47,11 @@ class FrameMountImage extends BaseImage
         return $this->hasOne(Mount::class, ['id' => 'mount_id']);
     }
 
+    public function getFrame()
+    {
+        return $this->hasOne(Frame::class, ['id' => 'frame_id']);
+    }
+
     public static function getMounts($frame_id)
     {
         $frame = Frame::findOne(['id' => $frame_id]);
@@ -59,11 +64,6 @@ class FrameMountImage extends BaseImage
             $res[] = ['id'=>$mount->id, 'name' => $mount->colour->name . Yii::t('admin/frame-mount-images', 'select_mid') . $mount->portraitFormat->name];
         }
         return $res;
-    }
-
-    public function getFrame()
-    {
-        return $this->hasOne(Frame::class, ['id' => 'frame_id']);
     }
 
 

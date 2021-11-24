@@ -41,4 +41,9 @@ class Format extends ActiveRecord
         return $this->hasMany(Price::class, ['format_id' => 'id']);
     }
 
+    public function getSizesStr()
+    {
+        return $this->width . 'x' . $this->length;
+    }
+
 }
