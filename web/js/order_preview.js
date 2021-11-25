@@ -14,7 +14,7 @@ let update_img = function (src){
     upload_container.hide();
 };
 
-if (window.FileList && window.File) {
+if (window.FileList && window.File && dropZone) {
     dropZone.addEventListener('dragover', event => {
         event.stopPropagation();
         event.preventDefault();
@@ -34,14 +34,14 @@ if (window.FileList && window.File) {
         });
     });
 }
-else {
+else if (dropZone){
     dropZone.remove();
 }
 
-
-file_input.onchange = () => {
-    const [file] = file_input.files
-    if (file) {
-        update_img(URL.createObjectURL(file));
-    }
-};
+if(file_input)
+    file_input.onchange = () => {
+        const [file] = file_input.files
+        if (file) {
+            update_img(URL.createObjectURL(file));
+        }
+    };

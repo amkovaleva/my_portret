@@ -19,7 +19,7 @@ class Price extends ActiveRecord
     {
         return [
             [['bg_material_id', 'paint_material_id', 'portrait_type_id', 'format_id', 'price', 'price_usd', 'price_eur'], 'required'],
-            [[ 'price', 'price_usd', 'price_eur'], 'number'],
+            [['price', 'price_usd', 'price_eur'], 'number'],
             [['bg_material_id', 'paint_material_id', 'portrait_type_id', 'format_id'], 'unique',
                 'targetAttribute' => ['bg_material_id', 'paint_material_id', 'portrait_type_id', 'format_id']],
         ];
@@ -65,5 +65,13 @@ class Price extends ActiveRecord
         return $this->hasOne(Format::class, ['id' => 'format_id']);
     }
 
+    public function getLocalPrice()
+    {
+        if (Yii::$app->language == 'ru-RU')
+            return $this->price;
+        else if (Yii::$app->language == 'en-EN')
+            return $this->price_usd;
+        return $this->price_eur;
+    }
 
 }

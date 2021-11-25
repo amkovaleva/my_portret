@@ -16,7 +16,7 @@ class OrderController extends Controller
         if (!parent::beforeAction($action))
             return false;
 
-        Yii::$app->assetManager->bundles['yii\bootstrap4\BootstrapAsset']  = false;
+        Yii::$app->assetManager->bundles['yii\bootstrap4\BootstrapAsset'] = false;
         return true;
     }
 
@@ -26,14 +26,32 @@ class OrderController extends Controller
         $this->layout = 'order';
 
         return $this->render('index', [
-            'model' =>$this->defaultModel
+            'model' => $this->defaultModel
         ]);
     }
+
+    // <editor-fold state="collapsed" desc="change values on form">
+
+
+    public function actionChange($field, $value)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $model = new OrderForm();
+
+        if (!$this->isModelLoaded($model))
+            return ['success' => false];
+
+        return $model->fillDownFrom($field, $value);
+    }
+
+
+    // </editor-fold>
 
     public function actionValidate()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $model =  $this->defaultModel;
+        $model = $this->defaultModel;
 
         if ($this->isModelLoaded($model)) {
             return ActiveForm::validate($model);
@@ -58,7 +76,8 @@ class OrderController extends Controller
         return $request->isPost && $model->load($request->post());
     }
 
-    public function getDefaultModel(){
+    public function getDefaultModel()
+    {
         $model = new OrderForm();
         $model->fillDefaultModel();
         return $model;

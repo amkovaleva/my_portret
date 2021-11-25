@@ -2,6 +2,7 @@
 $rules = [
     'order' => 'order/index',
     'POST order/change' => 'order/change',
+    'POST order/change/<field:\d+>/<value:\d+>' => 'order/change',
 
 
     'POST admin/admin/load-del-modal' => 'admin/admin/load-del-modal',

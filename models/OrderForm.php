@@ -26,7 +26,7 @@ class OrderForm extends BaseImage
     const DEFAULT_PRICE = 1;
     const DEFAULT_PORTRAIT_COLOUR = 1;
 
-    public $isMountPossible = true;
+    public $isMountPossible;
     public $frame_format_id;
 
     // <editor-fold state="collapsed" desc="base model description">
@@ -46,7 +46,7 @@ class OrderForm extends BaseImage
     {
         return [
             [['portrait_type_id', 'format_id', 'material_id', 'base_id', 'background_color_id', 'imageFile', 'cost'], 'required'],
-            [['frame_id', 'mount_id', 'frame_format_id'], 'safe'],
+            [['frame_id', 'mount_id', 'frame_format_id'], 'integer'],
             [['cost'], 'number'],
             [['image'], 'file', 'mimeTypes' => 'image/*', 'maxSize' => 1024 * 1024 * 15], //15 Mb
         ];
@@ -137,9 +137,48 @@ class OrderForm extends BaseImage
 
     // <editor-fold state="collapsed" desc="load of available order options">
 
+
+    private function getFirstKey($list){
+        foreach ($list as $key => $value) {
+            return $key;
+        }
+        return null;
+    }
+
+    public function fillDownFrom($changeField, $value){
+
+        $prop = OrderConsts::FIELD_NAMES[$changeField];
+        $this->$prop = $value;
+
+        $changeField++;
+
+        $res = ['price' => 0, 'items' => []];
+        while($changeField <= OrderConsts::FORMAT) {
+            $prop = OrderConsts::FIELD_NAMES[$changeField];
+            $loadMethod = OrderConsts::FIELD_LOAD_NAMES[$changeField];
+            $list = $this->$loadMethod;
+
+            $res['items'][] = ['id' => $prop, 'items' => $list, 'type' => OrderConsts::FIELD_TYPES[$changeField], 'prompt' => false];
+
+            if (!isset($list[$this->$prop]))
+                $this->$prop = $this->getFirstKey($list);
+
+            $changeField++;
+        }
+        $price = Price::find()->where([
+            'portrait_type_id' => $this->portrait_type_id,
+            'paint_material_id' => $this->material_id,
+            'bg_material_id' => $this->base_id,
+            'format_id' => $this->format_id,
+        ])->one();
+
+        if($price)
+            $res['price'] = $price->localPrice;
+        return $res;
+    }
+
     public function getAvailablePortraitTypes()
     {
-
         $list = PortraitType::find()->joinWith('prices', false, 'INNER JOIN')->asArray()->all();
         return ArrayHelper::map($list, 'id', 'name');
     }
