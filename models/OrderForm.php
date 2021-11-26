@@ -223,7 +223,7 @@ class OrderForm extends BaseImage
     public function getAvailableBgColours()
     {
         $list = BackgroundColour::find()->joinWith('colour', false)
-            ->select([BackgroundColour::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray();
+            ->select([BackgroundColour::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
 
         return ArrayHelper::map($list, 'id', 'code');
     }

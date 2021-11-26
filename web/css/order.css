@@ -11,3 +11,25 @@
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
 }
+#order-form [role=radiogroup] input{
+    display: none;
+}
+#order-form [role=radiogroup] label{
+    display: inline-block;
+    width: 50px;
+    border: 1px solid black;
+}
+#order-form [role=radiogroup] label.round{
+    height: 50px;
+    border-radius: 50px;
+}
+
+#order-form [role=radiogroup] label:hover{
+    cursor: pointer;
+    opacity: .8;
+}
+
+#order-form [role=radiogroup] label.active{
+    outline: 2px rgba(255, 0, 0, 0.7) inset;
+    border-color: transparent;
+}

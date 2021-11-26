@@ -9,17 +9,60 @@ let sendPost = function (url, callback) {
         console.log("error");
     });
 };
-let update_select_content = function (prop_name, items, prompt) {
-    let updated_list = $('#orderform-' + prop_name)
+
+let getID = function (field) {
+    return $('#orderform-' + field);
+};
+let getName = function (field) {
+    return $('OrderForm['+ field +']');
+};
+
+let update_select_content = (prop_name, items, prompt) => {
+    let updated_list = getID(prop_name);
+    let val = updated_list.val();
+
     updated_list.html('');
+
     if(prompt)
         updated_list.append($('<option>').text(prompt));
 
+    let is_old_val_exists = false;
     for (let prop in items) {
         let op = $('<option>');
         op.attr('value', prop);
         op.text(items[prop]);
         updated_list.append(op);
+        is_old_val_exists = is_old_val_exists || val == prop;
+    }
+
+    if(is_old_val_exists)
+        updated_list.val(val)
+};
+
+
+
+let update_radio_content = (prop_name, items) => {
+    let updated_list = getID(prop_name);
+    let val = updated_list.find('input:checked').val();
+
+    updated_list.html('');
+
+    let old_checked_radio = null;
+    for (let prop in items) {
+
+        let input = $('<input>');
+        input.attr('value', prop);
+        input.attr('type', 'radio');
+        input.attr('name', getName(prop_name));
+        if(!old_checked_radio || val == prop) {
+            old_checked_radio = input;
+            input.prop('checked',true)
+        }
+
+        let label = $('<label>')
+        label.append(input);
+        label.append(items[prop]);
+        updated_list.append(label);
     }
 };
 
@@ -34,13 +77,39 @@ let change_callback = (event) => {
             info.items.forEach(item_info => {
                 if (item_info['type'] === 'select')
                     update_select_content(item_info.id, item_info.items, item_info['prompt']);
+                if (item_info['type'] === 'radio')
+                    update_radio_content(item_info.id, item_info.items);
             });
         }
         if (info.price) {
             price.val(info.price);
         }
+        init_change_action();
     });
 };
-$('select[changed-field], input[changed-field], [changed-field] input').unbind('change', change_callback).bind('change', change_callback);
 
+
+let change_active_in_group = (radio_group) => {
+    radio_group.find('label').removeClass('active');
+    radio_group.find('input:checked').parent('label').addClass('active');
+};
+
+let change_radio = (event) => {
+    let radio_group = $(event.target).parents('[role=radiogroup]');
+    change_active_in_group(radio_group);
+};
+
+let init_change_action =  () => {
+    $('select[changed-field], input[changed-field], [changed-field] input')
+        .unbind('change', change_callback).bind('change', change_callback);
+
+    $('[role=radiogroup] input')
+        .unbind('change', change_radio).bind('change', change_radio);
+
+    $('[role=radiogroup]').each((index, radio_group) => {
+        change_active_in_group($(radio_group));
+    });
+};
+
+init_change_action();
 
