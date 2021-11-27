@@ -5,6 +5,8 @@ return [
   'title_decor' => 'Опции оформления',
   'portrait_type' => 'Тип портрета',
   'format' => 'Формат',
+  'frame_format' => 'Формат рамки',
+  'no_frame' => 'Без рамки',
   'background_color' => 'Цвет фона',
   'needMount' => 'Добавить паспарту',
   'mount' => 'Паспарту',

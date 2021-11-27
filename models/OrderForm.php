@@ -26,7 +26,6 @@ class OrderForm extends BaseImage
     const DEFAULT_PRICE = 1;
     const DEFAULT_PORTRAIT_COLOUR = 1;
 
-    public $isMountPossible;
     public $frame_format_id;
 
     // <editor-fold state="collapsed" desc="base model description">
@@ -46,7 +45,7 @@ class OrderForm extends BaseImage
     {
         return [
             [['portrait_type_id', 'format_id', 'material_id', 'base_id', 'background_color_id', 'imageFile', 'cost'], 'required'],
-            [['frame_id', 'mount_id', 'frame_format_id'], 'integer'],
+            [['frame_id', 'mount_id', 'frame_format_id'], 'safe'],
             [['cost'], 'number'],
             [['image'], 'file', 'mimeTypes' => 'image/*', 'maxSize' => 1024 * 1024 * 15], //15 Mb
         ];
@@ -64,6 +63,7 @@ class OrderForm extends BaseImage
             'base_id' => Yii::t($lan_dir, 'base'),
             'format_id' => Yii::t($lan_dir, 'format'),
             'frame_id' => Yii::t($lan_dir, 'frame'),
+            'frame_format_id' => Yii::t($lan_dir, 'frame_format'),
             'mount_id' => Yii::t($lan_dir, 'mount'),
             'background_color_id' => Yii::t($lan_dir, 'background_color'),
             'cost' => Yii::t($lan_dir, 'cost'),
@@ -128,9 +128,7 @@ class OrderForm extends BaseImage
         $this->base_id = $price->bg_material_id;
         $this->material_id = $price->paint_material_id;
         $this->format_id = $price->format_id;
-        $this->frame_format_id = $price->format_id;
         $this->cost = $price->price;
-        $this->isMountPossible = $price->backgroundMaterial->is_mount;
 
         $this->background_color_id = OrderForm::DEFAULT_PORTRAIT_COLOUR;
     }
@@ -153,12 +151,14 @@ class OrderForm extends BaseImage
         $changeField++;
 
         $res = ['price' => 0, 'items' => []];
-        while($changeField <= OrderConsts::FORMAT) {
+        while($changeField <= OrderConsts::MOUNT) {
             $prop = OrderConsts::FIELD_NAMES[$changeField];
             $loadMethod = OrderConsts::FIELD_LOAD_NAMES[$changeField];
             $list = $this->$loadMethod;
 
-            $res['items'][] = ['id' => $prop, 'items' => $list, 'type' => OrderConsts::FIELD_TYPES[$changeField], 'prompt' => false];
+            $res['items'][] = ['id' => $prop, 'items' => $list, 'type' => OrderConsts::FIELD_TYPES[$changeField],
+                'prompt' =>  OrderConsts::getFieldPrompt($changeField),
+                'is_colour' =>  OrderConsts::FIELD_IS_COLOUR[$changeField]];
 
             if (!isset($list[$this->$prop]))
                 $this->$prop = $this->getFirstKey($list);
@@ -243,24 +243,44 @@ class OrderForm extends BaseImage
         });
     }
 
-    public function getAvailableMounts()
-    {
-        $list = Mount::find()->joinWith('colour', false, 'INNER JOIN')->where(['portrait_format_id' => $this->format_id])
-            ->select([Mount::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
-
-        return ArrayHelper::map($list, 'id', 'code');
-    }
-
     public function getAvailableFrames()
     {
+        if(!$this->frame_format_id)
+            return [];
 
-        $list = Frame::find()->joinWith('colour', false, 'INNER JOIN')
-            ->where(['format_id' => isset($this->frame_format_id) && $this->frame_format_id
-                ? $this->frame_format_id : ( $this->mount_id ? $this->mount->frame_format_id : $this->format_id)])
-            ->select([Frame::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
+        $with_mount = $this->frame_format_id != $this->format_id;
+
+        if(!$with_mount)
+            $list = Frame::find()->joinWith('colour', false, 'INNER JOIN')
+                ->joinWith('colour', false, 'INNER JOIN')
+                ->where(['format_id' => $this->frame_format_id])
+                ->select([Frame::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
+        else
+            $list = FrameMountImage::find()->joinWith('frame.colour', false, 'INNER JOIN')
+                ->where(['format_id' => $this->frame_format_id])
+                ->select([Frame::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
 
         return ArrayHelper::map($list, 'id', 'code');
     }
+
+    public function getAvailableMounts()
+    {
+
+        if(!$this->frame_format_id)
+            return [];
+
+        $with_mount = $this->frame_format_id != $this->format_id;
+        if(!$with_mount)
+            return [];
+
+        $list = FrameMountImage::find()->joinWith('mount.colour', false, 'INNER JOIN')
+            ->where(['frame_id' => $this->frame_id, 'portrait_format_id' => $this->format_id, 'frame_format_id' => $this->frame_format_id])
+            ->select([Mount::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
+
+
+        return ArrayHelper::map($list, 'id', 'code');
+    }
+
 
     // </editor-fold>
 

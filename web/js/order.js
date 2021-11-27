@@ -14,7 +14,7 @@ let getID = function (field) {
     return $('#orderform-' + field);
 };
 let getName = function (field) {
-    return $('OrderForm['+ field +']');
+    return 'OrderForm['+ field +']';
 };
 
 let update_select_content = (prop_name, items, prompt) => {
@@ -41,7 +41,7 @@ let update_select_content = (prop_name, items, prompt) => {
 
 
 
-let update_radio_content = (prop_name, items) => {
+let update_radio_content = (prop_name, items, is_colour) => {
     let updated_list = getID(prop_name);
     let val = updated_list.find('input:checked').val();
 
@@ -61,7 +61,13 @@ let update_radio_content = (prop_name, items) => {
 
         let label = $('<label>')
         label.append(input);
-        label.append(items[prop]);
+        if(is_colour) {
+            label.attr('class', 'round');
+            label.attr('style', 'background: ' + items[prop]);
+        }
+        else {
+            label.append(items[prop]);
+        }
         updated_list.append(label);
     }
 };
@@ -78,7 +84,7 @@ let change_callback = (event) => {
                 if (item_info['type'] === 'select')
                     update_select_content(item_info.id, item_info.items, item_info['prompt']);
                 if (item_info['type'] === 'radio')
-                    update_radio_content(item_info.id, item_info.items);
+                    update_radio_content(item_info.id, item_info.items, item_info.is_colour);
             });
         }
         if (info.price) {
