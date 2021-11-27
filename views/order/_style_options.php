@@ -10,7 +10,7 @@ use app\models\OrderConsts;
         <div class="card-text">
             <?= $form->field($model, 'frame_format_id')->dropDownList($model->availableFrameFormats,
                 ['changed-field' => OrderConsts::FRAME_FORMAT,'prompt'=>  OrderConsts::getFieldPrompt(OrderConsts::FRAME_FORMAT)]) ?>
-            <?= $form->field($model, 'frame_id')->radioList($model->availableFrames,
+            <?= $form->field($model, 'frame_id', ['options' => ['style' => 'display: none']])->radioList($model->availableFrames,
                 [
                     'item' => function ($index, $label, $name, $checked, $value) {
 
@@ -21,7 +21,7 @@ use app\models\OrderConsts;
                         return $return;
                     },'changed-field' => OrderConsts::FRAME,
                 ]) ?>
-            <?= $form->field($model, 'mount_id')->radioList($model->availableMounts,
+            <?= $form->field($model, 'mount_id', ['options' => ['style' => 'display: none']])->radioList($model->availableMounts,
                 [
                     'item' => function ($index, $label, $name, $checked, $value) {
 

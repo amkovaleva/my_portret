@@ -13,7 +13,7 @@ $form = ActiveForm::begin([
 <h1><?= Yii::t('app/orders', 'title')?></h1>
 <div class="row">
     <div class="col-lg-6">
-        <!-- <?= $this->render('/order/_preview', [ 'model' => $model, 'form' => $form ]) ?> -->
+        <?= $this->render('/order/_preview', [ 'model' => $model, 'form' => $form ]) ?>
     </div>
     <div class="col-lg-6">
         <?= $this->render('/order/_main_options',  [ 'model' => $model, 'form' => $form ]) ?>
