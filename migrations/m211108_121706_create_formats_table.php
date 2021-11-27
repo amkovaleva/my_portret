@@ -22,7 +22,8 @@ class m211108_121706_create_formats_table extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull()->unique()->defaultValue('A4'),
             'length' => $this->smallInteger(2)->notNull()->defaultValue(40),
-            'width' => $this->smallInteger(2)->notNull()->defaultValue(30)
+            'width' => $this->smallInteger(2)->notNull()->defaultValue(30),
+            //'max_faces' => $this->smallInteger(2)->notNull()->defaultValue(1),
         ]);
         $this->createIndex(
             'ind-formats-unique',
@@ -31,7 +32,7 @@ class m211108_121706_create_formats_table extends Migration
             true
         );
 
-        $arr = array(['Белый', '#fff'], ['Черный', '#000'], ['Светло-серый', '#ABB2B9 '], ['Темно-серый', '#2C3E50']);
+        $arr = array(['Белый', '#fff'], ['Черный', '#000'], ['Светло-серый', '#ECECEC '], ['Темно-серый', '#4F4F4F']);
         foreach ($arr as &$value) {
             $this->insert(
                 '{{%colours}}',

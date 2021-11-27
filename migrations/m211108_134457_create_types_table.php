@@ -35,7 +35,7 @@ class m211108_134457_create_types_table extends Migration
 
         $this->insert('{{%portrait_types}}', ['name' => 'Гиперреализм']);
         $this->insert('{{%portrait_types}}', ['name' => 'Фотореализм']);
-        $this->insert('{{%portrait_types}}', ['name' => 'Скетч']);
+        $this->insert('{{%portrait_types}}', ['name' => 'Набросок']);
 
 
         $this->createTable('{{%prices}}', [
@@ -85,102 +85,229 @@ class m211108_134457_create_types_table extends Migration
             'id'
         );
 
-        $this->insert(
-            '{{%prices}}',
-            [
-                'bg_material_id' => 1,
-                'paint_material_id' => 2,
+        $prices = [
+            [ //Гиперреализм
                 'portrait_type_id' => 1,
-                'format_id' => 1,
-                'price' => 22000,
-                'price_usd' => 300,
-                'price_eur' => 250
-            ]
-        );
-        $this->insert(
-            '{{%prices}}',
-            [
-                'bg_material_id' => 1,
-                'paint_material_id' => 2,
-                'portrait_type_id' => 1,
-                'format_id' => 2,
-                'price' => 37000,
-                'price_usd' => 500,
-                'price_eur' => 420
-            ]
-        );
-        $this->insert(
-            '{{%prices}}',
-            [
-                'bg_material_id' => 2,
-                'paint_material_id' => 2,
-                'portrait_type_id' => 1,
-                'format_id' => 1,
-                'price' => 24000,
-                'price_usd' => 330,
-                'price_eur' => 280
-            ]
-        );
-        $this->insert(
-            '{{%prices}}',
-            [
-                'bg_material_id' => 2,
-                'paint_material_id' => 2,
-                'portrait_type_id' => 1,
-                'format_id' => 2,
-                'price' => 40000,
-                'price_usd' => 550,
-                'price_eur' => 470
-            ]
-        );
-        $this->insert(
-            '{{%prices}}',
-            [
-                'bg_material_id' => 1,
-                'paint_material_id' => 1,
-                'portrait_type_id' => 1,
-                'format_id' => 1,
-                'price' => 13000,
-                'price_usd' => 180,
-                'price_eur' => 150
-            ]
-        );
-        $this->insert(
-            '{{%prices}}',
-            [
-                'bg_material_id' => 1,
-                'paint_material_id' => 1,
-                'portrait_type_id' => 1,
-                'format_id' => 2,
-                'price' => 22000,
-                'price_usd' => 300,
-                'price_eur' => 250
-            ]
-        );
-        $this->insert(
-            '{{%prices}}',
-            [
-                'bg_material_id' => 1,
-                'paint_material_id' => 1,
+                'items' => [
+                    [ //Масло бумага
+                        'paint_material_id' => 2,
+                        'bg_material_id' => 1,
+                        'items' => [
+                            [ //format_id
+                                'format_id' => 1,
+                                'price' => 30000,
+                                'price_usd' => 430,
+                                'price_eur' => 380
+                            ],
+                            [ //format_id
+                                'format_id' => 2,
+                                'price' => 40000,
+                                'price_usd' => 600,
+                                'price_eur' => 540
+                            ],
+                            [ //format_id
+                                'format_id' => 3,
+                                'price' => 60000,
+                                'price_usd' => 910,
+                                'price_eur' => 810
+                            ],
+                        ]
+                    ],
+                    [ //Масло холст
+                        'paint_material_id' => 2,
+                        'bg_material_id' => 2,
+                        'items' => [
+                            [ //format_id
+                                'format_id' => 1,
+                                'price' => 33000,
+                                'price_usd' => 480,
+                                'price_eur' => 430
+                            ],
+                            [ //format_id
+                                'format_id' => 2,
+                                'price' => 47000,
+                                'price_usd' => 670,
+                                'price_eur' => 600
+                            ],
+                            [ //format_id
+                                'format_id' => 3,
+                                'price' => 70000,
+                                'price_usd' => 1000,
+                                'price_eur' => 900
+                            ],
+                        ]
+                    ],
+                    [ //Карандаш бумага
+                        'paint_material_id' => 1,
+                        'bg_material_id' => 1,
+                        'items' => [
+                            [ //format_id
+                                'format_id' => 1,
+                                'price' => 16000,
+                                'price_usd' => 240,
+                                'price_eur' => 210
+                            ],
+                            [ //format_id
+                                'format_id' => 2,
+                                'price' => 20000,
+                                'price_usd' => 340,
+                                'price_eur' => 300
+                            ],
+                            [ //format_id
+                                'format_id' => 3,
+                                'price' => 30000,
+                                'price_usd' => 510,
+                                'price_eur' => 460
+                            ],
+                        ]
+                    ],
+                ],
+            ],
+            [ //Фотореализм
                 'portrait_type_id' => 2,
-                'format_id' => 2,
-                'price' => 7000,
-                'price_usd' => 100,
-                'price_eur' => 85
-            ]
-        );
-        $this->insert(
-            '{{%prices}}',
-            [
-                'bg_material_id' => 1,
-                'paint_material_id' => 1,
-                'portrait_type_id' => 2,
-                'format_id' => 1,
-                'price' => 4000,
-                'price_usd' => 60,
-                'price_eur' => 50
-            ]
-        );
+                'items' => [
+                    [ //Масло бумага
+                        'paint_material_id' => 2,
+                        'bg_material_id' => 1,
+                        'items' => [
+                            [ //format_id
+                                'format_id' => 1,
+                                'price' => 18000,
+                                'price_usd' => 270,
+                                'price_eur' => 240
+                            ],
+                            [ //format_id
+                                'format_id' => 2,
+                                'price' => 25000,
+                                'price_usd' => 380,
+                                'price_eur' => 340
+                            ],
+                            [ //format_id
+                                'format_id' => 3,
+                                'price' => 38000,
+                                'price_usd' => 570,
+                                'price_eur' => 510
+                            ],
+                        ]
+                    ],
+                    [ //Масло холст
+                        'paint_material_id' => 2,
+                        'bg_material_id' => 2,
+                        'items' => [
+                            [ //format_id
+                                'format_id' => 1,
+                                'price' => 21000,
+                                'price_usd' => 300,
+                                'price_eur' => 270
+                            ],
+                            [ //format_id
+                                'format_id' => 2,
+                                'price' => 29000,
+                                'price_usd' => 420,
+                                'price_eur' => 370
+                            ],
+                            [ //format_id
+                                'format_id' => 3,
+                                'price' => 44000,
+                                'price_usd' => 630,
+                                'price_eur' => 560
+                            ],
+                        ]
+                    ],
+                    [ //Карандаш бумага
+                        'paint_material_id' => 1,
+                        'bg_material_id' => 1,
+                        'items' => [
+                            [ //format_id
+                                'format_id' => 1,
+                                'price' => 10000,
+                                'price_usd' => 150,
+                                'price_eur' => 130
+                            ],
+                            [ //format_id
+                                'format_id' => 2,
+                                'price' => 15000,
+                                'price_usd' => 210,
+                                'price_eur' => 190
+                            ],
+                            [ //format_id
+                                'format_id' => 3,
+                                'price' => 22000,
+                                'price_usd' => 320,
+                                'price_eur' => 290
+                            ],
+                        ]
+                    ],
+                ]
+            ],
+            [ //Набросок
+                'portrait_type_id' => 3,
+                'items' => [
+                    [ //Масло бумага
+                        'paint_material_id' => 2,
+                        'bg_material_id' => 1,
+                        'items' => [
+                            [ //format_id
+                                'format_id' => 1,
+                                'price' => 10000,
+                                'price_usd' => 130,
+                                'price_eur' => 120
+                            ],
+                            [ //format_id
+                                'format_id' => 2,
+                                'price' => 14000,
+                                'price_usd' => 180,
+                                'price_eur' => 160
+                            ],
+                        ]
+                    ],
+                    [ //Карандаш бумага
+                        'paint_material_id' => 1,
+                        'bg_material_id' => 1,
+                        'items' => [
+                            [ //format_id
+                                'format_id' => 1,
+                                'price' => 5000,
+                                'price_usd' => 70,
+                                'price_eur' => 60
+                            ],
+                            [ //format_id
+                                'format_id' => 2,
+                                'price' => 7000,
+                                'price_usd' => 100,
+                                'price_eur' => 90
+                            ]
+                        ]
+                    ],
+                ]
+
+            ],
+
+        ];
+
+
+        foreach ($prices as &$portrait_type) {
+            $portrait_type_id = $portrait_type['portrait_type_id'];
+            foreach ($portrait_type['items'] as &$portrait_material) {
+                $paint_material_id = $portrait_material['paint_material_id'];
+                $bg_material_id = $portrait_material['bg_material_id'];
+
+                foreach ($portrait_material['items'] as &$portrait_format) {
+                    $this->insert(
+                        '{{%prices}}',
+                        [
+                            'bg_material_id' => $bg_material_id,
+                            'paint_material_id' => $paint_material_id,
+                            'portrait_type_id' => $portrait_type_id,
+                            'format_id' => $portrait_format['format_id'],
+                            'price' => $portrait_format['price'],
+                            'price_usd' => $portrait_format['price_usd'],
+                            'price_eur' => $portrait_format['price_eur'],
+                        ]
+                    );
+                }
+            }
+        }
     }
 
     /**

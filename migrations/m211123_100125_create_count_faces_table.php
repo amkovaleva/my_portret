@@ -37,7 +37,7 @@ class m211123_100125_create_count_faces_table extends Migration
         $this->insert('{{%count_faces}}', [
             'min' => 4,
             'max' => 4,
-            'coefficient' => 2.1,
+            'coefficient' => 2,
         ]);
     }
 
