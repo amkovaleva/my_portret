@@ -24,6 +24,7 @@ use app\models\OrderConsts;
                     },
                     'changed-field' => OrderConsts::FORMAT
                 ]) ?>
+            <?= $form->field($model, 'faces_count')->dropDownList($model->availableFacesCounts, ['changed-field' => OrderConsts::FACES]) ?>
 
             <?= $form->field($model, 'background_color_id')->radioList($model->availableBgColours,
                 [
@@ -38,5 +39,6 @@ use app\models\OrderConsts;
                 ]) ?>
         </div>
         <?= $form->field($model, 'cost')->textInput(['id' => 'cost', 'readonly' => true]) ?>
+        <?= $form->field($model, 'currency')->hiddenInput()->label(false) ?>
     </div>
 </div>

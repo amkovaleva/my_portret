@@ -12,14 +12,16 @@ class OrderConsts
     const BG_MATERIAL = 2;
     const FORMAT = 3;
     const FRAME_FORMAT = 4;
-    const FRAME = 5;
-    const MOUNT = 6;
+    const FACES = 5;
+    const FRAME = 6;
+    const MOUNT = 7;
 
     const FIELD_NAMES = [
         self::PORTRAIT_TYPE => 'portrait_type_id',
         self::PAINT_MATERIAL => 'material_id',
         self::BG_MATERIAL => 'base_id',
         self::FORMAT => 'format_id',
+        self::FACES => 'faces_count',
         self::FRAME_FORMAT => 'frame_format_id',
         self::FRAME => 'frame_id',
         self::MOUNT => 'mount_id',
@@ -30,6 +32,7 @@ class OrderConsts
         self::PAINT_MATERIAL => 'availableMaterials',
         self::BG_MATERIAL => 'availableBases',
         self::FORMAT => 'availableFormats',
+        self::FACES => 'availableFacesCounts',
         self::FRAME_FORMAT => 'availableFrameFormats',
         self::FRAME => 'availableFrames',
         self::MOUNT => 'availableMounts',
@@ -40,6 +43,7 @@ class OrderConsts
         self::PAINT_MATERIAL => 'select',
         self::BG_MATERIAL => 'select',
         self::FORMAT => 'radio',
+        self::FACES => 'select',
         self::FRAME_FORMAT => 'select',
         self::FRAME => 'radio',
         self::MOUNT => 'radio',
@@ -50,6 +54,7 @@ class OrderConsts
         self::PAINT_MATERIAL => false,
         self::BG_MATERIAL => false,
         self::FORMAT => false,
+        self::FACES => false,
         self::FRAME_FORMAT => false,
         self::FRAME => true,
         self::MOUNT => true,
@@ -63,6 +68,7 @@ class OrderConsts
             self::PAINT_MATERIAL => false,
             self::BG_MATERIAL => false,
             self::FORMAT => false,
+            self::FACES => false,
             self::FRAME_FORMAT => Yii::t('app/orders', 'no_frame'),
             self::FRAME => false,
             self::MOUNT => false,

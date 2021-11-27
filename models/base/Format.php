@@ -18,10 +18,10 @@ class Format extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'length', 'width'], 'required'],
+            [['name', 'length', 'width', 'max_faces'], 'required'],
             ['name', 'unique'],
             [['length', 'width'], 'unique', 'targetAttribute' => ['length', 'width']],
-            [['length', 'width'], 'integer'],
+            [['length', 'width', 'max_faces'], 'integer'],
         ];
     }
 
@@ -33,6 +33,7 @@ class Format extends ActiveRecord
             'name' => Yii::t($lan_dir, 'name'),
             'length' => Yii::t($lan_dir, 'length'),
             'width' => Yii::t($lan_dir, 'width'),
+            'max_faces' => Yii::t($lan_dir, 'max_faces'),
         ];
     }
 

@@ -3,5 +3,5 @@
     'model_name' => 'format',
     'dataProvider' => $dataProvider,
     'searchModel' => $searchModel,
-    'columns' => [ 'name', 'length', 'width', ]
+    'columns' => [ 'name', 'length', 'width', 'max_faces']
 ]) ?>

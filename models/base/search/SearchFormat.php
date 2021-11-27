@@ -10,7 +10,7 @@ class SearchFormat extends Format
     public function rules()
     {
         return [
-            [['id','name', 'length', 'width'], 'safe'],
+            [['id','name', 'length', 'width', 'max_faces'], 'safe'],
         ];
     }
 
@@ -21,7 +21,7 @@ class SearchFormat extends Format
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
-                'attributes' => ['name', 'id', 'length', 'width'],
+                'attributes' => ['name', 'id', 'length', 'width', 'max_faces'],
             ],
         ]);
 
@@ -40,6 +40,9 @@ class SearchFormat extends Format
 
         if($this->width)
             $query->andWhere([ 'length' => $this->width]);
+
+        if($this->max_faces)
+            $query->andWhere([ 'max_faces' => $this->max_faces]);
 
         return $dataProvider;
     }

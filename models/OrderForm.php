@@ -6,6 +6,7 @@ use app\models\base\BackgroundColour;
 use app\models\base\BackgroundMaterial;
 use app\models\base\BaseImage;
 use app\models\base\Colour;
+use app\models\base\CountFace;
 use app\models\base\Format;
 use app\models\base\Frame;
 use app\models\base\FrameMountImage;
@@ -44,9 +45,10 @@ class OrderForm extends BaseImage
     public function rules()
     {
         return [
-            [['portrait_type_id', 'format_id', 'material_id', 'base_id', 'background_color_id', 'imageFile', 'cost'], 'required'],
+            [['portrait_type_id', 'format_id', 'material_id', 'base_id', 'background_color_id', 'imageFile', 'cost', 'currency', 'faces_count'], 'required'],
             [['frame_id', 'mount_id', 'frame_format_id'], 'safe'],
-            [['cost'], 'number'],
+            [['cost', 'faces_count'], 'number'],
+            [['currency'], 'string'],
             [['image'], 'file', 'mimeTypes' => 'image/*', 'maxSize' => 1024 * 1024 * 15], //15 Mb
         ];
     }
@@ -63,10 +65,12 @@ class OrderForm extends BaseImage
             'base_id' => Yii::t($lan_dir, 'base'),
             'format_id' => Yii::t($lan_dir, 'format'),
             'frame_id' => Yii::t($lan_dir, 'frame'),
+            'faces_count' => Yii::t($lan_dir, 'faces_count'),
             'frame_format_id' => Yii::t($lan_dir, 'frame_format'),
             'mount_id' => Yii::t($lan_dir, 'mount'),
             'background_color_id' => Yii::t($lan_dir, 'background_color'),
             'cost' => Yii::t($lan_dir, 'cost'),
+            'currency' => Yii::t($lan_dir, 'currency'),
         ];
     }
     // </editor-fold>
@@ -128,7 +132,9 @@ class OrderForm extends BaseImage
         $this->base_id = $price->bg_material_id;
         $this->material_id = $price->paint_material_id;
         $this->format_id = $price->format_id;
-        $this->cost = $price->price;
+        $this->cost = $price->localPrice;
+        $this->currency = $price->localCurrency;
+        $this->faces_count = 1;
 
         $this->background_color_id = OrderForm::DEFAULT_PORTRAIT_COLOUR;
     }
@@ -147,24 +153,26 @@ class OrderForm extends BaseImage
 
         $prop = OrderConsts::FIELD_NAMES[$changeField];
         $this->$prop = $value;
+        $isCountFacesChanged = $changeField == OrderConsts::FACES;
 
         $changeField++;
 
         $res = ['price' => 0, 'items' => []];
-        while($changeField <= OrderConsts::MOUNT) {
-            $prop = OrderConsts::FIELD_NAMES[$changeField];
-            $loadMethod = OrderConsts::FIELD_LOAD_NAMES[$changeField];
-            $list = $this->$loadMethod;
+        if(!$isCountFacesChanged)
+            while($changeField <= OrderConsts::MOUNT) {
+                $prop = OrderConsts::FIELD_NAMES[$changeField];
+                $loadMethod = OrderConsts::FIELD_LOAD_NAMES[$changeField];
+                $list = $this->$loadMethod;
 
-            $res['items'][] = ['id' => $prop, 'items' => $list, 'type' => OrderConsts::FIELD_TYPES[$changeField],
-                'prompt' =>  OrderConsts::getFieldPrompt($changeField),
-                'is_colour' =>  OrderConsts::FIELD_IS_COLOUR[$changeField]];
+                $res['items'][] = ['id' => $prop, 'items' => $list, 'type' => OrderConsts::FIELD_TYPES[$changeField],
+                    'prompt' =>  OrderConsts::getFieldPrompt($changeField),
+                    'is_colour' =>  OrderConsts::FIELD_IS_COLOUR[$changeField]];
 
-            if (!isset($list[$this->$prop]))
-                $this->$prop = $this->getFirstKey($list);
+                if (!isset($list[$this->$prop]))
+                    $this->$prop = $this->getFirstKey($list);
 
-            $changeField++;
-        }
+                $changeField++;
+            }
         $price = Price::find()->where([
             'portrait_type_id' => $this->portrait_type_id,
             'paint_material_id' => $this->material_id,
@@ -172,8 +180,13 @@ class OrderForm extends BaseImage
             'format_id' => $this->format_id,
         ])->one();
 
-        if($price)
+        if($price) {
             $res['price'] = $price->localPrice;
+            if ($this->faces_count > 1) {
+                $coeff = CountFace::find()->where('max >= ' .$this->faces_count . ' and min <= '. $this->faces_count)->one()->coefficient;
+                $res['price'] *= $coeff;
+            }
+        }
         return $res;
     }
 
@@ -218,6 +231,17 @@ class OrderForm extends BaseImage
         return ArrayHelper::map($list, 'id', function ($model) {
             return $model['width'] . 'x' . $model['length'];
         });
+    }
+
+    public function getAvailableFacesCounts()
+    {
+
+        $count = Format::findOne(['id'=> $this->format_id])->max_faces;
+        $res = [];
+        for($i = 1; $i<=$count; $i++) {
+            $res[$i] = $i;
+        }
+        return $res;
     }
 
     public function getAvailableBgColours()

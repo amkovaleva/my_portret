@@ -74,4 +74,9 @@ class Price extends ActiveRecord
         return $this->price_eur;
     }
 
+    public function getLocalCurrency()
+    {
+        return explode("-", Yii::$app->language)[0];
+    }
+
 }

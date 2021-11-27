@@ -19,10 +19,12 @@ class m211123_194014_create_orders_table extends Migration
             'material_id' => $this->integer()->notNull()->defaultValue(1),
             'base_id' => $this->integer()->notNull()->defaultValue(1),
             'frame_id' => $this->integer(),
+            'faces_count' => $this->smallInteger(2)->notNull()->defaultValue(1),
             'mount_id' => $this->integer(),
             'background_color_id' => $this->integer()->notNull()->defaultValue(1),
             'imageFile' => $this->string()->notNull()->defaultValue(''),
             'cost' => $this->decimal(10, 2)->notNull()->defaultValue(0),
+            'currency' => $this->string()->notNull()->defaultValue('ru'),
         ]);
 
         $this->addForeignKey(
