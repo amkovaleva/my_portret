@@ -20,7 +20,7 @@ class FrameMountImage extends BaseImage
     {
         return [
             [['mount_id', 'frame_id', 'imageFile'], 'required'],
-            [['mount_id', 'frame_id'],  'unique',  'targetAttribute' =>['mount_id', 'frame_id']],
+            [['mount_id', 'frame_id'], 'unique', 'targetAttribute' => ['mount_id', 'frame_id']],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg', 'maxSize' => 1024 * 1024 * 15], //15 Mb
         ];
     }
@@ -55,19 +55,35 @@ class FrameMountImage extends BaseImage
     public static function getMounts($frame_id)
     {
         $frame = Frame::findOne(['id' => $frame_id]);
-        if(!$frame)
+        if (!$frame)
             return [];
 
         $list = Mount::find()->with(['colour', 'portraitFormat'])->where(['frame_format_id' => $frame->format_id])->all();
         $res = [];
-        foreach ($list as &$mount){
-            $res[] = ['id'=>$mount->id, 'name' => $mount->colour->name . Yii::t('admin/frame-mount-images', 'select_mid') . $mount->portraitFormat->name];
+        foreach ($list as &$mount) {
+            $res[] = ['id' => $mount->id, 'name' => $mount->colour->name . Yii::t('admin/frame-mount-images', 'select_mid') . $mount->portraitFormat->name];
         }
         return $res;
     }
 
+    public static function getDefaultOrderObject($portrait_format_id)
+    {
+        return FrameMountImage::find()->joinWith('frame', false, 'INNER JOIN')
+            ->joinWith('mount m', false, 'INNER JOIN')
+            ->joinWith('frame.colour fc', false, 'INNER JOIN')
+            ->joinWith('mount.colour mc', false, 'INNER JOIN')
+            ->where(
+                [
+                    'm.portrait_format_id' => $portrait_format_id,
+                    'fc.code' => '#000',
+                    'mc.code' => '#fff',
+                ]
+            )
+            ->select([FrameMountImage::tableName(). '.*', Mount::tableName().'.frame_format_id as frame_format_id'])->asArray()->one();
+    }
 
-    public function getImgName(){
-        return $this->frame_id . '_'. $this->mount_id;
+    public function getImgName()
+    {
+        return $this->frame_id . '_' . $this->mount_id;
     }
 }

@@ -12,7 +12,7 @@ use app\models\OrderConsts;
             'options' => ['value' => 0]
         ]
     ]) ?>
-<?= $form->field($model, 'frame_id', ['options' => ['style' => 'display: none']])->radioList($model->availableFrames,
+<?= $form->field($model, 'frame_id', ['options' => ['style' => $model->mount_id ? 'frame_id' : 'display: none']])->radioList($model->availableFrames,
     [
         'item' => function ($index, $label, $name, $checked, $value) {
 
@@ -23,7 +23,7 @@ use app\models\OrderConsts;
             return $return;
         }, 'changed-field' => OrderConsts::FRAME,
     ]) ?>
-<?= $form->field($model, 'mount_id', ['options' => ['style' => 'display: none']])->radioList($model->availableMounts,
+<?= $form->field($model, 'mount_id', ['options' => ['style' => $model->mount_id ? '' : 'display: none']])->radioList($model->availableMounts,
     [
         'item' => function ($index, $label, $name, $checked, $value) {
 

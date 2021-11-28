@@ -137,6 +137,14 @@ class OrderForm extends BaseImage
         $this->faces_count = 1;
 
         $this->background_color_id = OrderForm::DEFAULT_PORTRAIT_COLOUR;
+
+        $mount_info = FrameMountImage::getDefaultOrderObject($this->format_id);
+        if(!$mount_info)
+            return;
+
+        $this->frame_format_id = $mount_info['frame_format_id'];
+        $this->frame_id = $mount_info['frame_id'];
+        $this->mount_id = $mount_info['mount_id'];
     }
 
     // <editor-fold state="collapsed" desc="load of available order options">
