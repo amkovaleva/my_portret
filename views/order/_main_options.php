@@ -1,44 +1,64 @@
 <?php
 
+use app\models\base\Price;
 use app\models\OrderConsts;
 
 ?>
 
-<div class="card" id="main-settings">
-    <div class="card-body">
-        <h5 class="card-title"><?= Yii::t('app/orders', 'title_main') ?></h5>
-        <div class="card-text">
-            <?= $form->field($model, 'portrait_type_id')
-                ->dropDownList($model->availablePortraitTypes, ['changed-field' => OrderConsts::PORTRAIT_TYPE]) ?>
-            <?= $form->field($model, 'material_id')->dropDownList($model->availableMaterials, ['changed-field' => OrderConsts::PAINT_MATERIAL]) ?>
-            <?= $form->field($model, 'base_id')->dropDownList($model->availableBases, ['changed-field' => OrderConsts::BG_MATERIAL]) ?>
-            <?= $form->field($model, 'format_id')->radioList($model->availableFormats,
-                [
-                    'item' => function ($index, $label, $name, $checked, $value) {
+<?= $form->field($model, 'portrait_type_id')
+    ->hiddenInput($model->availablePortraitTypes)->label(false) ?>
 
-                        $checked_str = $checked ? ' checked' : '';
-                        $return = '<label><input type="radio" name="'
-                            . $name . '" value="' . $value . '"'. $checked_str .'>' . $label . '</label>';
 
-                        return $return;
-                    },
-                    'changed-field' => OrderConsts::FORMAT
-                ]) ?>
-            <?= $form->field($model, 'faces_count')->dropDownList($model->availableFacesCounts, ['changed-field' => OrderConsts::FACES]) ?>
+<?= $form->field($model, 'currency')->radioList(Price::getCurrenciesList(),
+    [
 
-            <?= $form->field($model, 'background_color_id')->radioList($model->availableBgColours,
-                [
-                    'item' => function ($index, $label, $name, $checked, $value) {
+        'item' => function ($index, $label, $name, $checked, $value) {
 
-                $checked_str = $checked ? ' checked' : '';
-                        $return = '<label class="round" style="background: '
-                            . $label .'"><input type="radio" name="' . $name . '" value="' . $value . '"'. $checked_str .'></label>';
+            $checked_str = $checked ? ' checked' : '';
+            $return = '<label><input type="radio" name="' . $name . '" value="' . $value . '"' . $checked_str . '>' . $label . '</label>';
 
-                        return $return;
-                    }
-                ]) ?>
-        </div>
-        <?= $form->field($model, 'cost')->textInput(['id' => 'cost', 'readonly' => true]) ?>
-        <?= $form->field($model, 'currency')->hiddenInput()->label(false) ?>
-    </div>
-</div>
+            return $return;
+        },
+        'changed-field' => OrderConsts::CURRENCY
+
+    ]) ?>
+<?= $form->field($model, 'material_id')->radioList($model->availableMaterials, [
+
+    'item' => function ($index, $label, $name, $checked, $value) {
+
+        $checked_str = $checked ? ' checked' : '';
+        $return = '<label><input type="radio" name="' . $name . '" value="' . $value . '"' . $checked_str . '>' . $label . '</label>';
+
+        return $return;
+    },
+    'changed-field' => OrderConsts::PAINT_MATERIAL
+
+]) ?>
+<?= $form->field($model, 'base_id')->radioList($model->availableBases, [
+
+    'item' => function ($index, $label, $name, $checked, $value) {
+
+        $checked_str = $checked ? ' checked' : '';
+        $return = '<label><input type="radio" name="' . $name . '" value="' . $value . '"' . $checked_str . '>' . $label . '</label>';
+
+        return $return;
+    },
+    'changed-field' => OrderConsts::BG_MATERIAL
+
+]) ?>
+<?= $form->field($model, 'format_id')->dropDownList($model->availableFormats,
+    ['changed-field' => OrderConsts::FORMAT]) ?>
+<?= $form->field($model, 'faces_count')->dropDownList($model->availableFacesCounts, ['changed-field' => OrderConsts::FACES]) ?>
+
+<?= $form->field($model, 'background_color_id')->radioList($model->availableBgColours,
+    [
+        'item' => function ($index, $label, $name, $checked, $value) {
+
+            $checked_str = $checked ? ' checked' : '';
+            $return = '<label class="round" style="background: '
+                . $label . '"><input type="radio" name="' . $name . '" value="' . $value . '"' . $checked_str . '></label>';
+
+            return $return;
+        }
+    ]) ?>
+<?= $form->field($model, 'cost')->textInput(['id' => 'cost', 'readonly' => true]) ?>

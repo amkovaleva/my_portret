@@ -125,15 +125,15 @@ class OrderForm extends BaseImage
      * 7. Итоговая стоимость
      * 8. background_color_id - цвет портрета - не зависит от других опций
      */
-    public function fillDefaultModel()
+    public function fillDefaultModel($portrait_type_id)
     {
-        $price = Price::find()->where(['id' => OrderForm::DEFAULT_PRICE])->with('backgroundMaterial')->one();
+        $price = Price::find()->where(['id' => Yii::$app->params['prices_by_default'][$portrait_type_id - 1]])->with(['backgroundMaterial', 'portraitType'])->one();
         $this->portrait_type_id = $price->portrait_type_id;
         $this->base_id = $price->bg_material_id;
         $this->material_id = $price->paint_material_id;
         $this->format_id = $price->format_id;
-        $this->cost = $price->localPrice;
-        $this->currency = $price->localCurrency;
+        $this->currency = Price::getDefaultCurrency();
+        $this->cost = $price->getLocalPrice($this->currency);
         $this->faces_count = 1;
 
         $this->background_color_id = OrderForm::DEFAULT_PORTRAIT_COLOUR;
@@ -183,9 +183,9 @@ class OrderForm extends BaseImage
         ])->one();
 
         if ($price) {
-            $res['price'] = $price->localPrice;
+            $res['price'] = $price->getLocalPrice($this->currency);
             if ($this->faces_count > 1) {
-                $coeff = CountFace::find()->where('max >= ' . $this->faces_count . ' and min <= ' . $this->faces_count)->one()->coefficient;
+                $coeff = CountFace::getCoefficient($this->faces_count);
                 $res['price'] *= $coeff;
             }
         }
@@ -195,7 +195,7 @@ class OrderForm extends BaseImage
     public function getAvailablePortraitTypes()
     {
         $list = PortraitType::find()->joinWith('prices', false, 'INNER JOIN')->asArray()->all();
-        return ArrayHelper::map($list, 'id', 'name');
+        return $this->translateList($list);
     }
 
     public function getAvailableMaterials()
@@ -206,7 +206,7 @@ class OrderForm extends BaseImage
                 'prices.portrait_type_id' => $this->portrait_type_id,
             ])->asArray()->all();
 
-        return ArrayHelper::map($list, 'id', 'name');
+        return $this->translateList($list);
     }
 
     public function getAvailableBases()
@@ -217,31 +217,63 @@ class OrderForm extends BaseImage
                 'prices.portrait_type_id' => $this->portrait_type_id,
                 'prices.paint_material_id' => $this->material_id,
             ])->asArray()->all();
-        return ArrayHelper::map($list, 'id', 'name');
+
+        return $this->translateList($list);
+    }
+
+    private  function translateList($list){
+        $res = [];
+        foreach ($list as &$item)
+            $res[$item['id']] =  Yii::t('app/orders', $item['name']);
+        return $res;
     }
 
     public function getAvailableFormats()
     {
-
+        $cur = $this->currency;
+        $priceField = Price::CURRENCY_PROP[$cur];
         $list = Format::find()->joinWith('prices', false, 'INNER JOIN')
             ->where([
                 'prices.portrait_type_id' => $this->portrait_type_id,
                 'prices.paint_material_id' => $this->material_id,
                 'prices.bg_material_id' => $this->base_id,
-            ])->asArray()->all();
+            ])//->groupBy([Format::tableName().'.id', 'prices.portrait_type_id', 'prices.paint_material_id', 'prices.bg_material_id'])
+            ->select([Format::tableName().'.id', 'width', 'length', 'max_faces',
+                $priceField. ' as price'])
+            ->asArray()->all();
 
-        return ArrayHelper::map($list, 'id', function ($model) {
-            return $model['width'] . 'x' . $model['length'];
-        });
+        $res = [];
+        foreach($list as & $format){
+            $coeff = CountFace::getCoefficient($format['max_faces']);
+
+            $res[$format['id']] =  $format['width'] . 'x' . $format['length']
+                . ' - ('. Price::getPriceStr(1 * $format['price'], $cur) . ' - '. Price::getPriceStr($coeff * $format['price'], $cur)
+                . ') - '. Yii::t('app/orders', 'faces_to', $format['max_faces']);
+        }
+        return $res;
     }
 
     public function getAvailableFacesCounts()
     {
+        $format = Format::find()->joinWith('prices', false, 'INNER JOIN')
+            ->where([
+                'prices.portrait_type_id' => $this->portrait_type_id,
+                'prices.paint_material_id' => $this->material_id,
+                'prices.bg_material_id' => $this->base_id,
+                Format::tableName().'.id' => $this->format_id,
+            ])
+            ->select(['max_faces',  Price::CURRENCY_PROP[$this->currency]. ' as price'])
+            ->asArray()->one();
 
-        $count = Format::findOne(['id' => $this->format_id])->max_faces;
+        $coefs = CountFace::find()->where('max <= '.$format['max_faces'])->asArray()->all();
         $res = [];
-        for ($i = 1; $i <= $count; $i++) {
-            $res[$i] = $i;
+        for ($i = 1; $i <= $format['max_faces']; $i++) {
+            foreach ($coefs as &$coef){
+                if($coef['max'] == $i){
+                    $res[$i] = $i . ' - ' . Price::getPriceStr($coef['coefficient'] * $format['price'], $this->currency);
+                    break;
+                }
+            }
         }
         return $res;
     }

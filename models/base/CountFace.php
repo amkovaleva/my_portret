@@ -33,4 +33,9 @@ class CountFace extends ActiveRecord
             'coefficient' => Yii::t($lan_dir, 'coefficient'),
         ];
     }
+
+    public static function getCoefficient($val)
+    {
+        return CountFace::find()->where('max >= ' . $val . ' and min <= ' . $val)->one()->coefficient;
+    }
 }

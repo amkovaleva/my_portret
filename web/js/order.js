@@ -73,7 +73,7 @@ let change_callback = (event) => {
     let el = $(event.target);
     let field_type = (el.attr('changed-field') ? el : el.parents('[changed-field]')).attr('changed-field');
 
-    sendPost(change_url + '/' + field_type + '/' + (parseInt(el.val()) || '0'), (info) => {
+    sendPost(change_url + '/' + field_type + '/' + el.val(), (info) => {
 
         if (info.items) {
             info.items.forEach(item_info => {

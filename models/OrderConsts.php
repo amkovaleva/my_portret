@@ -7,7 +7,8 @@ use Yii;
 class OrderConsts
 {
 
-    const PORTRAIT_TYPE = 0;
+    const PORTRAIT_TYPE = -1;
+    const CURRENCY = 0;
     const PAINT_MATERIAL = 1;
     const BG_MATERIAL = 2;
     const FORMAT = 3;
@@ -18,6 +19,7 @@ class OrderConsts
 
     const FIELD_NAMES = [
         self::PORTRAIT_TYPE => 'portrait_type_id',
+        self::CURRENCY => 'currency',
         self::PAINT_MATERIAL => 'material_id',
         self::BG_MATERIAL => 'base_id',
         self::FORMAT => 'format_id',
@@ -40,9 +42,10 @@ class OrderConsts
 
     const FIELD_TYPES = [
         self::PORTRAIT_TYPE => 'select',
-        self::PAINT_MATERIAL => 'select',
-        self::BG_MATERIAL => 'select',
-        self::FORMAT => 'radio',
+        self::CURRENCY => 'radio',
+        self::PAINT_MATERIAL => 'radio',
+        self::BG_MATERIAL => 'radio',
+        self::FORMAT => 'select',
         self::FACES => 'select',
         self::FRAME_FORMAT => 'select',
         self::FRAME => 'radio',
@@ -51,6 +54,7 @@ class OrderConsts
 
     const FIELD_IS_COLOUR = [
         self::PORTRAIT_TYPE => false,
+        self::CURRENCY => false,
         self::PAINT_MATERIAL => false,
         self::BG_MATERIAL => false,
         self::FORMAT => false,
@@ -65,6 +69,7 @@ class OrderConsts
     {
         $list =  [
             self::PORTRAIT_TYPE => false,
+            self::CURRENCY => false,
             self::PAINT_MATERIAL => false,
             self::BG_MATERIAL => false,
             self::FORMAT => false,

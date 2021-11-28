@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\base\PortraitType;
 use Yii;
 use yii\web\Controller;
 use app\models\OrderForm;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -20,14 +22,38 @@ class OrderController extends Controller
         return true;
     }
 
+    public function actionOrderHyperrealism()
+    {
+
+        return $this->order(1);
+    }
+
+    public function actionOrderPhotorealism()
+    {
+        return $this->order(2);
+    }
+
+    public function actionOrderSketch()
+    {
+        return $this->order(3);
+    }
+
+    private function order($type){
+
+        $this->view->title = Yii::t('app/orders', 'title');
+        $this->layout = 'order';
+
+        return $this->render('order', [
+            'model' => $this->getDefaultModel($type)
+        ]);
+    }
+
     public function actionIndex()
     {
         $this->view->title = Yii::t('app/orders', 'title');
         $this->layout = 'order';
-
-        return $this->render('index', [
-            'model' => $this->defaultModel
-        ]);
+        $portrait_types = PortraitType::find()->all();
+        return $this->render('index', ['portrait_types' => $portrait_types]);
     }
 
     // <editor-fold state="collapsed" desc="change values on form">
@@ -76,10 +102,10 @@ class OrderController extends Controller
         return $request->isPost && $model->load($request->post());
     }
 
-    public function getDefaultModel()
+    public function getDefaultModel($type)
     {
         $model = new OrderForm();
-        $model->fillDefaultModel();
+        $model->fillDefaultModel($type);
         return $model;
     }
 }

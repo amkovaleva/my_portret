@@ -1,8 +1,10 @@
 <?php
 $rules = [
-    'order' => 'order/index',
-    'POST order/change' => 'order/change',
-    'POST order/change/<field:\d+>/<value:\d+>' => 'order/change',
+    'GET order' => 'order/index',
+    'GET make-order/hyperrealism' => 'order/order-hyperrealism',
+    'GET make-order/photorealism' => 'order/order-photorealism',
+    'GET make-order/sketch' => 'order/order-sketch',
+    'POST order/change/<field:\d+>/<value:\w+>' => 'order/change',
 
 
     'POST admin/admin/load-del-modal' => 'admin/admin/load-del-modal',

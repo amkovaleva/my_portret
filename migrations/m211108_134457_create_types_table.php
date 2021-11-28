@@ -18,7 +18,7 @@ class m211108_134457_create_types_table extends Migration
             'is_mount' => $this->boolean()->notNull()->defaultValue(true)
         ]);
         $this->insert('{{%bg_materials}}', ['name' => 'Бумага', 'is_mount' => true]);
-        $this->insert('{{%bg_materials}}', ['name' => 'Холст с подрамником', 'is_mount' => false]);
+        $this->insert('{{%bg_materials}}', ['name' => 'Холст', 'is_mount' => false]);
 
         $this->createTable('{{%paint_materials}}', [
             'id' => $this->primaryKey(),
