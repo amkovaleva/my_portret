@@ -51,7 +51,7 @@ class OrderController extends Controller
     public function actionValidate()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $model = $this->defaultModel;
+        $model = new OrderForm();
 
         if ($this->isModelLoaded($model)) {
             return ActiveForm::validate($model);
@@ -62,7 +62,7 @@ class OrderController extends Controller
     public function actionCreate()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $model = $this->defaultModel;
+        $model = new OrderForm();
 
         if ($this->isModelLoaded($model)) {
             return ['success' => $model->save()];

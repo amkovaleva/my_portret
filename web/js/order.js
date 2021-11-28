@@ -23,7 +23,7 @@ let update_select_content = (updated_list, items, prompt) => {
     updated_list.html('');
 
     if (prompt)
-        updated_list.append($('<option>').text(prompt));
+        updated_list.append($('<option>').text(prompt).attr('value', 0));
 
     let is_old_val_exists = false;
     for (let prop in items) {

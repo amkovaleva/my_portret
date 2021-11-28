@@ -142,14 +142,16 @@ class OrderForm extends BaseImage
     // <editor-fold state="collapsed" desc="load of available order options">
 
 
-    private function getFirstKey($list){
+    private function getFirstKey($list)
+    {
         foreach ($list as $key => $value) {
             return $key;
         }
         return null;
     }
 
-    public function fillDownFrom($changeField, $value){
+    public function fillDownFrom($changeField, $value)
+    {
 
         $prop = OrderConsts::FIELD_NAMES[$changeField];
         $this->$prop = $value;
@@ -158,17 +160,17 @@ class OrderForm extends BaseImage
         $changeField++;
 
         $res = ['price' => 0, 'items' => []];
-        if(!$isCountFacesChanged)
-            while($changeField <= OrderConsts::MOUNT) {
+        if (!$isCountFacesChanged)
+            while ($changeField <= OrderConsts::MOUNT) {
                 $prop = OrderConsts::FIELD_NAMES[$changeField];
                 $loadMethod = OrderConsts::FIELD_LOAD_NAMES[$changeField];
                 $list = $this->$loadMethod;
 
                 $res['items'][] = ['id' => $prop, 'items' => $list, 'type' => OrderConsts::FIELD_TYPES[$changeField],
-                    'prompt' =>  OrderConsts::getFieldPrompt($changeField),
-                    'is_colour' =>  OrderConsts::FIELD_IS_COLOUR[$changeField]];
+                    'prompt' => OrderConsts::getFieldPrompt($changeField),
+                    'is_colour' => OrderConsts::FIELD_IS_COLOUR[$changeField]];
 
-                if (!isset($list[$this->$prop]))
+                if (!isset($list[$this->$prop]) && !OrderConsts::getFieldPrompt($changeField))
                     $this->$prop = $this->getFirstKey($list);
 
                 $changeField++;
@@ -180,10 +182,10 @@ class OrderForm extends BaseImage
             'format_id' => $this->format_id,
         ])->one();
 
-        if($price) {
+        if ($price) {
             $res['price'] = $price->localPrice;
             if ($this->faces_count > 1) {
-                $coeff = CountFace::find()->where('max >= ' .$this->faces_count . ' and min <= '. $this->faces_count)->one()->coefficient;
+                $coeff = CountFace::find()->where('max >= ' . $this->faces_count . ' and min <= ' . $this->faces_count)->one()->coefficient;
                 $res['price'] *= $coeff;
             }
         }
@@ -236,9 +238,9 @@ class OrderForm extends BaseImage
     public function getAvailableFacesCounts()
     {
 
-        $count = Format::findOne(['id'=> $this->format_id])->max_faces;
+        $count = Format::findOne(['id' => $this->format_id])->max_faces;
         $res = [];
-        for($i = 1; $i<=$count; $i++) {
+        for ($i = 1; $i <= $count; $i++) {
             $res[$i] = $i;
         }
         return $res;
@@ -254,13 +256,14 @@ class OrderForm extends BaseImage
 
     public function getAvailableFrameFormats()
     {
-
         $withoutMount = Format::findOne($this->format_id);
-        $list = FrameMountImage::find()->joinWith(['frame.format ff', 'mount m'], false, 'INNER JOIN')
-            ->where(['m.portrait_format_id' => $this->format_id])
-            ->select(['ff.id id', 'ff.width width', 'ff.length length'])->asArray()->all();
+        $list = [];
+        if ($this->backgroundMaterial->is_mount)
+            $list = FrameMountImage::find()->joinWith(['frame.format ff', 'mount m'], false, 'INNER JOIN')
+                ->where(['m.portrait_format_id' => $this->format_id])
+                ->select(['ff.id id', 'ff.width width', 'ff.length length'])->asArray()->all();
 
-        array_unshift($list, ['id' => $withoutMount->id, 'width' => $withoutMount->width, 'length' => $withoutMount->length ]);
+        array_unshift($list, ['id' => $withoutMount->id, 'width' => $withoutMount->width, 'length' => $withoutMount->length]);
 
         return ArrayHelper::map($list, 'id', function ($model) {
             return $model['width'] . 'x' . $model['length'];
@@ -269,12 +272,12 @@ class OrderForm extends BaseImage
 
     public function getAvailableFrames()
     {
-        if(!$this->frame_format_id)
+        if (!$this->frame_format_id || $this->frame_format_id == 0)
             return [];
 
         $with_mount = $this->frame_format_id != $this->format_id;
 
-        if(!$with_mount)
+        if (!$with_mount)
             $list = Frame::find()->joinWith('colour', false, 'INNER JOIN')
                 ->joinWith('colour', false, 'INNER JOIN')
                 ->where(['format_id' => $this->frame_format_id])
@@ -290,11 +293,11 @@ class OrderForm extends BaseImage
     public function getAvailableMounts()
     {
 
-        if(!$this->frame_format_id)
+        if (!$this->frame_format_id)
             return [];
 
         $with_mount = $this->frame_format_id != $this->format_id;
-        if(!$with_mount)
+        if (!$with_mount)
             return [];
 
         $list = FrameMountImage::find()->joinWith('mount.colour', false, 'INNER JOIN')
