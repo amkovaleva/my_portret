@@ -10,49 +10,40 @@ let sendPost = function (url, callback) {
     });
 };
 
-let getID = function (field) {
+let getElemByProp = function (field) {
     return $('#orderform-' + field);
 };
 let getName = function (field) {
     return 'OrderForm[' + field + ']';
 };
 
-let update_select_content = (updated_list, items, prompt) => {
-    let val = updated_list.val();
-
+let update_select_content = (updated_list, items, prompt, prop_name, object) => {
     updated_list.html('');
 
     if (prompt)
         updated_list.append($('<option>').text(prompt).attr('value', 0));
 
-    let is_old_val_exists = false;
     for (let prop in items) {
         let op = $('<option>');
         op.attr('value', prop);
         op.text(items[prop]);
         updated_list.append(op);
-        is_old_val_exists = is_old_val_exists || val == prop;
     }
-
-    if (is_old_val_exists)
-        updated_list.val(val)
+    updated_list.val(object[prop_name]);
 };
 
 
-let update_radio_content = (updated_list, prop_name, items, is_colour) => {
-    let val = updated_list.find('input:checked').val();
+let update_radio_content = (updated_list, prop_name, items, is_colour, object) => {
 
     updated_list.html('');
 
-    let old_checked_radio = null;
     for (let prop in items) {
 
         let input = $('<input>');
         input.attr('value', prop);
         input.attr('type', 'radio');
         input.attr('name', getName(prop_name));
-        if (!old_checked_radio || val == prop) {
-            old_checked_radio = input;
+        if (object[prop_name] == prop) {
             input.prop('checked', true)
         }
 
@@ -77,11 +68,11 @@ let change_callback = (event) => {
 
         if (info.items) {
             info.items.forEach(item_info => {
-                let updated_list = getID(item_info.id)
+                let updated_list = getElemByProp(item_info.id)
                 if (item_info['type'] === 'select')
-                    update_select_content(updated_list, item_info.items, item_info['prompt']);
+                    update_select_content(updated_list, item_info.items, item_info['prompt'], item_info.id, info.object);
                 if (item_info['type'] === 'radio')
-                    update_radio_content(updated_list,item_info.id, item_info.items, item_info.is_colour);
+                    update_radio_content(updated_list, item_info.id, item_info.items, item_info.is_colour, info.object);
 
                 if (!Object.entries(item_info.items).length)
                     updated_list.parent().hide();
@@ -93,6 +84,18 @@ let change_callback = (event) => {
             price.val(info.price);
         }
         init_change_action();
+
+        /* let frame = getElemByProp('frame_id').find('input:checked');
+         if (!frame.length)
+             return;
+         let mount = getElemByProp('mount_id').find('input:checked'),
+             is_mount = !!mount.length,
+             url = is_mount ? 'mounts' : 'frames';
+
+         url += is_mount ? 'mounts' : 'frames';
+
+         let img = $('<img>').attr('src', '/uploads/' + url)
+ */
     });
 };
 

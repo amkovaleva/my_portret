@@ -23,7 +23,7 @@ class Frame extends BaseImage
             [['width'], 'number'],
             [['name'], 'string'],
             [['name'], 'unique'],
-            [['image'], 'file', 'extensions' => 'png, jpg, jpeg', 'maxSize' => 1024 * 1024 * 15], //15 Mb
+            [['image'], 'file', 'extensions' => 'svg', 'maxSize' => 1024 * 1024 * 2], //2 Mb
         ];
     }
 

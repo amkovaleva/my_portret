@@ -39,7 +39,6 @@ class BaseImage extends ActiveRecord
         return Yii::$app->request->baseUrl . '/' . (static::UPLOAD_FOLDER) . $this->imageFile;
     }
 
-
     public function getImgName(){
         return $this->getIsNewRecord() ? '0' : $this->id;
     }
@@ -52,7 +51,7 @@ class BaseImage extends ActiveRecord
     public function saveImage($uploadedImage, $needRotateToVertical = true)
     {
         $imgRes = $uploadedImage->saveAs(static::UPLOAD_FOLDER . $this->imageFile);
-        if (!$imgRes || !$needRotateToVertical)
+        /*if (!$imgRes || !$needRotateToVertical)
             return;
 
         $image = Image::make(Yii::getAlias('@web_dir') . '/' . static::UPLOAD_FOLDER . $this->imageFile);
@@ -60,6 +59,6 @@ class BaseImage extends ActiveRecord
         if ($image->width() > $image->height()) {
             $image->rotate(-90);
             $image->save();
-        }
+        }*/
     }
 }

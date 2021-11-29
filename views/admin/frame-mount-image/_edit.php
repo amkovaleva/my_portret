@@ -13,6 +13,7 @@ use yii\helpers\Url;
 <?= $form->field($model, 'mount_id')->dropDownList( ArrayHelper::map(FrameMountImage::getMounts($model->frame_id), 'id', 'name'),
     array('prompt' => Yii::t('admin/base', 'empty_list'))); ?>
 
+<h6>Изображение должно быть вертикальной ориентации!</h6>
 <?= $form->field($model, 'image')->fileInput() ?>
 <div class="form-group">
     <img src="<?= $model->imageUrl; ?>" alt="<?= Yii::t('admin/frame-mount-images', 'image')  ?>">

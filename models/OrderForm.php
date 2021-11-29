@@ -24,10 +24,10 @@ class OrderForm extends BaseImage
 {
     const UPLOAD_FOLDER = 'uploads/orders';
 
-    const DEFAULT_PRICE = 1;
     const DEFAULT_PORTRAIT_COLOUR = 1;
 
     public $frame_format_id;
+    public $frame_img;
 
     // <editor-fold state="collapsed" desc="base model description">
 
@@ -46,7 +46,7 @@ class OrderForm extends BaseImage
     {
         return [
             [['portrait_type_id', 'format_id', 'material_id', 'base_id', 'background_color_id', 'imageFile', 'cost', 'currency', 'faces_count'], 'required'],
-            [['frame_id', 'mount_id', 'frame_format_id'], 'safe'],
+            [['frame_id', 'mount_id', 'frame_format_id', 'frame_img'], 'safe'],
             [['cost', 'faces_count'], 'number'],
             [['currency'], 'string'],
             [['image'], 'file', 'mimeTypes' => 'image/*', 'maxSize' => 1024 * 1024 * 15], //15 Mb
@@ -127,7 +127,8 @@ class OrderForm extends BaseImage
      */
     public function fillDefaultModel($portrait_type_id)
     {
-        $price = Price::find()->where(['id' => Yii::$app->params['prices_by_default'][$portrait_type_id - 1]])->with(['backgroundMaterial', 'portraitType'])->one();
+        $price = Price::find()->where(['id' => Yii::$app->params['prices_by_default'][$portrait_type_id - 1]])
+            ->with(['backgroundMaterial', 'portraitType'])->one();
         $this->portrait_type_id = $price->portrait_type_id;
         $this->base_id = $price->bg_material_id;
         $this->material_id = $price->paint_material_id;
@@ -145,6 +146,7 @@ class OrderForm extends BaseImage
         $this->frame_format_id = $mount_info['frame_format_id'];
         $this->frame_id = $mount_info['frame_id'];
         $this->mount_id = $mount_info['mount_id'];
+        $this->frame_img = '/'. FrameMountImage::UPLOAD_FOLDER.$mount_info['imageFile'];
     }
 
     // <editor-fold state="collapsed" desc="load of available order options">
@@ -167,7 +169,7 @@ class OrderForm extends BaseImage
 
         $changeField++;
 
-        $res = ['price' => 0, 'items' => []];
+        $res = ['object' => null, 'items' => []];
         if (!$isCountFacesChanged)
             while ($changeField <= OrderConsts::MOUNT) {
                 $prop = OrderConsts::FIELD_NAMES[$changeField];
@@ -178,7 +180,7 @@ class OrderForm extends BaseImage
                     'prompt' => OrderConsts::getFieldPrompt($changeField),
                     'is_colour' => OrderConsts::FIELD_IS_COLOUR[$changeField]];
 
-                if (!isset($list[$this->$prop]) && !OrderConsts::getFieldPrompt($changeField))
+                if (!isset($list[$this->$prop]) && ($this->$prop || !OrderConsts::getFieldPrompt($changeField)))
                     $this->$prop = $this->getFirstKey($list);
 
                 $changeField++;
@@ -191,12 +193,15 @@ class OrderForm extends BaseImage
         ])->one();
 
         if ($price) {
-            $res['price'] = $price->getLocalPrice($this->currency);
+            $this->cost = $price->getLocalPrice($this->currency);
             if ($this->faces_count > 1) {
                 $coeff = CountFace::getCoefficient($this->faces_count);
-                $res['price'] *= $coeff;
+                $this->cost *= $coeff;
             }
         }
+        $res['object'] = $this->attributes;
+        $res['object']['frame_format_id'] = $this->frame_format_id;
+
         return $res;
     }
 

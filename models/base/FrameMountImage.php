@@ -21,7 +21,7 @@ class FrameMountImage extends BaseImage
         return [
             [['mount_id', 'frame_id', 'imageFile'], 'required'],
             [['mount_id', 'frame_id'], 'unique', 'targetAttribute' => ['mount_id', 'frame_id']],
-            [['image'], 'file', 'extensions' => 'png, jpg, jpeg', 'maxSize' => 1024 * 1024 * 15], //15 Mb
+            [['image'], 'file', 'extensions' => 'svg', 'maxSize' => 1024 * 1024 * 2], //2 Mb
         ];
     }
 

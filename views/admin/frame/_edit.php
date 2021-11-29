@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
     array('prompt' => Yii::t('admin/base', 'empty_list'))); ?>
 <?= $form->field($model, 'width')->textInput(['type' => 'number', 'step' => 0.01]) ?>
 <?= $form->field($model, 'name') ?>
-
+<h6>Изображение должно быть вертикальной ориентации!</h6>
 <?= $form->field($model, 'image')->fileInput() ?>
 <div class="form-group">
     <img src="<?= $model->imageUrl; ?>" alt="<?= Yii::t('admin/frames', 'image')  ?>">
