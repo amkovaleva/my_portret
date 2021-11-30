@@ -4,22 +4,18 @@ namespace app\controllers;
 
 use app\models\base\PortraitType;
 use Yii;
-use yii\web\Controller;
-use app\models\OrderForm;
-use yii\web\NotFoundHttpException;
+use app\models\CartItem;
 use yii\web\Response;
-use yii\widgets\ActiveForm;
 
-class OrderController extends Controller
+class OrderController extends BaseSiteController
 {
 
-    public function beforeAction($action)
+    public function actionIndex()
     {
-        if (!parent::beforeAction($action))
-            return false;
-
-        Yii::$app->assetManager->bundles['yii\bootstrap4\BootstrapAsset'] = false;
-        return true;
+        $this->view->title = Yii::t('app/orders', 'title');
+        $this->layout = 'order';
+        $portrait_types = PortraitType::find()->all();
+        return $this->render('index', ['portrait_types' => $portrait_types]);
     }
 
     public function actionOrderHyperrealism()
@@ -38,8 +34,8 @@ class OrderController extends Controller
         return $this->order(3);
     }
 
-    private function order($type){
-
+    private function order($type)
+    {
         $this->view->title = Yii::t('app/orders', 'title');
         $this->layout = 'order';
 
@@ -48,22 +44,11 @@ class OrderController extends Controller
         ]);
     }
 
-    public function actionIndex()
-    {
-        $this->view->title = Yii::t('app/orders', 'title');
-        $this->layout = 'order';
-        $portrait_types = PortraitType::find()->all();
-        return $this->render('index', ['portrait_types' => $portrait_types]);
-    }
-
-    // <editor-fold state="collapsed" desc="change values on form">
-
-
     public function actionChange($field, $value)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $model = new OrderForm();
+        $model = new CartItem();
 
         if (!$this->isModelLoaded($model))
             return ['success' => false];
@@ -72,26 +57,15 @@ class OrderController extends Controller
     }
 
 
-    // </editor-fold>
-
-    public function actionValidate()
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $model = new OrderForm();
-
-        if ($this->isModelLoaded($model)) {
-            return ActiveForm::validate($model);
-        }
-        return [];
-    }
-
     public function actionCreate()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $model = new OrderForm();
+        $model = new CartItem();
 
         if ($this->isModelLoaded($model)) {
-            return ['success' => $model->save()];
+
+            $res = $model->saveWithImage(true, false);
+            return ['success' => $res];
         }
         return [];
     }
@@ -104,7 +78,7 @@ class OrderController extends Controller
 
     public function getDefaultModel($type)
     {
-        $model = new OrderForm();
+        $model = new CartItem();
         $model->fillDefaultModel($type);
         return $model;
     }

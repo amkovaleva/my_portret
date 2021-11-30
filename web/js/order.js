@@ -3,6 +3,56 @@
 const form = $('#order-form');
 const change_url = form.attr('change_action');
 const price = $('#cost');
+const validation = $('#validation');
+
+
+const dropZone = $('#drop-zone')[0];
+const img_container =  $('#image-content');
+const upload_container = $('#upload-content');
+const file_input = $('#cartitem-image')[0];
+
+const reader = new FileReader();
+
+let update_img = function (src){
+    img_container.html('');
+    const img = $('<img>').attr('src', src).attr('alt', img_container.attr('alt'));
+    img_container.append(img);
+    upload_container.hide();
+    validation.hide();
+};
+
+if (window.FileList && window.File && dropZone) {
+    dropZone.addEventListener('dragover', event => {
+        event.stopPropagation();
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'copy';
+    });
+
+    dropZone.addEventListener('drop', event => {
+        event.stopPropagation();
+        event.preventDefault();
+        const files = event.dataTransfer.files;
+        //console.log(files);
+        file_input.files = files;
+        reader.readAsDataURL(files[0]);
+
+        reader.addEventListener('load', (event) => {
+            update_img(event.target.result);
+        });
+    });
+}
+else if (dropZone){
+    dropZone.remove();
+}
+
+if(file_input)
+    file_input.onchange = () => {
+        const [file] = file_input.files
+        if (file) {
+            update_img(URL.createObjectURL(file));
+        }
+    };
+
 
 let sendPost = function (url, callback) {
     $.post(url, form.serializeArray(), callback).fail(function () {
@@ -11,10 +61,10 @@ let sendPost = function (url, callback) {
 };
 
 let getElemByProp = function (field) {
-    return $('#orderform-' + field);
+    return $('#cartitem-' + field);
 };
 let getName = function (field) {
-    return 'OrderForm[' + field + ']';
+    return 'CartItem[' + field + ']';
 };
 
 let update_select_content = (updated_list, items, prompt, prop_name, object) => {
@@ -80,22 +130,10 @@ let change_callback = (event) => {
                     updated_list.parent().show();
             });
         }
-        if (info.price) {
-            price.val(info.price);
-        }
+        price.val(info.object.cost);
+        $('#frame-content').attr('style', "background-image: url('" + info.object.frame_img + "');");
+
         init_change_action();
-
-        /* let frame = getElemByProp('frame_id').find('input:checked');
-         if (!frame.length)
-             return;
-         let mount = getElemByProp('mount_id').find('input:checked'),
-             is_mount = !!mount.length,
-             url = is_mount ? 'mounts' : 'frames';
-
-         url += is_mount ? 'mounts' : 'frames';
-
-         let img = $('<img>').attr('src', '/uploads/' + url)
- */
     });
 };
 
@@ -122,5 +160,37 @@ let init_change_action = () => {
     });
 };
 
+form.unbind('submit').bind('submit', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+   if(event.isTrigger)
+        return;
+
+    if(!file_input.files.length){
+        validation.show();
+        return false;
+    }
+
+    let data = new FormData(form[0]), url = form.attr('action');
+
+    $.ajax({
+        url: url,
+        type: 'post',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false
+    }).done(function (response) {
+        if (response.success) {
+            console.log("success");
+        }
+    }).fail(function () {
+        console.log("error");
+    });
+});
+
 init_change_action();
+
+
 

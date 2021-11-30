@@ -112,16 +112,7 @@ class AdminController extends Controller
 
     public function saveWithImage($model)
     {
-        $image = UploadedFile::getInstance($model, 'image');
-        if (isset($image))
-            $model->imageFile = $model->imgName . '.' . $image->extension;
-
-        $res = $model->save();
-
-        if ($res && isset($image))
-            $model->saveImage($image);
-
-        return $res;
+        return $model->saveWithImage();
     }
 
 }

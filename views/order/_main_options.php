@@ -5,8 +5,8 @@ use app\models\OrderConsts;
 
 ?>
 
-<?= $form->field($model, 'portrait_type_id')
-    ->hiddenInput($model->availablePortraitTypes)->label(false) ?>
+<?= $form->field($model, 'portrait_type_id')->hiddenInput()->label(false) ?>
+<?= $form->field($model, 'user_cookie')->hiddenInput()->label(false) ?>
 
 
 <?= $form->field($model, 'currency')->radioList(Price::getCurrenciesList(),

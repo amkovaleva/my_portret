@@ -32,5 +32,5 @@ use app\models\OrderConsts;
                 . $label . '"><input type="radio" name="' . $name . '" value="' . $value . '"' . $checked_str . '></label>';
 
             return $return;
-        },
+        }, 'changed-field' => OrderConsts::MOUNT,
     ]) ?>

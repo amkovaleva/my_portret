@@ -24,7 +24,6 @@ class OrderAsset extends AssetBundle
         'css/order.css',
     ];
     public $js = [
-        'js/order_preview.js',
         'js/order.js',
     ];
     public $depends = [

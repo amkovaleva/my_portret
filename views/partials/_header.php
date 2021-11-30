@@ -1,6 +1,10 @@
 <?php
+
+use app\models\CartItem;
 use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
+
+$cart_items = CartItem::getCartItemsForMenu();
 ?>
 
 <header>
@@ -18,6 +22,11 @@ use yii\bootstrap4\NavBar;
             ['label' => Yii::t('app/orders', 'title'), 'url' => ['/order/index']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             ['label' => 'About', 'url' => ['/site/about']],
+            ['label' => Yii::t('app/carts', 'title') . ' ( ' .$cart_items['count'] . ' )',
+                'url' => ['/cart/index'],
+                'options' => ['id' => 'cart'],
+                'visible' => $cart_items && isset($cart_items['count'])
+            ],
         ],
     ]);
     NavBar::end();

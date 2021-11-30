@@ -3,36 +3,11 @@
 namespace app\controllers;
 
 use Yii;
-use yii\web\Controller;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
-class SiteController extends Controller
+class SiteController extends BaseSiteController
 {
-
-    public function beforeAction($action)
-    {
-        if (!parent::beforeAction($action))
-            return false;
-
-        Yii::$app->assetManager->bundles['yii\bootstrap4\BootstrapAsset']  = false;
-        return true;
-    }
-    /**
-     * {@inheritdoc}
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
     /**
      * Displays homepage.
      *

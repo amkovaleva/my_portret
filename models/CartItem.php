@@ -20,14 +20,13 @@ use yii\helpers\ArrayHelper;
 /**
  * ContactForm is the model behind the contact form.
  */
-class OrderForm extends BaseImage
+class CartItem extends BaseImage
 {
-    const UPLOAD_FOLDER = 'uploads/orders';
+    const UPLOAD_FOLDER = 'uploads/orders/';
 
     const DEFAULT_PORTRAIT_COLOUR = 1;
 
     public $frame_format_id;
-    public $frame_img;
 
     // <editor-fold state="collapsed" desc="base model description">
 
@@ -36,7 +35,7 @@ class OrderForm extends BaseImage
      */
     public static function tableName()
     {
-        return '{{orders}}';
+        return '{{cart_items}}';
     }
 
     /**
@@ -45,11 +44,14 @@ class OrderForm extends BaseImage
     public function rules()
     {
         return [
-            [['portrait_type_id', 'format_id', 'material_id', 'base_id', 'background_color_id', 'imageFile', 'cost', 'currency', 'faces_count'], 'required'],
-            [['frame_id', 'mount_id', 'frame_format_id', 'frame_img'], 'safe'],
+            [['portrait_type_id', 'format_id', 'material_id', 'base_id', 'background_color_id',
+                'imageFile', 'cost', 'currency', 'faces_count', 'user_cookie'], 'required'],
+            [['frame_id', 'mount_id', 'frame_format_id'], 'safe'],
             [['cost', 'faces_count'], 'number'],
             [['currency'], 'string'],
-            [['image'], 'file', 'mimeTypes' => 'image/*', 'maxSize' => 1024 * 1024 * 15], //15 Mb
+            [['created_at'], 'datetime'],
+            [['image'], 'file', 'extensions' => 'JPG, JPEG, PNG, BMP, WebP', //mimeTypes' => 'image/*',
+                 'maxSize' => 1024 * 1024 * 15], //15 Mb
         ];
     }
 
@@ -112,21 +114,29 @@ class OrderForm extends BaseImage
         return $this->hasOne(BackgroundColour::class, ['id' => 'background_color_id']);
     }
 
+    public function getFrameImageUrl()
+    {
+        if (!$this->frame_id)
+            return '';
+
+        if(!$this->mount_id)
+            return Yii::$app->request->baseUrl . '/' . (Frame::UPLOAD_FOLDER) . $this->frame_id . '.svg';
+
+        return Yii::$app->request->baseUrl . '/' . (FrameMountImage::UPLOAD_FOLDER) .  $this->frame_id . '_' . $this->mount_id . '.svg';
+    }
+
+
+    public function getPriceStr(){
+        return Price::getPriceStr($this->cost, $this->currency) ;
+    }
+
     // </editor-fold>
 
-    /*
-     * Приоритет заполнения данных
-     * 1. portrait_type_id  - вид портрета
-     * 2. base_id - на чем рисовать портрет
-     * 3. material_id - чем рисовать
-     * 4. format_id - какого размера рисунок
-     * 5. Базовая стоимость
-     * 6. frame_id && mount_id - по умолчанию без рамы => без паспарту.
-     * 7. Итоговая стоимость
-     * 8. background_color_id - цвет портрета - не зависит от других опций
-     */
     public function fillDefaultModel($portrait_type_id)
     {
+
+        $this->user_cookie = Yii::$app->params['cookie_value'];
+
         $price = Price::find()->where(['id' => Yii::$app->params['prices_by_default'][$portrait_type_id - 1]])
             ->with(['backgroundMaterial', 'portraitType'])->one();
         $this->portrait_type_id = $price->portrait_type_id;
@@ -137,7 +147,7 @@ class OrderForm extends BaseImage
         $this->cost = $price->getLocalPrice($this->currency);
         $this->faces_count = 1;
 
-        $this->background_color_id = OrderForm::DEFAULT_PORTRAIT_COLOUR;
+        $this->background_color_id = CartItem::DEFAULT_PORTRAIT_COLOUR;
 
         $mount_info = FrameMountImage::getDefaultOrderObject($this->format_id);
         if(!$mount_info)
@@ -146,7 +156,6 @@ class OrderForm extends BaseImage
         $this->frame_format_id = $mount_info['frame_format_id'];
         $this->frame_id = $mount_info['frame_id'];
         $this->mount_id = $mount_info['mount_id'];
-        $this->frame_img = '/'. FrameMountImage::UPLOAD_FOLDER.$mount_info['imageFile'];
     }
 
     // <editor-fold state="collapsed" desc="load of available order options">
@@ -201,6 +210,7 @@ class OrderForm extends BaseImage
         }
         $res['object'] = $this->attributes;
         $res['object']['frame_format_id'] = $this->frame_format_id;
+        $res['object']['frame_img'] = $this->frameImageUrl;
 
         return $res;
     }
@@ -356,4 +366,16 @@ class OrderForm extends BaseImage
 
     // </editor-fold>
 
+    public static function getCartItemsForMenu(){
+
+        $count = CartItem::find()->where(['user_cookie' => Yii::$app->params['cookie_value']])->count();
+        if(!$count)
+            return null;
+        return [ 'count' => $count];
+    }
+
+    public static function getCartItemsForUser(){
+        return CartItem::find()->where(['user_cookie' => Yii::$app->params['cookie_value']])
+            ->with(['frame.colour', 'frame.format', 'mount.colour', 'format', 'portraitType', 'backgroundMaterial', 'paintMaterial', 'backgroundColour.colour'])->all();
+    }
 }
