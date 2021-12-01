@@ -48,6 +48,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => $url_rules,
+            'suffix' => '/',
         ],
         'i18n' => [
             'translations' => $translations,

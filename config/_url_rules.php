@@ -1,5 +1,6 @@
 <?php
 $rules = [
+    'GET /' => 'site/index',
     'GET /order' => 'order/index',
     'GET /hyperrealism' => 'order/order-hyperrealism',
     'GET /photorealism' => 'order/order-photorealism',
@@ -19,7 +20,7 @@ $post_actions = array('validate', 'update', 'delete', 'edit');
 foreach ($params['admin_models'] as &$model_name) {
     $model_base_url = 'admin/'. $model_name;
 
-    $rules['GET /   ' . $model_base_url .'s'] = $model_base_url. '/index';
+    $rules['GET /' . $model_base_url .'s'] = $model_base_url. '/index';
 
     foreach ($post_actions as &$action)
         $rules['POST ' . $model_base_url .'/'. $action. '/<id:\d+>'] = $model_base_url. '/'. $action;

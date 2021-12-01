@@ -4,15 +4,25 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\models\LoginForm;
 
 class BaseSiteController extends Controller
 {
 
     public function beforeAction($action)
     {
-        if (!parent::beforeAction($action))
-            return false;
+
+        $res = parent::beforeAction($action);
+
+        if(Yii::$app->request->isGet){
+            $url =  Yii::$app->request->url;
+
+            if(!strlen($url) || substr($url, -1) != '/') {
+                Yii::$app->response->redirect($url . '/', 301);
+                Yii::$app->end();
+                return $res;
+            }
+        }
+
 
         Yii::$app->assetManager->bundles['yii\bootstrap4\BootstrapAsset'] = false;
 
@@ -27,7 +37,7 @@ class BaseSiteController extends Controller
 
         Yii::$app->params['cookie_value'] = $cookie;
 
-        return true;
+        return $res;
     }
 
     /**
