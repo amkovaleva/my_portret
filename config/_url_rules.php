@@ -7,6 +7,7 @@ $rules = [
     'GET /sketch' => 'order/order-sketch',
 
     'POST /order/change/<field:\d+>/<value:\w+>' => 'order/change',
+    'POST /order-create' => 'order/create',
 
     'GET /cart' => 'cart/index',
 

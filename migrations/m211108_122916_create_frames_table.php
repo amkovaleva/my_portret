@@ -43,7 +43,7 @@ class m211108_122916_create_frames_table extends Migration
         foreach ($format_ids as &$f_id) {
             foreach ($colour_ids as &$c_id) {
                 $this->insert('frames',
-                    ['format_id' => $f_id, 'colour_id' => $c_id, 'width' => 1.5, 'imageFile' => $i.'.png',
+                    ['format_id' => $f_id, 'colour_id' => $c_id, 'width' => 1.5, 'imageFile' => $i.'.svg',
                         'name' => $colour_names[$c_id - 1] . ' ' . $format_names[$f_id - 1]]);
                 $i++;
             }

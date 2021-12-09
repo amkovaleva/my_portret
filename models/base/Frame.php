@@ -53,5 +53,4 @@ class Frame extends BaseImage
         return $this->hasOne(Format::class, ['id' => 'format_id']);
     }
 
-
 }

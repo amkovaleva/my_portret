@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ad5bd0b7f2fe9c68513daef3b72dfd4",
+    "content-hash": "b5b7ca1a2ca395e90729bb58f4c5ac58",
     "packages": [
         {
             "name": "2amigos/yii2-selectize-widget",
@@ -179,6 +179,21 @@
             "license": [
                 "MIT"
             ]
+        },
+        {
+            "name": "bower-asset/cropper",
+            "version": "v4.1.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:fengyuanchen/cropper.git",
+                "reference": "617d9bdb8688cc4edb3b03bc49a04b83c7facbe7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fengyuanchen/cropper/zipball/617d9bdb8688cc4edb3b03bc49a04b83c7facbe7",
+                "reference": "617d9bdb8688cc4edb3b03bc49a04b83c7facbe7"
+            },
+            "type": "bower-asset"
         },
         {
             "name": "bower-asset/inputmask",
@@ -377,6 +392,58 @@
                 "source": "https://github.com/cebe/markdown"
             },
             "time": "2018-03-26T11:24:36+00:00"
+        },
+        {
+            "name": "demi/cropper",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/demisang/yii2-cropper.git",
+                "reference": "3f6ecbd9e82e3462856971638640c786593d71be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/demisang/yii2-cropper/zipball/3f6ecbd9e82e3462856971638640c786593d71be",
+                "reference": "3f6ecbd9e82e3462856971638640c786593d71be",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/cropper": "*",
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "demi\\cropper\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GNU"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Orlov",
+                    "email": "orlov_mail@mail.ru",
+                    "homepage": "https://orlov.io/",
+                    "role": "Creator"
+                }
+            ],
+            "description": "Yii2 wrapper for Image Cropper javascript library",
+            "homepage": "https://github.com/demisang/yii2-cropper#readme",
+            "keywords": [
+                "crop",
+                "cropper",
+                "image",
+                "widget",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/demisang/yii2-cropper/issues",
+                "source": "https://github.com/demisang/yii2-cropper"
+            },
+            "time": "2017-11-22T23:24:08+00:00"
         },
         {
             "name": "doctrine/lexer",

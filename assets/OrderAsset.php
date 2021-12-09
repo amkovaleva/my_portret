@@ -27,6 +27,7 @@ class OrderAsset extends AssetBundle
         'js/order.js',
     ];
     public $depends = [
-        'yii\web\YiiAsset'
+        'yii\web\YiiAsset',
+        'demi\cropper\CropperAsset',
     ];
 }

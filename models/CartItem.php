@@ -368,6 +368,9 @@ class CartItem extends BaseImage
 
     public static function getCartItemsForMenu(){
 
+        if(!isset(Yii::$app->params['cookie_value']))
+            return null;
+
         $count = CartItem::find()->where(['user_cookie' => Yii::$app->params['cookie_value']])->count();
         if(!$count)
             return null;

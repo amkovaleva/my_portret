@@ -1,0 +1,12 @@
+.cart-item {
+    display: flex;
+    align-items: center;
+}
+.cart-item > div{
+    width: 25%;
+    padding: 20px;
+}
+.cart-item img{
+    max-width: 300px;
+    max-height: 300px;
+}

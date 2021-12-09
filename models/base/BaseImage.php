@@ -91,7 +91,8 @@ class BaseImage extends ActiveRecord
         if (!$imgRes)
             return;
 
-        try {
+        // not svg
+        if(substr_compare($this->imageFile, '.svg', -4) !== 0 ) {
             $image = Image::make($this->fullDir . $this->imageFile);
             $image->orientate();
 
@@ -100,8 +101,10 @@ class BaseImage extends ActiveRecord
 
             $image->save();
 
-        } catch (Exception $e) {
-            var_dump($e);
+        }
+        // svg -- frames & mount images
+        else{
+            ExtXML::rotateSVG($this->fullDir . $this->imageFile);
         }
 
         if ($needPreview)

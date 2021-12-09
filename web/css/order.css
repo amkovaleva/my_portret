@@ -1,6 +1,9 @@
 .data-container{
     display: flex;
 }
+input[type=file]{
+    display: none;
+}
 
 #preview{
     padding: 20px;
@@ -10,23 +13,42 @@
     width: 60%;
 }
 #frame-content{
-    display: flex;
-    align-items: center;
-    height: 100%;
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
-#upload-content{
-    margin: auto;
+#frame-content.with-image img.frame{
+    display: none;
 }
-#preview img{
-    width: 100%;
+#frame-content.no-image img.result{
+    display: none;
+}
+#frame-content img{
+    max-width: 100%;
+    max-height: 100%;
+    background: red;
+}
+#upload-content{
+    position: absolute;
+    box-sizing: border-box;
+    padding: 20px;
+    z-index: 2;
+    top: 20%;
+    left: 20%;
+    right: 20%;
+    bottom: 20%;
+    text-align: center;
 }
 #drop-zone{
     padding: 20px;
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
 }
 #order-form [role=radiogroup] input{
     display: none;
@@ -49,4 +71,32 @@
 #order-form [role=radiogroup] label.active{
     outline: 2px rgba(255, 0, 0, 0.7) inset;
     border-color: transparent;
+}
+
+.fade{
+    display: none;
+}
+.modal{
+    position: fixed;
+    z-index: 5;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    max-width: 100vw;
+    max-height: 100vh;
+    background: white;
+}
+.modal .modal-dialog, .modal .modal-content{
+    height: 100%;
+}
+.modal .modal-body{
+    height: 80%;
+    margin: auto;
+}
+.modal img{
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    display: block;
 }
