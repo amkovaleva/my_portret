@@ -19,6 +19,8 @@ const dropZone = document.getElementById('drop-zone');
 const fileInput = getElemByProp('image')[0];
 const uploadContainer = $('#upload-content');
 const frameContainer = $('#frame-content');
+let resultImage = null;
+const frameImage = frameContainer.find('img.frame');
 
 const modal = $('#crop-modal');
 const crop_container = modal.find('.modal-body');
@@ -28,29 +30,37 @@ let isPortraitOrientation = true;
 
 const reader = new FileReader();
 
-let setUpFormat = function (format_id) {
-    let format = window.frameSizes[format_id];
+let setUpFormat = function () {
+    let format = window.frameSizes[getFormatID()];
     sideSizes = [1 * format.length, 1 * format.width];
 };
 
+let setFrameURL = function (url = null){
+    if(!url)
+        url = frameImage.attr('src');
+
+    let old_str = isPortraitOrientation ? '_r.svg' : '.svg',
+        new_str = isPortraitOrientation ? '.svg' : '_r.svg';
+    frameImage.attr('src', url.replace(old_str, new_str));
+};
+
 let loadPhoto = function (src) {
+    originImage.on('load', () => {
+        modal.modal();
+    })
     originImage.attr('src', src);
-    modal.modal();
-    uploadContainer.hide();
-    validation.hide();
-    frameContainer.addClass('with-image').removeClass('no-image');
 };
 
 $('#clear').click(() => {
     fileInput.value = null;
     originImage.attr('src', '');
-    let img = frameContainer.find('img.photo');
-    if (img.length) {
-        img.remove();
-    }
+    if (resultImage)
+        resultImage.remove();
+    resultImage = null;
     uploadContainer.show();
     frameContainer.removeClass('with-image').addClass('no-image');
 });
+
 let changeArea = function () {
     if (fileInput.value) {
         modal.modal();
@@ -59,63 +69,41 @@ let changeArea = function () {
 
 $('#change-orientation').click(() => {
     isPortraitOrientation = !isPortraitOrientation;
-    let frame_img = frameContainer.find('img.frame');
-    let cur_src = frame_img.attr('src'),
-        old_str = isPortraitOrientation ? '_r.svg' : '.svg',
-        new_str = isPortraitOrientation ? '.svg' : '_r.svg';
-
-    frame_img.on('load', changeArea);
-    frame_img.attr('src', cur_src.replace(old_str, new_str));
+    setFrameURL();
 });
+
+frameImage.on('load', changeArea);
 
 $('#change-area').click(changeArea);
 
-let drowBaseImage = function (left, top, canvas_w = null, canvas_h = null) {
-
-    console.log(left, top, canvas_w, canvas_h);
-    let canvas = $('<canvas>').attr('width', canvas_w ? canvas_w : cropData.width).attr('height', canvas_h ? canvas_h : cropData.height)[0],
-        ctx = canvas.getContext("2d");
-
-    ctx.drawImage(originImage[0], cropData.x, cropData.y, cropData.width, cropData.height, left, top, cropData.width, cropData.height);
-    return [ctx, canvas]
-}
-
-let combineImages = function () {
+let updatePhotoPosition = function () {
 
     let frame_id = getElemByProp('frame_id').find('input:checked').val(),
-        res_img = frameContainer.find('img.result');
+        f_w = frame_id ? window.frameInfos[frame_id].width * 1 - 0.7 : 0,
+        frame_format_id = getElemByProp('frame_format_id').val(),
+        p_h = isPortraitOrientation ? sideSizes[0] : sideSizes[1],
+        p_w = isPortraitOrientation ? sideSizes[1] : sideSizes[0],
 
-    if (!res_img.length) {
-        res_img = $('<img>').addClass('result');
-        frameContainer.prepend(res_img);
-    }
+        frame_format = window.frameSizes[frame_format_id],
+        frame_sideSizes = [1 * frame_format.length, 1 * frame_format.width],
+        f_f_h = isPortraitOrientation ? frame_sideSizes[0] : frame_sideSizes[1],
+        f_f_w = isPortraitOrientation ? frame_sideSizes[1] : frame_sideSizes[0],
 
-    if (!frame_id) {
-        let [ctx, canvas] = drowBaseImage(0, 0);
-        res_img.attr('src', canvas.toDataURL());
-        return;
-    }
+        total_width = f_f_w + 2 * f_w,
+        total_height = f_f_h + 2 * f_w ,
+        width = p_w * 100 / total_width,
+        height =  p_h * 100 / total_height,
+        top = Math.floor((100 - height) / 2),
+        left = Math.floor((100 - width) / 2);
 
-
-    let frame_img = new Image();
-    frame_img.onload = function () {
-        let p_h = isPortraitOrientation ? sideSizes[0] : sideSizes[1],
-            p_w = isPortraitOrientation ? sideSizes[1] : sideSizes[0],
-            f_w = window.frameInfos[frame_id].width * 1,
-            mount_id = getElemByProp('mount_id').find('input:checked').val(),
-            m_w = mount_id ? window.mountInfos[mount_id][isPortraitOrientation ? 'add_width' : 'add_length'] * 1 : 0,
-            m_h = mount_id ? window.mountInfos[mount_id][isPortraitOrientation ? 'add_length' : 'add_width'] * 1 : 0,
-            scale = cropData.width / p_w,
-            width = Math.round((p_w + 2 * (f_w + m_w) - 1) * scale),
-            height = Math.round((p_h + 2 * (f_w + m_h) - 1) * scale),
-            top = Math.round((height - cropData.height) / 2),
-            left = Math.round((width - cropData.width) / 2);
-
-        let [ctx, canvas] = drowBaseImage(top, left, width, height);
-        ctx.drawImage(frame_img, 0, 0, frame_img.width, frame_img.height, 0, 0, width, height);
-        res_img.attr('src', canvas.toDataURL());
-    };
-    frame_img.src = frameContainer.find('img.frame').attr('src');
+    resultImage.attr('style',
+        'width: ' + Math.ceil(width) + '%;'
+        + 'height: ' + Math.ceil(height) + '%;'
+        + 'top: ' + top + '%;'
+        //+ 'bottom: ' + top + '%;'
+        + 'left: ' + left + '%;'
+       // + 'right: ' + left + '%;'
+    );
 
 };
 
@@ -129,7 +117,22 @@ modal.on('shown.bs.modal', function () {
     cropper.init();
 }).on('hidden.bs.modal', function () {
     cropData = cropper.getData();
-    combineImages();
+
+    if (!resultImage) {
+        resultImage = $('<img>').addClass('result');
+        frameContainer.prepend(resultImage);
+    }
+
+    let canvas = $('<canvas>').attr('width', cropData.width).attr('height', cropData.height)[0],
+        ctx = canvas.getContext("2d");
+
+    ctx.drawImage(originImage[0], cropData.x, cropData.y, cropData.width, cropData.height, 0, 0, cropData.width, cropData.height);
+    resultImage.attr('src', canvas.toDataURL());
+
+    uploadContainer.hide();
+    validation.hide();
+    frameContainer.addClass('with-image').removeClass('no-image');
+    updatePhotoPosition();
     cropper.destroy();
 });
 
@@ -220,7 +223,6 @@ let change_callback = (event) => {
 
     sendPost(form.attr('change_action') + field_type + '/' + el.val() + '/', (info) => {
 
-        let format_id = getFormatID();
         if (info.items) {
             info.items.forEach(item_info => {
                 let updated_list = getElemByProp(item_info.id)
@@ -236,15 +238,10 @@ let change_callback = (event) => {
             });
         }
         $('#cost').val(info.object.cost);
-
-        frameContainer.attr('style', "background-image: url('" + info.object.frame_img + "');");
-
+        setFrameURL(info.object.frame_img);
 
         init_change_action();
-
-        let new_format_id = getFormatID();
-        if (format_id !== new_format_id)
-            setUpFormat(new_format_id);
+        setUpFormat();
     });
 };
 

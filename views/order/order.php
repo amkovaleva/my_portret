@@ -27,9 +27,9 @@ $form = ActiveForm::begin([
             </div>
             <img src="<?= $model->frameImageUrl ?>" alt="Photo" class="frame"/>
         </div>
-        <button id="clear">Clear</button>
-        <button id="change-orientation">Change orientation</button>
-        <button id="change-area">Change area</button>
+        <input type="button" id="clear" value="<?= Yii::t('app/orders', 'clear')?>">
+        <input type="button" id="change-orientation"  value="<?= Yii::t('app/orders', 'change_orientation')?>">
+        <input type="button" id="change-area"  value="<?= Yii::t('app/orders', 'change_area')?>">
     </div>
     <div class="form">
         <?= $this->render('/order/_main_options',  [ 'model' => $model, 'form' => $form ]) ?>
@@ -46,13 +46,13 @@ $form = ActiveForm::begin([
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">Cropper</h5>
+                <h5 class="modal-title" id="modalLabel"> <?= Yii::t('app/orders',  'cropper_title') ?></h5>
             </div>
             <div class="modal-body">
                 <img src="#" alt="Picture">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"> <?= Yii::t('app/orders',  'cropper_apply') ?></button>
             </div>
         </div>
     </div>
