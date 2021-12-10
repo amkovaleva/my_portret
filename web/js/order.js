@@ -287,6 +287,14 @@ let init_change_action = () => {
     getElemByProp('format_id').change(changeArea);
 };
 
+form.unbind('submit').bind('submit', (event) => {
+    if (!fileInput.files.length) {
+        validation.show();
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    }
+});
 //</editor-fold>
 
 init_change_action();
