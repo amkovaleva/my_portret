@@ -35,9 +35,18 @@ let setUpFormat = function () {
     sideSizes = [1 * format.length, 1 * format.width];
 };
 
-let setFrameURL = function (url = null){
-    if(!url)
+let setFrameURL = function (url = null) {
+    if (url === null)
         url = frameImage.attr('src');
+
+    if (!url) {
+        frameImage.hide();
+        frameContainer.removeClass('with-frame').addClass('no-frame');
+    }
+    else {
+        frameImage.show();
+        frameContainer.addClass('with-frame').removeClass('no-frame');
+    }
 
     let old_str = isPortraitOrientation ? '_r.svg' : '.svg',
         new_str = isPortraitOrientation ? '.svg' : '_r.svg';
@@ -70,17 +79,20 @@ let changeArea = function () {
 $('#change-orientation').click(() => {
     isPortraitOrientation = !isPortraitOrientation;
     setFrameURL();
+    changeArea();
 });
 
-frameImage.on('load', changeArea);
 
 $('#change-area').click(changeArea);
 
 let updatePhotoPosition = function () {
+    let frame_format_id = getElemByProp('frame_format_id').val();
+    if (!frame_format_id || !resultImage) {
+        return;
+    }
 
     let frame_id = getElemByProp('frame_id').find('input:checked').val(),
         f_w = frame_id ? window.frameInfos[frame_id].width * 1 - 0.7 : 0,
-        frame_format_id = getElemByProp('frame_format_id').val(),
         p_h = isPortraitOrientation ? sideSizes[0] : sideSizes[1],
         p_w = isPortraitOrientation ? sideSizes[1] : sideSizes[0],
 
@@ -90,9 +102,9 @@ let updatePhotoPosition = function () {
         f_f_w = isPortraitOrientation ? frame_sideSizes[1] : frame_sideSizes[0],
 
         total_width = f_f_w + 2 * f_w,
-        total_height = f_f_h + 2 * f_w ,
+        total_height = f_f_h + 2 * f_w,
         width = p_w * 100 / total_width,
-        height =  p_h * 100 / total_height,
+        height = p_h * 100 / total_height,
         top = Math.floor((100 - height) / 2),
         left = Math.floor((100 - width) / 2);
 
@@ -102,10 +114,12 @@ let updatePhotoPosition = function () {
         + 'top: ' + top + '%;'
         //+ 'bottom: ' + top + '%;'
         + 'left: ' + left + '%;'
-       // + 'right: ' + left + '%;'
+        // + 'right: ' + left + '%;'
     );
 
 };
+
+frameImage.on('load', updatePhotoPosition);
 
 modal.on('shown.bs.modal', function () {
     crop_container.height(originImage.height());
@@ -133,9 +147,14 @@ modal.on('shown.bs.modal', function () {
     validation.hide();
     frameContainer.addClass('with-image').removeClass('no-image');
     updatePhotoPosition();
+    crop_container.height('');
+    crop_container.width('');
     cropper.destroy();
 });
 
+//</editor-fold>
+
+//<editor-fold desc="File actions">
 if (window.FileList && window.File && dropZone) {
     dropZone.addEventListener('dragover', event => {
         event.stopPropagation();
@@ -265,6 +284,7 @@ let init_change_action = () => {
     $('[role=radiogroup]').each((index, radio_group) => {
         change_active_in_group($(radio_group));
     });
+    getElemByProp('format_id').change(changeArea);
 };
 
 form.unbind('submit').bind('submit', (event) => {

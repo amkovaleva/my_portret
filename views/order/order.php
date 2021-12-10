@@ -18,7 +18,7 @@ $form = ActiveForm::begin([
 <h1><?= Yii::t('app/orders', 'title')?></h1>
 <div class="data-container">
     <div id="preview">
-        <div id="frame-content" class="no-image">
+        <div id="frame-content" class="no-image <?= $model->frameImageUrl ? 'with-frame' : ''?>">
             <div id="upload-content">
                 <?= $form->field($model, 'image')->fileInput()->label(false) ?>
                 <div id="drop-zone">

@@ -16,9 +16,22 @@ input[type=file]{
     position: relative;
     width: 100%;
 }
+#frame-content.no-frame,  #frame-content.no-frame #upload-content,  #frame-content.no-frame #drop-zone{
+    height: 100%;
+    position: static;
+}
+#frame-content.no-frame.with-image{
+    height: auto;
+}
 #frame-content img.result{
     position: absolute;
     z-index: 1;
+}
+#frame-content.no-frame img.result{
+    position: static;
+    margin: auto;
+    display: block;
+    max-width: 100%;
 }
 #frame-content img.frame{
     width: 100%;

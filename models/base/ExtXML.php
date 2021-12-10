@@ -6,24 +6,15 @@ use SimpleXMLElement;
 
 class ExtXML extends SimpleXMLElement
 {
-    public function _construct($xml)
-    {
-        parent::_construct($xml);
-    }
-
     public static function rotateSVG($file)
     {
         //Set the vars of the primary attributes we want to edit
         $w = "width";
         $h = "height";
         $viewbox = "viewBox";
-        $bg = 'enable-background';
-
-        //$file = 'svg-nog.svg';
 
         $xml = simplexml_load_file($file); //Load the File.
         $sxe = new ExtXML($xml->asXML()); //Load the child class (it will load the main one)
-
 
         $sizes = explode(" ", $sxe->attributes()->$viewbox);
 
@@ -33,24 +24,9 @@ class ExtXML extends SimpleXMLElement
 
         //Get viewBox and background
         $sxe->attributes()->$viewbox = "0 0 " . $sizes[3] . " " . $sizes[2];
-        //$sxe->attributes()->$bg = "new 0 0 " . str_replace('px', '', $height) . " " . str_replace('px', '', $width);
 
         //Get the numerical values for width and height
         $rw = floatval($sizes[3]);
-        /* $rh = floatval($sizes[2]);
-
-        //Get the center point
-        $rx = $rw / 2;
-        $ry = $rh / 2;
-
-        /* /ic will determine the appropiate translate value for the svg so that it will center in the new viewbox
-        if ($rw < $rh) {
-          $trans = ($rw - $rh) / 2;
-        }
-
-        if ($rw > $rh) {
-          $trans = -1 * ($rh - $rw) / 2;
-        }*/
 
         //Swap width and height
         $oldW = (string)$sxe->attributes()->$w;
@@ -72,7 +48,7 @@ class ExtXML extends SimpleXMLElement
         //This next line will overwrite the original XML file with new data added
         $file = str_replace(".svg", "_r.svg", $file);
 
-        $resultStr = $sxe->asXML($file);
+        $sxe->asXML($file);
 
     }
 }
