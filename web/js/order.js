@@ -92,7 +92,7 @@ let updatePhotoPosition = function () {
     }
 
     let frame_id = getElemByProp('frame_id').find('input:checked').val(),
-        f_w = frame_id ? window.frameInfos[frame_id].width * 1 - 0.7 : 0,
+        f_w = frame_id ? window.frameInfos[frame_id].width * 1 - 0.75 : 0,
         p_h = isPortraitOrientation ? sideSizes[0] : sideSizes[1],
         p_w = isPortraitOrientation ? sideSizes[1] : sideSizes[0],
 
@@ -286,37 +286,6 @@ let init_change_action = () => {
     });
     getElemByProp('format_id').change(changeArea);
 };
-
-form.unbind('submit').bind('submit', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (event.isTrigger)
-        return;
-
-    if (!fileInput.files.length) {
-        validation.show();
-        return false;
-    }
-
-    let data = new FormData(form[0]), url = form.attr('action');
-
-    $.ajax({
-        url: url,
-        type: 'post',
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false
-    }).done(function (response) {
-        if (response.success) {
-            console.log("success");
-        }
-    }).fail(function () {
-        console.log("error");
-    });
-});
-
 
 //</editor-fold>
 

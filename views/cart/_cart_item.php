@@ -7,9 +7,10 @@ $p_options = [
     'background_color' => Yii::t('app/orders', $item->backgroundColour->colour->name),
 ];
 ?>
-<div>
+<div data-key="<?= $item->id ?>" class="cart-item">
     <h2><?= $key + 1 ?>. <?= Yii::t('app/orders', $item->portraitType->name) ?> </h2>
-    <div class="cart-item">
+    <input type="button" value="<?= Yii::t('app/carts', 'delete') ?>">
+    <div>
         <div>
             <h3><?= Yii::t('app/carts', 'portrait_info_title') ?></h3>
             <img src="<?= $item->previewImageUrl ?>" alt="<?= $key + 1 ?>. <?= Yii::t('app/carts', 'img_alt') ?>"/>

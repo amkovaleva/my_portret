@@ -2,14 +2,16 @@
 $rules = [
     'GET /' => 'site/index',
     'GET /order' => 'order/index',
-    'GET /hyperrealism' => 'order/order-hyperrealism',
-    'GET /photorealism' => 'order/order-photorealism',
-    'GET /sketch' => 'order/order-sketch',
+
+    '/hyperrealism' => 'order/order-hyperrealism',
+    '/photorealism' => 'order/order-photorealism',
+    '/sketch' => 'order/order-sketch',
 
     'POST /order/change/<field:\d+>/<value:\w+>' => 'order/change',
-    'POST /order-create' => 'order/create',
 
     'GET /cart' => 'cart/index',
+    'POST /cart/delete/<id:\d+>' => 'cart/delete',
+    'POST /load-del-modal' => 'cart/load-del-modal',
 
     'POST /admin/admin/load-del-modal' => 'admin/admin/load-del-modal',
     'GET /admin' => 'admin/admin/admin',

@@ -39,8 +39,19 @@ class OrderController extends BaseSiteController
         $this->view->title = Yii::t('app/orders', 'title');
         $this->layout = 'order';
 
+        $save_result = null;
+        if( Yii::$app->request->isPost){
+            $model = new CartItem();
+
+            if ($this->isModelLoaded($model)) {
+                $save_result = $model->saveWithImage(true, false);
+            }
+        }
+
+
         return $this->render('order', [
-            'model' => $this->getDefaultModel($type)
+            'model' => $this->getDefaultModel($type),
+            'save_result' => $save_result,
         ]);
     }
 
@@ -54,20 +65,6 @@ class OrderController extends BaseSiteController
             return ['success' => false];
 
         return $model->fillDownFrom($field, $value);
-    }
-
-
-    public function actionCreate()
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $model = new CartItem();
-
-        if ($this->isModelLoaded($model)) {
-
-            $res = $model->saveWithImage(true, false);
-            return ['success' => $res];
-        }
-        return [];
     }
 
     public function isModelLoaded($model)

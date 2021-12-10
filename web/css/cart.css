@@ -1,8 +1,8 @@
-.cart-item {
+.cart-item > div{
     display: flex;
     align-items: center;
 }
-.cart-item > div{
+.cart-item > div > div{
     width: 25%;
     padding: 20px;
 }

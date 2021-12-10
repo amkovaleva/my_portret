@@ -60,7 +60,7 @@ class BaseImage extends ActiveRecord
 
     public function getImgName()
     {
-        return $this->getIsNewRecord() ? '0' : $this->id;
+        return !$this->id ? '0' : $this->id;
     }
 
     public function clearImage()
@@ -68,6 +68,7 @@ class BaseImage extends ActiveRecord
         $folder = $this->fullDir;
         array_map('unlink', glob($folder . $this->imgName . '.*'));
         array_map('unlink', glob($folder . static::PREVIEW_PREFIX . $this->imgName . '.*'));
+        array_map('unlink', glob($folder . $this->imgName . '_r.*'));
     }
 
     public function saveWithImage($needPreview = false, $isVertical = true)

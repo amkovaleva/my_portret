@@ -10,12 +10,14 @@ use yii\widgets\ActiveForm;
 $form = ActiveForm::begin([
     'id' => 'order-form',
     'method' => 'POST',
-    'action' => Url::to(['/order/create']),
     'enableAjaxValidation' => false,
     'enableClientValidation' => false,
     'options'=> ['change_action' => Url::to(['order/change'])]
 ]); ?>
 <h1><?= Yii::t('app/orders', 'title')?></h1>
+<?php if($save_result !== null){ ?>
+    <h3><?= Yii::t('app/orders', ($save_result ? '' : 'not_'). 'saved')?></h3>
+<?php } ?>
 <div class="data-container">
     <div id="preview">
         <div id="frame-content" class="no-image <?= $model->frameImageUrl ? 'with-frame' : ''?>">
