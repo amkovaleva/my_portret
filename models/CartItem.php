@@ -10,7 +10,6 @@ use app\models\base\CountFace;
 use app\models\base\Format;
 use app\models\base\Frame;
 use app\models\base\Mount;
-use app\models\base\Mount;
 use app\models\base\PaintMaterial;
 use app\models\base\PortraitType;
 use app\models\base\Price;
@@ -120,9 +119,9 @@ class CartItem extends BaseImage
             return '';
 
         if(!$this->mount_id)
-            return Yii::$app->request->baseUrl . '/' . (Frame::UPLOAD_FOLDER) . $this->frame_id . '.svg';
+            return Yii::$app->request->baseUrl . '/' . Frame::UPLOAD_FOLDER . $this->frame_id . '.svg';
 
-        return Yii::$app->request->baseUrl . '/' . (Mount::UPLOAD_FOLDER) .  $this->frame_id . '_' . $this->mount_id . '.svg';
+        return Yii::$app->request->baseUrl . '/' . Mount::UPLOAD_FOLDER .  $this->mount_id . '.svg';
     }
 
 
@@ -155,7 +154,7 @@ class CartItem extends BaseImage
 
         $this->frame_format_id = $mount_info['frame_format_id'];
         $this->frame_id = $mount_info['frame_id'];
-        $this->mount_id = $mount_info['mount_id'];
+        $this->mount_id = $mount_info['id'];
     }
 
     // <editor-fold state="collapsed" desc="load of available order options">
@@ -314,8 +313,8 @@ class CartItem extends BaseImage
         $withoutMount = Format::findOne($this->format_id);
         $list = [];
         if ($this->backgroundMaterial->is_mount)
-            $list = Mount::find()->joinWith(['frame.format ff', 'mount m'], false, 'INNER JOIN')
-                ->where(['m.portrait_format_id' => $this->format_id])
+            $list = Mount::find()->joinWith(['frame.format ff'], false, 'INNER JOIN')
+                ->where(['portrait_format_id' => $this->format_id])
                 ->select(['ff.id id', 'ff.width width', 'ff.length length'])->asArray()->all();
 
         array_unshift($list, ['id' => $withoutMount->id, 'width' => $withoutMount->width, 'length' => $withoutMount->length]);
@@ -355,8 +354,9 @@ class CartItem extends BaseImage
         if (!$with_mount)
             return [];
 
-        $list = Mount::find()->joinWith('mount.colour', false, 'INNER JOIN')
-            ->where(['frame_id' => $this->frame_id, 'portrait_format_id' => $this->format_id, 'frame_format_id' => $this->frame_format_id])
+        $list = Mount::find()->joinWith('colour', false, 'INNER JOIN')
+            ->joinWith('frame', false, 'INNER JOIN')
+            ->where(['frame_id' => $this->frame_id, 'portrait_format_id' => $this->format_id, 'format_id' => $this->frame_format_id])
             ->select([Mount::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
 
 

@@ -113,17 +113,17 @@ class m211108_132404_create_mounts_table extends Migration
             'id'
         );
         //A3
-        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 3, 'mount_id' => 1, 'imageFile' => '3_1.svg']);
-        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 4, 'mount_id' => 1, 'imageFile' => '4_1.svg']);
-        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 4, 'mount_id' => 2, 'imageFile' => '4_2.svg']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 3, 'mount_id' => 1, 'imageFile' => '1.svg']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 4, 'mount_id' => 1, 'imageFile' => '2.svg']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 4, 'mount_id' => 2, 'imageFile' => '3.svg']);
         //A2
-        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 5, 'mount_id' => 3, 'imageFile' => '5_3.svg']);
-        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 6, 'mount_id' => 3, 'imageFile' => '6_3.svg']);
-        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 6, 'mount_id' => 4, 'imageFile' => '6_4.svg']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 5, 'mount_id' => 3, 'imageFile' => '4.svg']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 6, 'mount_id' => 3, 'imageFile' => '5.svg']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 6, 'mount_id' => 4, 'imageFile' => '6.svg']);
         //A1
-        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 7, 'mount_id' => 5, 'imageFile' => '7_5.svg']);
-        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 8, 'mount_id' => 5, 'imageFile' => '8_5.svg']);
-        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 8, 'mount_id' => 6, 'imageFile' => '8_6.svg']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 7, 'mount_id' => 5, 'imageFile' => '7.svg']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 8, 'mount_id' => 5, 'imageFile' => '8.svg']);
+        $this->insert( '{{%frame_mount_images}}', [ 'frame_id' => 8, 'mount_id' => 6, 'imageFile' => '9.svg']);
     }
 
     /**
