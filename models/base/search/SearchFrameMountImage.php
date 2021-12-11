@@ -22,7 +22,7 @@ class SearchFrameMountImage extends FrameMountImage
 
     public function search($params)
     {
-        $query = SearchFrameMountImage::find()->joinWith(['frame f', 'mount.portraitFormat pf', 'mount.colour mc'])->select(SearchFrameMountImage::tableName() . '.*')
+        $query = SearchFrameMountImage::find()->joinWith(['frame f', 'portraitFormat pf', 'colour mc'])->select(SearchFrameMountImage::tableName() . '.*')
             ->addSelect([
                 'mount_colour' => 'mc.name',
                 'mount_portrait_format' => 'pf.name',

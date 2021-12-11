@@ -13,14 +13,15 @@ class FrameMountImage extends BaseImage
      */
     public static function tableName()
     {
-        return '{{frame_mount_images}}';
+        return '{{mounts}}';
     }
 
     public function rules()
     {
         return [
-            [['mount_id', 'frame_id', 'imageFile'], 'required'],
-            [['mount_id', 'frame_id'], 'unique', 'targetAttribute' => ['mount_id', 'frame_id']],
+            [['colour_id', 'portrait_format_id', 'frame_id', 'imageFile'], 'required'],
+            [['colour_id', 'portrait_format_id', 'frame_id'], 'unique',
+                'targetAttribute' => ['colour_id', 'portrait_format_id', 'frame_id']],
             [['image'], 'file', 'extensions' => 'svg', 'maxSize' => 1024 * 1024 * 2], //2 Mb
         ];
     }
@@ -30,21 +31,25 @@ class FrameMountImage extends BaseImage
         $lan_dir = 'admin/frame-mount-images';
         return [
             'id' => Yii::t($lan_dir, 'id'),
-            'mount_id' => Yii::t($lan_dir, 'mount'),
-            'mount' => Yii::t($lan_dir, 'mount'),
+            'colour_id' => Yii::t($lan_dir, 'colour'),
+            'mount_colour' => Yii::t($lan_dir, 'colour'),
+            'portrait_format_id' => Yii::t($lan_dir, 'portrait_format'),
+            'mount_portrait_format' => Yii::t($lan_dir, 'portrait_format'),
             'frame_id' => Yii::t($lan_dir, 'frame'),
-            'frame' => Yii::t($lan_dir, 'frame'),
             'frame_name' => Yii::t($lan_dir, 'frame'),
             'image' => Yii::t($lan_dir, 'image'),
             'imageFile' => Yii::t($lan_dir, 'image'),
-            'mount_colour' => Yii::t($lan_dir, 'mount_colour'),
-            'mount_portrait_format' => Yii::t($lan_dir, 'mount_portrait_format'),
         ];
     }
 
-    public function getMount()
+    public function getColour()
     {
-        return $this->hasOne(Mount::class, ['id' => 'mount_id']);
+        return $this->hasOne(Colour::class, ['id' => 'colour_id']);
+    }
+
+    public function getPortraitFormat()
+    {
+        return $this->hasOne(Format::class, ['id' => 'portrait_format_id']);
     }
 
     public function getFrame()
@@ -52,16 +57,20 @@ class FrameMountImage extends BaseImage
         return $this->hasOne(Frame::class, ['id' => 'frame_id']);
     }
 
-    public static function getMounts($frame_id)
+    public static function getPossiblePortraitFormats($frame_id)
     {
-        $frame = Frame::findOne(['id' => $frame_id]);
+        $frame = Frame::find()
+            ->joinWith('format', false, 'INNER JOIN')
+            ->where([Frame::tableName() . '.id' => $frame_id])
+            ->select(Format::tableName() .'.length as length, '.Format::tableName() .'.width as width')->asArray()->one();
+
         if (!$frame)
             return [];
 
-        $list = Mount::find()->with(['colour', 'portraitFormat'])->where(['frame_format_id' => $frame->format_id])->all();
+        $list = Format::find()->where(['<', 'length', $frame['length']])->andWhere(['<', 'width', $frame['width']])->all();
         $res = [];
-        foreach ($list as &$mount) {
-            $res[] = ['id' => $mount->id, 'name' => $mount->colour->name . Yii::t('admin/frame-mount-images', 'select_mid') . $mount->portraitFormat->name];
+        foreach ($list as &$format) {
+            $res[] = ['id' => $format->id, 'name' => $format->name];
         }
         return $res;
     }
@@ -69,21 +78,15 @@ class FrameMountImage extends BaseImage
     public static function getDefaultOrderObject($portrait_format_id)
     {
         return FrameMountImage::find()->joinWith('frame', false, 'INNER JOIN')
-            ->joinWith('mount m', false, 'INNER JOIN')
             ->joinWith('frame.colour fc', false, 'INNER JOIN')
-            ->joinWith('mount.colour mc', false, 'INNER JOIN')
+            ->joinWith('colour mc', false, 'INNER JOIN')
             ->where(
                 [
-                    'm.portrait_format_id' => $portrait_format_id,
+                    'portrait_format_id' => $portrait_format_id,
                     'fc.code' => '#000',
                     'mc.code' => '#fff',
                 ]
             )
-            ->select([FrameMountImage::tableName(). '.*', Mount::tableName().'.frame_format_id as frame_format_id'])->asArray()->one();
-    }
-
-    public function getImgName()
-    {
-        return $this->frame_id . '_' . $this->mount_id;
+            ->select([FrameMountImage::tableName() . '.*', Frame::tableName() . '.format_id as frame_format_id'])->asArray()->one();
     }
 }

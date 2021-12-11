@@ -121,7 +121,7 @@ let initFormActions = function () {
             return;
         }
         let el = $(event.target);
-        sendPost(el.attr('change_url') + '/' + el.val(), (info) => {
+        sendPost(el.attr('change_url') + el.val() + '/', (info) => {
             let updated_list = $('#'+ info.id)
             updated_list.html('');
             updated_list.append($('<option>').text('--'));

@@ -2,6 +2,7 @@
 
 namespace app\controllers\admin;
 
+use app\models\base\Frame;
 use app\models\base\FrameMountImage;
 use app\models\base\search\SearchFrameMountImage;
 use Yii;
@@ -25,16 +26,18 @@ class FrameMountImageController extends AdminController
     public function actionChange($frame_id = 0)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $res = FrameMountImage::getMounts($frame_id);
-        return ['id' => 'framemountimage-mount_id', 'items' =>  $res];
+        $res = FrameMountImage::getPossiblePortraitFormats($frame_id);
+        return ['id' => 'framemountimage-portrait_format_id', 'items' =>  $res];
     }
 
     public function getModelById($id = 0)
     {
         $model = FrameMountImage::findOne(['id' => $id]);
 
-        if(!$model)
+        if(!$model) {
             $model = new FrameMountImage();
+            $model->frame_id = Frame::find()->one()->id;
+        }
 
         return $model;
     }
