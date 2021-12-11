@@ -5,18 +5,23 @@
     'searchModel' => $searchModel,
     'columns' => [
         [
-            'attribute' => 'colour_name',
-            'value' => 'colour_name',
+            'attribute' => 'mount_colour',
+            'value' => 'mount_colour',
         ],
         [
-            'attribute' => 'portrait_format_name',
-            'value' => 'portrait_format_name',
+            'attribute' => 'mount_portrait_format',
+            'value' => 'mount_portrait_format',
         ],
         [
-            'attribute' => 'frame_format_name',
-            'value' => 'frame_format_name',
+            'attribute' => 'frame_name',
+            'value' => 'frame_name',
         ],
-        'add_width',
-        'add_length'
+        [
+            'attribute' => 'imageFile',
+            'format' => 'image',
+            'value' => function ($data) {
+                return $data->imageUrl;
+            },
+        ]
     ]
 ]) ?>

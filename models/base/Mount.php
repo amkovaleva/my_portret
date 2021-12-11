@@ -3,10 +3,11 @@
 namespace app\models\base;
 
 use Yii;
-use yii\db\ActiveRecord;
 
-class Mount extends ActiveRecord
+class Mount extends BaseImage
 {
+    const UPLOAD_FOLDER = 'uploads/mounts/';
+
     /**
      * @return string the name of the table associated with this ActiveRecord class.
      */
@@ -18,10 +19,10 @@ class Mount extends ActiveRecord
     public function rules()
     {
         return [
-            [['colour_id', 'portrait_format_id', 'frame_format_id', 'add_length', 'add_width'], 'required'],
-            [['add_length', 'add_width'], 'number'],
-            [['colour_id', 'portrait_format_id','frame_format_id'], 'unique',
-                'targetAttribute' =>['colour_id', 'portrait_format_id', 'frame_format_id']],
+            [['colour_id', 'portrait_format_id', 'frame_id', 'imageFile'], 'required'],
+            [['colour_id', 'portrait_format_id', 'frame_id'], 'unique',
+                'targetAttribute' => ['colour_id', 'portrait_format_id', 'frame_id']],
+            [['image'], 'file', 'extensions' => 'svg', 'maxSize' => 1024 * 1024 * 2], //2 Mb
         ];
     }
 
@@ -30,15 +31,14 @@ class Mount extends ActiveRecord
         $lan_dir = 'admin/mounts';
         return [
             'id' => Yii::t($lan_dir, 'id'),
-            'add_length' => Yii::t($lan_dir, 'add_length'),
-            'add_width' => Yii::t($lan_dir, 'add_width'),
-            'colour_name' => Yii::t($lan_dir, 'colour'),
             'colour_id' => Yii::t($lan_dir, 'colour'),
-            'format_name' => Yii::t($lan_dir, 'portrait_format'),
+            'mount_colour' => Yii::t($lan_dir, 'colour'),
             'portrait_format_id' => Yii::t($lan_dir, 'portrait_format'),
-            'portrait_format_name' => Yii::t($lan_dir, 'portrait_format'),
-            'frame_format_id' => Yii::t($lan_dir, 'frame_format'),
-            'frame_format_name' => Yii::t($lan_dir, 'frame_format'),
+            'mount_portrait_format' => Yii::t($lan_dir, 'portrait_format'),
+            'frame_id' => Yii::t($lan_dir, 'frame'),
+            'frame_name' => Yii::t($lan_dir, 'frame'),
+            'image' => Yii::t($lan_dir, 'image'),
+            'imageFile' => Yii::t($lan_dir, 'image'),
         ];
     }
 
@@ -52,13 +52,41 @@ class Mount extends ActiveRecord
         return $this->hasOne(Format::class, ['id' => 'portrait_format_id']);
     }
 
-    public function getFrameFormat()
+    public function getFrame()
     {
-        return $this->hasOne(Format::class, ['id' => 'frame_format_id']);
+        return $this->hasOne(Frame::class, ['id' => 'frame_id']);
     }
 
-    public function getInfo()
+    public static function getPossiblePortraitFormats($frame_id)
     {
-        return $this->colour->name . " " . $this->portraitFormat->name;
+        $frame = Frame::find()
+            ->joinWith('format', false, 'INNER JOIN')
+            ->where([Frame::tableName() . '.id' => $frame_id])
+            ->select(Format::tableName() .'.length as length, '.Format::tableName() .'.width as width')->asArray()->one();
+
+        if (!$frame)
+            return [];
+
+        $list = Format::find()->where(['<', 'length', $frame['length']])->andWhere(['<', 'width', $frame['width']])->all();
+        $res = [];
+        foreach ($list as &$format) {
+            $res[] = ['id' => $format->id, 'name' => $format->name];
+        }
+        return $res;
+    }
+
+    public static function getDefaultOrderObject($portrait_format_id)
+    {
+        return Mount::find()->joinWith('frame', false, 'INNER JOIN')
+            ->joinWith('frame.colour fc', false, 'INNER JOIN')
+            ->joinWith('colour mc', false, 'INNER JOIN')
+            ->where(
+                [
+                    'portrait_format_id' => $portrait_format_id,
+                    'fc.code' => '#000',
+                    'mc.code' => '#fff',
+                ]
+            )
+            ->select([Mount::tableName() . '.*', Frame::tableName() . '.format_id as frame_format_id'])->asArray()->one();
     }
 }

@@ -3,48 +3,48 @@
 namespace app\models\base\search;
 
 use app\models\base\Colour;
+use app\models\base\Frame;
 use app\models\base\Mount;
 use yii\data\ActiveDataProvider;
 
 class SearchMount extends Mount
 {
-    public $colour_name;
-    public $portrait_format_name;
-    public $frame_format_name;
+    public $mount_colour;
+    public $mount_portrait_format;
+    public $frame_name;
 
     public function rules()
     {
         return [
-            [['colour_name', 'portrait_format_name','frame_format_name', 'add_length', 'add_width'], 'safe'],
+            [['mount_colour', 'mount_portrait_format', 'frame_name'], 'safe'],
         ];
     }
 
     public function search($params)
     {
-        $query = SearchMount::find()->joinWith(['colour', 'portraitFormat pf', 'frameFormat ff'])->select(Mount::tableName().'.*')
+        $query = SearchMount::find()->joinWith(['frame f', 'portraitFormat pf', 'colour mc'])->select(SearchMount::tableName() . '.*')
             ->addSelect([
-                'colour_name' => Colour::tableName() . '.name',
-                'portrait_format_name' => 'pf.name',
-                'frame_format_name' => 'ff.name',
+                'mount_colour' => 'mc.name',
+                'mount_portrait_format' => 'pf.name',
+                'frame_name' => 'f.name',
             ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
                 'attributes' => [
-                    'add_length', 'add_width',
-                    'colour_name' => [
-                        'asc' => ['colour_name' => SORT_ASC],
-                        'desc' => ['colour_name' => SORT_DESC],
+                    'mount_colour' => [
+                        'asc' => ['mount_colour' => SORT_ASC],
+                        'desc' => ['mount_colour' => SORT_DESC],
                     ],
-                    'portrait_format_name' => [
-                        'asc' => ['portrait_format_name' => SORT_ASC],
-                        'desc' => ['portrait_format_name' => SORT_DESC],
+                    'mount_portrait_format' => [
+                        'asc' => ['mount_portrait_format' => SORT_ASC],
+                        'desc' => ['mount_portrait_format' => SORT_DESC],
                     ],
-                    'frame_format_name' => [
-                        'asc' => ['frame_format_name' => SORT_ASC],
-                        'desc' => ['frame_format_name' => SORT_DESC],
-                    ],
+                    'frame_name' => [
+                        'asc' => ['frame_name' => SORT_ASC],
+                        'desc' => ['frame_name' => SORT_DESC],
+                    ]
                 ],
             ],
         ]);
@@ -53,20 +53,16 @@ class SearchMount extends Mount
             return $dataProvider;
         }
 
-        if ($this->add_length)
-            $query->andWhere(['add_length' => $this->add_length]);
 
-        if ($this->add_width)
-            $query->andWhere(['add_width' => $this->add_width]);
+        if ($this->mount_colour)
+            $query->andFilterWhere(['like', 'mc.name', $this->mount_colour]);
 
-        if ($this->colour_name)
-            $query->andFilterWhere(['like', Colour::tableName() . '.name', $this->colour_name]);
+        if ($this->mount_portrait_format)
+            $query->andFilterWhere(['like', 'pf.name', $this->mount_portrait_format]);
 
-        if ($this->portrait_format_name)
-            $query->andFilterWhere(['like',  'pf.name', $this->portrait_format_name]);
+        if ($this->frame_name)
+            $query->andFilterWhere(['like', 'f.name', $this->frame_name]);
 
-        if ($this->frame_format_name)
-            $query->andFilterWhere(['like',  'ff.name', $this->frame_format_name]);
 
         return $dataProvider;
     }

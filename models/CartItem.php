@@ -9,7 +9,7 @@ use app\models\base\Colour;
 use app\models\base\CountFace;
 use app\models\base\Format;
 use app\models\base\Frame;
-use app\models\base\FrameMountImage;
+use app\models\base\Mount;
 use app\models\base\Mount;
 use app\models\base\PaintMaterial;
 use app\models\base\PortraitType;
@@ -122,7 +122,7 @@ class CartItem extends BaseImage
         if(!$this->mount_id)
             return Yii::$app->request->baseUrl . '/' . (Frame::UPLOAD_FOLDER) . $this->frame_id . '.svg';
 
-        return Yii::$app->request->baseUrl . '/' . (FrameMountImage::UPLOAD_FOLDER) .  $this->frame_id . '_' . $this->mount_id . '.svg';
+        return Yii::$app->request->baseUrl . '/' . (Mount::UPLOAD_FOLDER) .  $this->frame_id . '_' . $this->mount_id . '.svg';
     }
 
 
@@ -149,7 +149,7 @@ class CartItem extends BaseImage
 
         $this->background_color_id = CartItem::DEFAULT_PORTRAIT_COLOUR;
 
-        $mount_info = FrameMountImage::getDefaultOrderObject($this->format_id);
+        $mount_info = Mount::getDefaultOrderObject($this->format_id);
         if(!$mount_info)
             return;
 
@@ -314,7 +314,7 @@ class CartItem extends BaseImage
         $withoutMount = Format::findOne($this->format_id);
         $list = [];
         if ($this->backgroundMaterial->is_mount)
-            $list = FrameMountImage::find()->joinWith(['frame.format ff', 'mount m'], false, 'INNER JOIN')
+            $list = Mount::find()->joinWith(['frame.format ff', 'mount m'], false, 'INNER JOIN')
                 ->where(['m.portrait_format_id' => $this->format_id])
                 ->select(['ff.id id', 'ff.width width', 'ff.length length'])->asArray()->all();
 
@@ -338,7 +338,7 @@ class CartItem extends BaseImage
                 ->where(['format_id' => $this->frame_format_id])
                 ->select([Frame::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
         else
-            $list = FrameMountImage::find()->joinWith('frame.colour', false, 'INNER JOIN')
+            $list = Mount::find()->joinWith('frame.colour', false, 'INNER JOIN')
                 ->where(['format_id' => $this->frame_format_id])
                 ->select([Frame::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
 
@@ -355,7 +355,7 @@ class CartItem extends BaseImage
         if (!$with_mount)
             return [];
 
-        $list = FrameMountImage::find()->joinWith('mount.colour', false, 'INNER JOIN')
+        $list = Mount::find()->joinWith('mount.colour', false, 'INNER JOIN')
             ->where(['frame_id' => $this->frame_id, 'portrait_format_id' => $this->format_id, 'frame_format_id' => $this->frame_format_id])
             ->select([Mount::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
 

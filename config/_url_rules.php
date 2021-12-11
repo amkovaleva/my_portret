@@ -15,8 +15,8 @@ $rules = [
 
     'POST /admin/admin/load-del-modal' => 'admin/admin/load-del-modal',
     'GET /admin' => 'admin/admin/admin',
-    'POST /admin/frame-mount-image/change/<frame_id:\d+>' => 'admin/frame-mount-image/change',
-    'POST /admin/frame-mount-image/validate' => 'admin/frame-mount-image/validate',
+    'POST /admin/mount/change/<frame_id:\d+>' => 'admin/mount/change',
+    'POST /admin/mount/validate' => 'admin/mount/validate',
 ];
 
 $post_actions = array('validate', 'update', 'delete', 'edit');

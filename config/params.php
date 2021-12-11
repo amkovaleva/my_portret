@@ -8,5 +8,5 @@ return [
     'days_for_cart' => 30,
     'max_side_preview_img' => 300,
     'cookie_name' => 'user_cookie',
-    'admin_models' => array('colour', 'format', 'frame', 'frame-mount-image', 'background-colour', 'background-material', 'paint-material', 'portrait-type', 'price', 'count-face'),
+    'admin_models' => array('colour', 'format', 'frame', 'mount', 'background-colour', 'background-material', 'paint-material', 'portrait-type', 'price', 'count-face'),
 ];
