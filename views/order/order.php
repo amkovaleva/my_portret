@@ -20,6 +20,7 @@ $form = ActiveForm::begin([
 <?php } ?>
     <div class="data-container">
         <div id="preview">
+            <?= $form->field($model, 'crop_data')->hiddenInput()->label(false) ?>
             <div id="frame-content" class="no-image <?= $model->frameImageUrl ? 'with-frame' : '' ?>"
                  data-alt="<?= Yii::t('app/orders', 'img_alt') ?>">
                 <div id="upload-content">

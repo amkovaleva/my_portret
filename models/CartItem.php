@@ -26,6 +26,7 @@ class CartItem extends BaseImage
     const DEFAULT_PORTRAIT_COLOUR = 1;
 
     public $frame_format_id;
+    public $crop_data;
 
     // <editor-fold state="collapsed" desc="base model description">
 
@@ -45,7 +46,7 @@ class CartItem extends BaseImage
         return [
             [['portrait_type_id', 'format_id', 'material_id', 'base_id', 'background_color_id',
                 'imageFile', 'cost', 'currency', 'faces_count', 'user_cookie'], 'required'],
-            [['frame_id', 'mount_id', 'frame_format_id'], 'safe'],
+            [['frame_id', 'mount_id', 'frame_format_id', 'crop_data'], 'safe'],
             [['cost', 'faces_count'], 'number'],
             [['currency'], 'string'],
             [['created_at'], 'datetime'],
@@ -127,6 +128,11 @@ class CartItem extends BaseImage
 
     public function getPriceStr(){
         return Price::getPriceStr($this->cost, $this->currency) ;
+    }
+
+    public function getImgName()
+    {
+        return $this->user_cookie . '_' . (!$this->id ? '0' : $this->id);
     }
 
     // </editor-fold>

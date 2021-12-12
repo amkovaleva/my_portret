@@ -298,6 +298,7 @@ form.unbind('submit').bind('submit', (event) => {
         event.stopPropagation();
         return false;
     }
+    getElemByProp('crop_data').val(JSON.stringify(cropData));
 });
 //</editor-fold>
 

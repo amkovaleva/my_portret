@@ -44,7 +44,7 @@ class OrderController extends BaseSiteController
             $model = new CartItem();
 
             if ($this->isModelLoaded($model)) {
-                $save_result = $model->saveWithImage(true, false);
+                $save_result = $model->saveWithImage(true, false, json_decode($model->crop_data));
             }
         }
 

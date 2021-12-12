@@ -71,7 +71,7 @@ class BaseImage extends ActiveRecord
         array_map('unlink', glob($folder . $this->imgName . '_r.*'));
     }
 
-    public function saveWithImage($needPreview = false, $isVertical = true)
+    public function saveWithImage($needPreview = false, $isVertical = true, $cropData = null)
     {
         $image = UploadedFile::getInstance($this, 'image');
         if (isset($image))
@@ -80,12 +80,12 @@ class BaseImage extends ActiveRecord
         $res = $this->save();
 
         if ($res && isset($image))
-            $this->saveImage($image, $isVertical, $needPreview);
+            $this->saveImage($image, $isVertical, $needPreview, $cropData);
 
         return $res;
     }
 
-    public function saveImage($uploadedImage, $isVertical, $needPreview)
+    public function saveImage($uploadedImage, $isVertical, $needPreview, $cropData)
     {
         $imgRes = $uploadedImage->saveAs(static::UPLOAD_FOLDER . $this->imageFile);
 
@@ -96,6 +96,10 @@ class BaseImage extends ActiveRecord
         if(substr_compare($this->imageFile, '.svg', -4) !== 0 ) {
             $image = Image::make($this->fullDir . $this->imageFile);
             $image->orientate();
+
+            if($cropData){
+                $image->crop((int)$cropData->width, (int)$cropData->height, (int)$cropData->x, (int)$cropData->y);
+            }
 
             if ($isVertical && $image->width() > $image->height())
                 $image->rotate(-90);
