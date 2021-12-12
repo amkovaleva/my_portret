@@ -25,38 +25,49 @@ const frameImage = frameContainer.find('img.frame');
 const modal = $('#crop-modal');
 const crop_container = modal.find('.modal-body');
 const originImage = modal.find('img');
-let cropData, cropper, sideSizes;
+let cropData, cropper, sideSizes = [];
 let isPortraitOrientation = true;
 
 const reader = new FileReader();
 
 let setUpFormat = function () {
-    let format = window.frameSizes[getFormatID()];
-    sideSizes = [1 * format.length, 1 * format.width];
+    let format = window.formatSizes[getFormatID()],
+        newSizes = [1 * format.length, 1 * format.width],
+        is_old_format = sideSizes.length && sideSizes[0] === newSizes[0] && sideSizes[1] === newSizes[1];
+
+    sideSizes = newSizes;
+    if (!is_old_format)
+        changeArea();
 };
 
-let setFrameURL = function (url = null) {
-    if (url === null)
-        url = frameImage.attr('src');
+let changeArea = function () {
+    if (fileInput.value) {
+        modal.modal();
+    }
+};
 
-    if (!url) {
+let setFrameURL = function (url = null, needRotate = false) {
+    let old_str = isPortraitOrientation ? '_r.svg' : '.svg',
+        new_str = isPortraitOrientation ? '.svg' : '_r.svg',
+        actual_url = needRotate ? frameImage.attr('src') : url;
+
+    actual_url = actual_url.replace(old_str, new_str);
+    frameImage.attr('src', actual_url);
+
+    if (!actual_url) {
         frameImage.hide();
         frameContainer.removeClass('with-frame').addClass('no-frame');
-    }
-    else {
+    } else {
         frameImage.show();
         frameContainer.addClass('with-frame').removeClass('no-frame');
     }
 
-    let old_str = isPortraitOrientation ? '_r.svg' : '.svg',
-        new_str = isPortraitOrientation ? '.svg' : '_r.svg';
-    frameImage.attr('src', url.replace(old_str, new_str));
+    if (needRotate) // change orientation
+        changeArea();
 };
 
 let loadPhoto = function (src) {
-    originImage.on('load', () => {
-        modal.modal();
-    })
+    originImage.unbind('load').on('load', changeArea)
     originImage.attr('src', src);
 };
 
@@ -70,33 +81,27 @@ $('#clear').click(() => {
     frameContainer.removeClass('with-image').addClass('no-image');
 });
 
-let changeArea = function () {
-    if (fileInput.value) {
-        modal.modal();
-    }
-};
 
 $('#change-orientation').click(() => {
     isPortraitOrientation = !isPortraitOrientation;
-    setFrameURL();
-    changeArea();
+    setFrameURL('', true);
 });
 
 
 $('#change-area').click(changeArea);
 
 let updatePhotoPosition = function () {
-    let frame_format_id = getElemByProp('frame_format_id').val();
+    let frame_format_id = 1 * getElemByProp('frame_format_id').val();
     if (!frame_format_id || !resultImage) {
         return;
     }
 
-    let frame_id = getElemByProp('frame_id').find('input:checked').val(),
+    let frame_id = 1 * getElemByProp('frame_id').find('input:checked').val(),
         f_w = frame_id ? window.frameInfos[frame_id].width * 1 - 0.75 : 0,
         p_h = isPortraitOrientation ? sideSizes[0] : sideSizes[1],
         p_w = isPortraitOrientation ? sideSizes[1] : sideSizes[0],
 
-        frame_format = window.frameSizes[frame_format_id],
+        frame_format = window.formatSizes[frame_format_id],
         frame_sideSizes = [1 * frame_format.length, 1 * frame_format.width],
         f_f_h = isPortraitOrientation ? frame_sideSizes[0] : frame_sideSizes[1],
         f_f_w = isPortraitOrientation ? frame_sideSizes[1] : frame_sideSizes[0],
@@ -133,7 +138,7 @@ modal.on('shown.bs.modal', function () {
     cropData = cropper.getData();
 
     if (!resultImage) {
-        resultImage = $('<img>').addClass('result');
+        resultImage = $('<img alt="' + frameContainer.attr('data-alt') + '">').addClass('result');
         frameContainer.prepend(resultImage);
     }
 
@@ -284,7 +289,6 @@ let init_change_action = () => {
     $('[role=radiogroup]').each((index, radio_group) => {
         change_active_in_group($(radio_group));
     });
-    getElemByProp('format_id').change(changeArea);
 };
 
 form.unbind('submit').bind('submit', (event) => {
