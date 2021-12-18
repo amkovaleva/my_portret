@@ -6,10 +6,10 @@ return [
     'base' => 'Основа',
     'format' => 'Формат',
     'faces_count' => 'Кол-во лиц',
-    'frame_format' => 'Формат рамки',
-    'no_frame' => 'Без рамки',
-    'frame' => 'Рамка',
-    'frame_colour' => 'Цвет рамки',
+    'frame_format' => 'Формат рамы',
+    'no_frame' => 'Без рамы',
+    'frame' => 'Рама',
+    'frame_colour' => 'Цвет рамы',
     'mount' => 'Цвет паспарту',
     'background_color' => 'Цвет фона',
     'cost' => 'Стоимость',
@@ -44,8 +44,8 @@ return [
 
     'clear' => 'Очистить',
     'change_orientation' => 'Изменить ориентацию',
-    'change_area' => 'Изменить обасть фото',
+    'change_area' => 'Изменить область фото',
 
-    'cropper_title' => 'Выберите обасть фото',
+    'cropper_title' => 'Выберите область фото',
     'cropper_apply' => 'Применить',
 ];
