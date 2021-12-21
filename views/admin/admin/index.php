@@ -2,23 +2,32 @@
 
 use yii\helpers\Url;
 
-$models = Yii::$app->params['admin_models'];
+$cats = Yii::$app->params['admin_models'];
 $text_go = Yii::t('admin/base', 'text_go')
 ?>
 
 <h1>Тут будет информация о заказах, а пока...</h1>
 
 <div class="row m-4">
-    <?php foreach ($models as $key => &$model_name) {
-        $dir = 'admin/' . $model_name . 's';
-        $title = Yii::t($dir, 'title');
-        $description = Yii::t($dir, 'description');
-        $url = Url::to('/' . $dir);
+    <?php $ind = 0;
+    foreach ($cats
 
-        if ($key % 2 == 0){ ?>
+    as $key => &$cat) {
+    foreach ($cat
+
+    as $key => &$model_name){
+
+    $dir = 'admin/' . $model_name . 's';
+    $title = Yii::t($dir, 'title');
+    $description = Yii::t($dir, 'description');
+    $url = Url::to('/' . $dir);
+
+    if ($ind % 2 == 0){
+    ?>
+
 </div>
 <div class="row m-4">
-        <?php } ?>
+    <?php } ?>
     <div class="col-lg-6">
         <div class="card">
             <div class="card-body">
@@ -28,5 +37,8 @@ $text_go = Yii::t('admin/base', 'text_go')
             </div>
         </div>
     </div>
-    <?php } ?>
+    <?php
+    $ind++;
+    }
+    } ?>
 </div>

@@ -1,7 +1,7 @@
 <?= $this->render('/admin/partials/_index', [
     'model' => $model,
-    'model_name' => 'colour',
+    'model_name' => 'cancel-reason',
     'dataProvider' => $dataProvider,
     'searchModel' => $searchModel,
-    'columns' => [ 'name',  'name_en',  'code']
+    'columns' => ['name','description', 'description_en']
 ]) ?>

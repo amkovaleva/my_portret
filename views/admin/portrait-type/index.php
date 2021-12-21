@@ -2,5 +2,6 @@
     'model' => $model,
     'model_name' => 'portrait-type',
     'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel
+    'searchModel' => $searchModel,
+    'columns' => [ 'name',  'name_en']
 ]) ?>

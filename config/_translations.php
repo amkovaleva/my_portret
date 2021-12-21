@@ -4,8 +4,9 @@ $fileMap = [
 ];
 
 
-foreach ($params['admin_models'] as &$model_name)
-    $fileMap['app/'.$model_name] = $model_name . '.php';
+foreach ($params['admin_models'] as &$cat)
+    foreach ($cat as &$model_name)
+        $fileMap['app/'.$model_name] = $model_name . '.php';
 
 return [
     'category' => [

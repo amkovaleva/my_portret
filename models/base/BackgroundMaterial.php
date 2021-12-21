@@ -3,9 +3,8 @@
 namespace app\models\base;
 
 use Yii;
-use yii\db\ActiveRecord;
 
-class BackgroundMaterial extends ActiveRecord
+class BackgroundMaterial extends BaseTranslation
 {
     /**
      * @return string the name of the table associated with this ActiveRecord class.
@@ -18,8 +17,9 @@ class BackgroundMaterial extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'is_mount'], 'required'],
+            [['name', 'is_mount', 'name_en'], 'required'],
             ['name', 'unique'],
+            ['name_en', 'unique'],
             ['is_mount', 'boolean']
         ];
     }
@@ -30,6 +30,7 @@ class BackgroundMaterial extends ActiveRecord
         return [
             'id' => Yii::t($lan_dir, 'id'),
             'name' => Yii::t($lan_dir, 'name'),
+            'name_en' => Yii::t($lan_dir, 'name_en'),
             'is_mount' => Yii::t($lan_dir, 'is_mount')
         ];
     }

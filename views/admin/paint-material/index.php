@@ -2,6 +2,7 @@
     'model' => $model,
     'model_name' => 'paint-material',
     'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel
+    'searchModel' => $searchModel,
+    'columns' => [ 'name',  'name_en']
 ]) ?>
 

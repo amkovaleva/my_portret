@@ -3,9 +3,8 @@
 namespace app\models\base;
 
 use Yii;
-use yii\db\ActiveRecord;
 
-class PortraitType extends ActiveRecord
+class PortraitType extends BaseTranslation
 {
     /**
      * @return string the name of the table associated with this ActiveRecord class.
@@ -18,8 +17,9 @@ class PortraitType extends ActiveRecord
     public function rules()
     {
         return [
-            ['name', 'required'],
-            ['name', 'unique']
+            [['name', 'name_en'], 'required'],
+            ['name', 'unique'],
+            ['name_en', 'unique']
         ];
     }
 
@@ -28,7 +28,8 @@ class PortraitType extends ActiveRecord
         $lan_dir = 'admin/portrait-types';
         return [
             'id' => Yii::t($lan_dir, 'id'),
-            'name' => Yii::t($lan_dir, 'name')
+            'name' => Yii::t($lan_dir, 'name'),
+            'name_en' => Yii::t($lan_dir, 'name_en')
         ];
     }
 

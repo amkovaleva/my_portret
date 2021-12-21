@@ -2,7 +2,6 @@
 
 namespace app\models\base;
 
-use Exception;
 use Intervention\Image\ImageManagerStatic as Image;
 use Yii;
 use yii\db\ActiveRecord;

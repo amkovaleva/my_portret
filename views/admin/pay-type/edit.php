@@ -1,5 +1,5 @@
 <?= $this->render('/admin/partials/_edit', [
     'model' => $model,
-    'model_name' =>  'paint-material',
+    'model_name' =>  'pay-type',
     'default' => false,
 ]) ?>

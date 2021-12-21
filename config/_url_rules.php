@@ -21,14 +21,16 @@ $rules = [
 
 $post_actions = array('validate', 'update', 'delete', 'edit');
 
-foreach ($params['admin_models'] as &$model_name) {
-    $model_base_url = 'admin/'. $model_name;
+foreach ($params['admin_models'] as &$cat) {
 
-    $rules['GET /' . $model_base_url .'s'] = $model_base_url. '/index';
+    foreach ($cat as &$model_name) {
+        $model_base_url = 'admin/' . $model_name;
 
-    foreach ($post_actions as &$action)
-        $rules['POST ' . $model_base_url .'/'. $action. '/<id:\d+>'] = $model_base_url. '/'. $action;
+        $rules['GET /' . $model_base_url . 's'] = $model_base_url . '/index';
 
+        foreach ($post_actions as &$action)
+            $rules['POST ' . $model_base_url . '/' . $action . '/<id:\d+>'] = $model_base_url . '/' . $action;
+    }
 }
 
 return $rules;

@@ -16,9 +16,7 @@ use app\models\base\Price;
 use Yii;
 use yii\helpers\ArrayHelper;
 
-/**
- * ContactForm is the model behind the contact form.
- */
+
 class CartItem extends BaseImage
 {
     const UPLOAD_FOLDER = 'uploads/orders/';
@@ -222,7 +220,7 @@ class CartItem extends BaseImage
 
     public function getAvailablePortraitTypes()
     {
-        $list = PortraitType::find()->joinWith('prices', false, 'INNER JOIN')->asArray()->all();
+        $list = PortraitType::find()->joinWith('prices', false, 'INNER JOIN')->all();
         return $this->translateList($list);
     }
 
@@ -232,7 +230,7 @@ class CartItem extends BaseImage
         $list = PaintMaterial::find()->joinWith('prices', false, 'INNER JOIN')
             ->where([
                 'prices.portrait_type_id' => $this->portrait_type_id,
-            ])->asArray()->all();
+            ])->all();
 
         return $this->translateList($list);
     }
@@ -244,7 +242,7 @@ class CartItem extends BaseImage
             ->where([
                 'prices.portrait_type_id' => $this->portrait_type_id,
                 'prices.paint_material_id' => $this->material_id,
-            ])->asArray()->all();
+            ])->all();
 
         return $this->translateList($list);
     }
@@ -252,7 +250,7 @@ class CartItem extends BaseImage
     private  function translateList($list){
         $res = [];
         foreach ($list as &$item)
-            $res[$item['id']] =  Yii::t('app/orders', $item['name']);
+            $res[$item->id] = $item->transName;
         return $res;
     }
 

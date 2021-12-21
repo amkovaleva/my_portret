@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 29, 2021 at 01:57 PM
+-- Generation Time: Dec 21, 2021 at 09:52 PM
 -- Server version: 5.7.36-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.10
 
@@ -40,7 +40,7 @@ CREATE TABLE `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('admin', '1', 1638032604);
+('admin', '1', 1638292796);
 
 -- --------------------------------------------------------
 
@@ -64,8 +64,8 @@ CREATE TABLE `auth_item` (
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
-('admin', 1, 'Administrator', NULL, NULL, 1638032604, 1638032604),
-('user-management', 2, 'User Management', NULL, NULL, 1638032604, 1638032604);
+('admin', 1, 'Administrator', NULL, NULL, 1638292795, 1638292795),
+('user-management', 2, 'User Management', NULL, NULL, 1638292795, 1638292795);
 
 -- --------------------------------------------------------
 
@@ -131,16 +131,71 @@ DROP TABLE IF EXISTS `bg_materials`;
 CREATE TABLE `bg_materials` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Бумага',
-  `is_mount` tinyint(1) NOT NULL DEFAULT '1'
+  `is_mount` tinyint(1) NOT NULL DEFAULT '1',
+  `name_en` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Paper'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `bg_materials`
 --
 
-INSERT INTO `bg_materials` (`id`, `name`, `is_mount`) VALUES
-(1, 'Бумага', 1),
-(2, 'Холст', 0);
+INSERT INTO `bg_materials` (`id`, `name`, `is_mount`, `name_en`) VALUES
+(1, 'Бумага', 1, 'Paper'),
+(2, 'Холст', 0, 'Canvas');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cancel_reasons`
+--
+
+DROP TABLE IF EXISTS `cancel_reasons`;
+CREATE TABLE `cancel_reasons` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `description` text COLLATE utf8_bin NOT NULL,
+  `description_en` text COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `cancel_reasons`
+--
+
+INSERT INTO `cancel_reasons` (`id`, `name`, `description`, `description_en`) VALUES
+(1, 'Плохое фото', 'Вы прислали фото недостаточно хорошего качества', 'You send photo with not good enough quality');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart_items`
+--
+
+DROP TABLE IF EXISTS `cart_items`;
+CREATE TABLE `cart_items` (
+  `id` int(11) NOT NULL,
+  `portrait_type_id` int(11) NOT NULL DEFAULT '1',
+  `format_id` int(11) NOT NULL DEFAULT '1',
+  `material_id` int(11) NOT NULL DEFAULT '1',
+  `base_id` int(11) NOT NULL DEFAULT '1',
+  `frame_id` int(11) DEFAULT NULL,
+  `faces_count` smallint(2) NOT NULL DEFAULT '1',
+  `mount_id` int(11) DEFAULT NULL,
+  `background_color_id` int(11) NOT NULL DEFAULT '1',
+  `imageFile` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `cost` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `currency` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'ru',
+  `user_cookie` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `cart_items`
+--
+
+INSERT INTO `cart_items` (`id`, `portrait_type_id`, `format_id`, `material_id`, `base_id`, `frame_id`, `faces_count`, `mount_id`, `background_color_id`, `imageFile`, `cost`, `currency`, `user_cookie`, `created_at`) VALUES
+(78, 1, 1, 1, 1, 4, 1, 2, 1, '32d9bca5746a8f665c3197bee6e3b161_78.png', '16000.00', 'ru', '32d9bca5746a8f665c3197bee6e3b161', '2021-12-12 19:05:53'),
+(79, 2, 1, 1, 1, 4, 1, 2, 1, '32d9bca5746a8f665c3197bee6e3b161_79.png', '10000.00', 'ru', '32d9bca5746a8f665c3197bee6e3b161', '2021-12-12 19:06:13'),
+(80, 2, 1, 1, 1, 4, 1, 2, 1, '32d9bca5746a8f665c3197bee6e3b161_80.jpg', '10000.00', 'ru', '32d9bca5746a8f665c3197bee6e3b161', '2021-12-14 11:52:22');
 
 -- --------------------------------------------------------
 
@@ -152,18 +207,19 @@ DROP TABLE IF EXISTS `colours`;
 CREATE TABLE `colours` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Белый',
-  `code` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '#fff'
+  `code` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '#fff',
+  `name_en` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'White'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `colours`
 --
 
-INSERT INTO `colours` (`id`, `name`, `code`) VALUES
-(1, 'Белый', '#fff'),
-(2, 'Черный', '#000'),
-(3, 'Светло-серый', '#ECECEC '),
-(4, 'Темно-серый', '#4F4F4F');
+INSERT INTO `colours` (`id`, `name`, `code`, `name_en`) VALUES
+(1, 'Белый', '#fff', 'White'),
+(2, 'Черный', '#000', 'Black'),
+(3, 'Светло-серый', '#ECECEC ', 'Light gray'),
+(4, 'Темно-серый', '#4F4F4F', 'Dark grey');
 
 -- --------------------------------------------------------
 
@@ -188,6 +244,29 @@ INSERT INTO `count_faces` (`id`, `min`, `max`, `coefficient`) VALUES
 (2, 2, 2, '1.50'),
 (3, 3, 3, '1.80'),
 (4, 4, 4, '2.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `delivery_types`
+--
+
+DROP TABLE IF EXISTS `delivery_types`;
+CREATE TABLE `delivery_types` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name_en` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `for_ru` tinyint(1) DEFAULT '1',
+  `for_not_ru` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `delivery_types`
+--
+
+INSERT INTO `delivery_types` (`id`, `name`, `name_en`, `for_ru`, `for_not_ru`) VALUES
+(1, 'Почта России', 'Russia mail', 1, 1),
+(2, 'SDEC', 'SDEC', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -247,35 +326,6 @@ INSERT INTO `frames` (`id`, `colour_id`, `format_id`, `width`, `name`, `imageFil
 -- --------------------------------------------------------
 
 --
--- Table structure for table `frame_mount_images`
---
-
-DROP TABLE IF EXISTS `frame_mount_images`;
-CREATE TABLE `frame_mount_images` (
-  `id` int(11) NOT NULL,
-  `mount_id` int(11) NOT NULL DEFAULT '1',
-  `frame_id` int(11) NOT NULL DEFAULT '1',
-  `imageFile` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Dumping data for table `frame_mount_images`
---
-
-INSERT INTO `frame_mount_images` (`id`, `mount_id`, `frame_id`, `imageFile`) VALUES
-(1, 1, 3, '3_1.svg'),
-(2, 1, 4, '4_1.svg'),
-(3, 2, 4, '4_2.svg'),
-(4, 3, 5, '5_3.svg'),
-(5, 3, 6, '6_3.svg'),
-(6, 4, 6, '6_4.svg'),
-(7, 5, 7, '7_5.svg'),
-(8, 5, 8, '8_5.svg'),
-(9, 6, 8, '8_6.svg');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `migration`
 --
 
@@ -290,27 +340,30 @@ CREATE TABLE `migration` (
 --
 
 INSERT INTO `migration` (`version`, `apply_time`) VALUES
-('Da\\User\\Migration\\m000000_000001_create_user_table', 1638032583),
-('Da\\User\\Migration\\m000000_000002_create_profile_table', 1638032583),
-('Da\\User\\Migration\\m000000_000003_create_social_account_table', 1638032583),
-('Da\\User\\Migration\\m000000_000004_create_token_table', 1638032583),
-('Da\\User\\Migration\\m000000_000005_add_last_login_at', 1638032583),
-('Da\\User\\Migration\\m000000_000006_add_two_factor_fields', 1638032583),
-('Da\\User\\Migration\\m000000_000007_enable_password_expiration', 1638032583),
-('Da\\User\\Migration\\m000000_000008_add_last_login_ip', 1638032583),
-('Da\\User\\Migration\\m000000_000009_add_gdpr_consent_fields', 1638032584),
-('m000000_000000_base', 1638032581),
-('m140506_102106_rbac_init', 1638032594),
-('m170907_052038_rbac_add_index_on_auth_assignment_user_id', 1638032594),
-('m180523_151638_rbac_updates_indexes_without_prefix', 1638032594),
-('m200409_110543_rbac_update_mssql_trigger', 1638032594),
-('m211108_121706_create_formats_table', 1638032584),
-('m211108_122916_create_frames_table', 1638032584),
-('m211108_132404_create_mounts_table', 1638032584),
-('m211108_134457_create_types_table', 1638032584),
-('m211114_182855_add_admin_user', 1638032604),
-('m211123_100125_create_count_faces_table', 1638032604),
-('m211123_194014_create_orders_table', 1638032604);
+('Da\\User\\Migration\\m000000_000001_create_user_table', 1638292781),
+('Da\\User\\Migration\\m000000_000002_create_profile_table', 1638292781),
+('Da\\User\\Migration\\m000000_000003_create_social_account_table', 1638292781),
+('Da\\User\\Migration\\m000000_000004_create_token_table', 1638292781),
+('Da\\User\\Migration\\m000000_000005_add_last_login_at', 1638292781),
+('Da\\User\\Migration\\m000000_000006_add_two_factor_fields', 1638292781),
+('Da\\User\\Migration\\m000000_000007_enable_password_expiration', 1638292781),
+('Da\\User\\Migration\\m000000_000008_add_last_login_ip', 1638292781),
+('Da\\User\\Migration\\m000000_000009_add_gdpr_consent_fields', 1638292781),
+('m000000_000000_base', 1638292779),
+('m140506_102106_rbac_init', 1638292789),
+('m170907_052038_rbac_add_index_on_auth_assignment_user_id', 1638292789),
+('m180523_151638_rbac_updates_indexes_without_prefix', 1638292789),
+('m200409_110543_rbac_update_mssql_trigger', 1638292789),
+('m211108_121706_create_formats_table', 1638292781),
+('m211108_122916_create_frames_table', 1638292781),
+('m211108_132404_create_mounts_table', 1638292782),
+('m211108_134457_create_types_table', 1638292782),
+('m211114_182855_add_admin_user', 1638292796),
+('m211123_100125_create_count_faces_table', 1638292796),
+('m211123_194014_create_cart_items_table', 1638292796),
+('m211211_090933_change_mount_table', 1639215504),
+('m211213_173146_change_order_table', 1640112329),
+('m211221_143200_add_translation_to_tables', 1640112329);
 
 -- --------------------------------------------------------
 
@@ -321,24 +374,26 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 DROP TABLE IF EXISTS `mounts`;
 CREATE TABLE `mounts` (
   `id` int(11) NOT NULL,
-  `colour_id` int(11) NOT NULL DEFAULT '1',
-  `portrait_format_id` int(11) NOT NULL DEFAULT '1',
-  `frame_format_id` int(11) NOT NULL DEFAULT '1',
-  `add_length` decimal(5,2) NOT NULL DEFAULT '1.00',
-  `add_width` decimal(5,2) NOT NULL DEFAULT '1.00'
+  `frame_id` int(11) NOT NULL DEFAULT '1',
+  `imageFile` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `portrait_format_id` int(11) NOT NULL,
+  `colour_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `mounts`
 --
 
-INSERT INTO `mounts` (`id`, `colour_id`, `portrait_format_id`, `frame_format_id`, `add_length`, `add_width`) VALUES
-(1, 1, 1, 2, '5.00', '4.50'),
-(2, 2, 1, 2, '5.00', '4.50'),
-(3, 1, 2, 3, '5.00', '5.00'),
-(4, 2, 2, 3, '5.00', '5.00'),
-(5, 1, 3, 4, '10.00', '5.00'),
-(6, 2, 3, 4, '10.00', '5.00');
+INSERT INTO `mounts` (`id`, `frame_id`, `imageFile`, `portrait_format_id`, `colour_id`) VALUES
+(1, 3, '1.svg', 1, 1),
+(2, 4, '2.svg', 1, 1),
+(3, 4, '3.svg', 1, 2),
+(4, 5, '4.svg', 2, 1),
+(5, 6, '5.svg', 2, 1),
+(6, 6, '6.svg', 2, 2),
+(7, 7, '7.svg', 3, 1),
+(8, 8, '8.svg', 3, 1),
+(9, 8, '9.svg', 3, 2);
 
 -- --------------------------------------------------------
 
@@ -349,17 +404,26 @@ INSERT INTO `mounts` (`id`, `colour_id`, `portrait_format_id`, `frame_format_id`
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
-  `portrait_type_id` int(11) NOT NULL DEFAULT '1',
-  `format_id` int(11) NOT NULL DEFAULT '1',
-  `material_id` int(11) NOT NULL DEFAULT '1',
-  `base_id` int(11) NOT NULL DEFAULT '1',
-  `frame_id` int(11) DEFAULT NULL,
-  `faces_count` smallint(2) NOT NULL DEFAULT '1',
-  `mount_id` int(11) DEFAULT NULL,
-  `background_color_id` int(11) NOT NULL DEFAULT '1',
-  `imageFile` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `pay_type_id` int(11) NOT NULL DEFAULT '1',
+  `delivery_type_id` int(11) NOT NULL DEFAULT '1',
+  `state` int(11) NOT NULL DEFAULT '1',
+  `fio` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `email` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `index` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `country` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `address` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `phone` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `user_comment` text COLLATE utf8_bin,
+  `track_info` text COLLATE utf8_bin,
+  `cancel_reason_id` int(11) DEFAULT NULL,
+  `shop_comment` text COLLATE utf8_bin,
+  `feedback` text COLLATE utf8_bin,
   `cost` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `currency` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'ru'
+  `cost_usd` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `cost_eur` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `language` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'ru',
+  `user_cookie` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -371,16 +435,42 @@ CREATE TABLE `orders` (
 DROP TABLE IF EXISTS `paint_materials`;
 CREATE TABLE `paint_materials` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Карандаш'
+  `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Карандаш',
+  `name_en` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Pencil'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `paint_materials`
 --
 
-INSERT INTO `paint_materials` (`id`, `name`) VALUES
-(1, 'Карандаш'),
-(2, 'Масло');
+INSERT INTO `paint_materials` (`id`, `name`, `name_en`) VALUES
+(1, 'Карандаш', 'Pencil'),
+(2, 'Масло', 'Oil');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pay_types`
+--
+
+DROP TABLE IF EXISTS `pay_types`;
+CREATE TABLE `pay_types` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name_en` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `description` text COLLATE utf8_bin NOT NULL,
+  `description_en` text COLLATE utf8_bin NOT NULL,
+  `for_ru` tinyint(1) DEFAULT '1',
+  `for_not_ru` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `pay_types`
+--
+
+INSERT INTO `pay_types` (`id`, `name`, `name_en`, `description`, `description_en`, `for_ru`, `for_not_ru`) VALUES
+(1, 'Карта Сбербанк', 'Sberbank card', 'Для оплаты переведите деньги на карту', 'For payment transfer money on card with number', 1, 0),
+(2, 'Перевод на счет', 'Transfer on bank account', 'Для оплаты переведите деньги на счет по реквизитам', 'For payment transfer money on account number', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -391,17 +481,18 @@ INSERT INTO `paint_materials` (`id`, `name`) VALUES
 DROP TABLE IF EXISTS `portrait_types`;
 CREATE TABLE `portrait_types` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Портрет'
+  `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Портрет',
+  `name_en` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Hyperrealism'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `portrait_types`
 --
 
-INSERT INTO `portrait_types` (`id`, `name`) VALUES
-(1, 'Гиперреализм'),
-(3, 'Набросок'),
-(2, 'Фотореализм');
+INSERT INTO `portrait_types` (`id`, `name`, `name_en`) VALUES
+(1, 'Гиперреализм', 'Hyperrealism'),
+(2, 'Фотореализм', 'Photorealism'),
+(3, 'Набросок', 'Sketch');
 
 -- --------------------------------------------------------
 
@@ -543,7 +634,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `auth_key`, `unconfirmed_email`, `registration_ip`, `flags`, `confirmed_at`, `blocked_at`, `updated_at`, `created_at`, `last_login_at`, `last_login_ip`, `auth_tf_key`, `auth_tf_enabled`, `password_changed_at`, `gdpr_consent`, `gdpr_consent_date`, `gdpr_deleted`) VALUES
-(1, 'admin', 'email@example.com', '$2y$10$50ko5EW89GIjSAEh.u.SZ.G35NPXEIUnzx6zqgGTq9MxnUE9ivGVy', '9TVSj-Dnrz4HV1CEYhhYY9F-t4ywsIk-', NULL, NULL, 0, 1638032604, NULL, 1638032604, 1638032604, 1638124555, '::1', '', 0, 1638032604, 0, NULL, 0);
+(1, 'admin', 'email@example.com', '$2y$10$VR2yK3how4haEQ5J81rJvOj/WgaJeRNc.uVujoqK2gSYn88TDpAk2', 'mmw00DtK1sZAO83yuXXpsWkyz3ISHVIO', NULL, NULL, 0, 1638292795, NULL, 1638292796, 1638292796, 1640109018, '::1', '', 0, 1638292796, 0, NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -589,7 +680,28 @@ ALTER TABLE `background_colors`
 --
 ALTER TABLE `bg_materials`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
+  ADD UNIQUE KEY `name_en` (`name_en`);
+
+--
+-- Indexes for table `cancel_reasons`
+--
+ALTER TABLE `cancel_reasons`
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `cart_items`
+--
+ALTER TABLE `cart_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk-cart_items-background_color_id` (`background_color_id`),
+  ADD KEY `fk-cart_items-frame_id` (`frame_id`),
+  ADD KEY `fk-cart_items-base_id` (`base_id`),
+  ADD KEY `fk-cart_items-material_id` (`material_id`),
+  ADD KEY `fk-cart_items-portrait_type_id` (`portrait_type_id`),
+  ADD KEY `fk-cart_items-format_id` (`format_id`),
+  ADD KEY `fk-cart_items-mount_id` (`mount_id`);
 
 --
 -- Indexes for table `colours`
@@ -597,13 +709,21 @@ ALTER TABLE `bg_materials`
 ALTER TABLE `colours`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`),
-  ADD UNIQUE KEY `code` (`code`);
+  ADD UNIQUE KEY `code` (`code`),
+  ADD UNIQUE KEY `name_en` (`name_en`);
 
 --
 -- Indexes for table `count_faces`
 --
 ALTER TABLE `count_faces`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `delivery_types`
+--
+ALTER TABLE `delivery_types`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `formats`
@@ -623,14 +743,6 @@ ALTER TABLE `frames`
   ADD KEY `fk-frames-format_id` (`format_id`);
 
 --
--- Indexes for table `frame_mount_images`
---
-ALTER TABLE `frame_mount_images`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `ind-frame_mount_images-unique` (`mount_id`,`frame_id`),
-  ADD KEY `fk-frame_mount_images-frame_id` (`frame_id`);
-
---
 -- Indexes for table `migration`
 --
 ALTER TABLE `migration`
@@ -641,27 +753,31 @@ ALTER TABLE `migration`
 --
 ALTER TABLE `mounts`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `ind-mounts-unique` (`colour_id`,`portrait_format_id`,`frame_format_id`),
-  ADD KEY `fk-mounts-format_id` (`portrait_format_id`),
-  ADD KEY `fk-mounts-frame_format_id` (`frame_format_id`);
+  ADD UNIQUE KEY `ind-frame_mount_images-unique` (`portrait_format_id`,`colour_id`,`frame_id`),
+  ADD KEY `fk-frame_mount_images-colour_id` (`colour_id`),
+  ADD KEY `fk-frame_mount_images-frame_id` (`frame_id`);
 
 --
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk-orders-background_color_id` (`background_color_id`),
-  ADD KEY `fk-orders-mount_id` (`mount_id`),
-  ADD KEY `fk-orders-frame_id` (`frame_id`),
-  ADD KEY `fk-orders-base_id` (`base_id`),
-  ADD KEY `fk-orders-material_id` (`material_id`),
-  ADD KEY `fk-orders-portrait_type_id` (`portrait_type_id`),
-  ADD KEY `fk-orders-format_id` (`format_id`);
+  ADD KEY `fk-orders-cancel_reason_id` (`cancel_reason_id`),
+  ADD KEY `fk-orders-pay_type_id` (`pay_type_id`),
+  ADD KEY `fk-orders-delivery_type_id` (`delivery_type_id`);
 
 --
 -- Indexes for table `paint_materials`
 --
 ALTER TABLE `paint_materials`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
+  ADD UNIQUE KEY `name_en` (`name_en`);
+
+--
+-- Indexes for table `pay_types`
+--
+ALTER TABLE `pay_types`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
 
@@ -670,7 +786,8 @@ ALTER TABLE `paint_materials`
 --
 ALTER TABLE `portrait_types`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
+  ADD UNIQUE KEY `name` (`name`),
+  ADD UNIQUE KEY `name_en` (`name_en`);
 
 --
 -- Indexes for table `prices`
@@ -726,6 +843,16 @@ ALTER TABLE `background_colors`
 ALTER TABLE `bg_materials`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
+-- AUTO_INCREMENT for table `cancel_reasons`
+--
+ALTER TABLE `cancel_reasons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `cart_items`
+--
+ALTER TABLE `cart_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+--
 -- AUTO_INCREMENT for table `colours`
 --
 ALTER TABLE `colours`
@@ -735,6 +862,11 @@ ALTER TABLE `colours`
 --
 ALTER TABLE `count_faces`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `delivery_types`
+--
+ALTER TABLE `delivery_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `formats`
 --
@@ -746,15 +878,10 @@ ALTER TABLE `formats`
 ALTER TABLE `frames`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT for table `frame_mount_images`
---
-ALTER TABLE `frame_mount_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
---
 -- AUTO_INCREMENT for table `mounts`
 --
 ALTER TABLE `mounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `orders`
 --
@@ -764,6 +891,11 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `paint_materials`
 --
 ALTER TABLE `paint_materials`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `pay_types`
+--
+ALTER TABLE `pay_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `portrait_types`
@@ -815,6 +947,18 @@ ALTER TABLE `background_colors`
   ADD CONSTRAINT `fk-background_colors-colour_id` FOREIGN KEY (`colour_id`) REFERENCES `colours` (`id`);
 
 --
+-- Constraints for table `cart_items`
+--
+ALTER TABLE `cart_items`
+  ADD CONSTRAINT `fk-cart_items-background_color_id` FOREIGN KEY (`background_color_id`) REFERENCES `background_colors` (`id`),
+  ADD CONSTRAINT `fk-cart_items-base_id` FOREIGN KEY (`base_id`) REFERENCES `bg_materials` (`id`),
+  ADD CONSTRAINT `fk-cart_items-format_id` FOREIGN KEY (`format_id`) REFERENCES `formats` (`id`),
+  ADD CONSTRAINT `fk-cart_items-frame_id` FOREIGN KEY (`frame_id`) REFERENCES `frames` (`id`),
+  ADD CONSTRAINT `fk-cart_items-material_id` FOREIGN KEY (`material_id`) REFERENCES `paint_materials` (`id`),
+  ADD CONSTRAINT `fk-cart_items-mount_id` FOREIGN KEY (`mount_id`) REFERENCES `mounts` (`id`),
+  ADD CONSTRAINT `fk-cart_items-portrait_type_id` FOREIGN KEY (`portrait_type_id`) REFERENCES `portrait_types` (`id`);
+
+--
 -- Constraints for table `frames`
 --
 ALTER TABLE `frames`
@@ -822,31 +966,20 @@ ALTER TABLE `frames`
   ADD CONSTRAINT `fk-frames-format_id` FOREIGN KEY (`format_id`) REFERENCES `formats` (`id`);
 
 --
--- Constraints for table `frame_mount_images`
---
-ALTER TABLE `frame_mount_images`
-  ADD CONSTRAINT `fk-frame_mount_images-frame_id` FOREIGN KEY (`frame_id`) REFERENCES `frames` (`id`),
-  ADD CONSTRAINT `fk-frame_mount_images-mount_id` FOREIGN KEY (`mount_id`) REFERENCES `mounts` (`id`);
-
---
 -- Constraints for table `mounts`
 --
 ALTER TABLE `mounts`
-  ADD CONSTRAINT `fk-mounts-colour_id` FOREIGN KEY (`colour_id`) REFERENCES `colours` (`id`),
-  ADD CONSTRAINT `fk-mounts-format_id` FOREIGN KEY (`portrait_format_id`) REFERENCES `formats` (`id`),
-  ADD CONSTRAINT `fk-mounts-frame_format_id` FOREIGN KEY (`frame_format_id`) REFERENCES `formats` (`id`);
+  ADD CONSTRAINT `fk-frame_mount_images-colour_id` FOREIGN KEY (`colour_id`) REFERENCES `colours` (`id`),
+  ADD CONSTRAINT `fk-frame_mount_images-frame_id` FOREIGN KEY (`frame_id`) REFERENCES `frames` (`id`),
+  ADD CONSTRAINT `fk-frame_mount_images-portrait_format_id` FOREIGN KEY (`portrait_format_id`) REFERENCES `formats` (`id`);
 
 --
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `fk-orders-background_color_id` FOREIGN KEY (`background_color_id`) REFERENCES `background_colors` (`id`),
-  ADD CONSTRAINT `fk-orders-base_id` FOREIGN KEY (`base_id`) REFERENCES `bg_materials` (`id`),
-  ADD CONSTRAINT `fk-orders-format_id` FOREIGN KEY (`format_id`) REFERENCES `formats` (`id`),
-  ADD CONSTRAINT `fk-orders-frame_id` FOREIGN KEY (`frame_id`) REFERENCES `frames` (`id`),
-  ADD CONSTRAINT `fk-orders-material_id` FOREIGN KEY (`material_id`) REFERENCES `paint_materials` (`id`),
-  ADD CONSTRAINT `fk-orders-mount_id` FOREIGN KEY (`mount_id`) REFERENCES `mounts` (`id`),
-  ADD CONSTRAINT `fk-orders-portrait_type_id` FOREIGN KEY (`portrait_type_id`) REFERENCES `portrait_types` (`id`);
+  ADD CONSTRAINT `fk-orders-cancel_reason_id` FOREIGN KEY (`cancel_reason_id`) REFERENCES `cancel_reasons` (`id`),
+  ADD CONSTRAINT `fk-orders-delivery_type_id` FOREIGN KEY (`delivery_type_id`) REFERENCES `delivery_types` (`id`),
+  ADD CONSTRAINT `fk-orders-pay_type_id` FOREIGN KEY (`pay_type_id`) REFERENCES `pay_types` (`id`);
 
 --
 -- Constraints for table `prices`

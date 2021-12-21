@@ -31,38 +31,38 @@ AdminAsset::register($this);
 <header>
     <?php
     NavBar::begin([
-        'brandLabel' =>  Yii::t('admin/base', 'admin_title'),
+        'brandLabel' => Yii::t('admin/base', 'admin_title'),
         'brandUrl' => Url::to('/admin'),
         'options' => [
             'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
         ],
     ]);
-    $models = Yii::$app->params['admin_models'];
-    $subMenus = array();
-
-    foreach ($models as &$model_name){
-        $dir = 'admin/'.$model_name . 's';
-        $subMenus[] =  ['label' => Yii::t($dir, 'title'), 'url' => Url::to('/'.$dir)];
+    $cats = Yii::$app->params['admin_models'];
+    $items = [];
+    foreach ($cats as $key => &$cat) {
+        $subMenus = [];
+        foreach ($cat as &$model_name) {
+            $dir = 'admin/' . $model_name . 's';
+            $subMenus[] = ['label' => Yii::t($dir, 'title'), 'url' => Url::to('/' . $dir)];
+        }
+        $items[] = ['label' => Yii::t('admin/base', $key), 'items' => $subMenus];
     }
+    $items[] = Yii::$app->user->isGuest ?
+        ['label' => Yii::t('usuario', 'Login'), 'url' => ['/user/login']]
+        : (
+            '<li>'
+            . Html::beginForm(['/user/logout'], 'post')
+            . Html::submitButton(
+                Yii::t('usuario', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-link logout']
+            )
+            . Html::endForm()
+            . '</li>'
+        );
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
-        'items' => [
-
-            ['label' => Yii::t('admin/base', 'settings'), 'items' => $subMenus],
-            Yii::$app->user->isGuest ? (
-            ['label' => Yii::t('usuario', 'Login'), 'url' => ['/user/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/user/logout'], 'post')
-                . Html::submitButton(
-                    Yii::t('usuario', 'Logout') .' (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            ),
-        ],
+        'items' => $items,
     ]);
     NavBar::end();
     ?>
