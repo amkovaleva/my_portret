@@ -1,14 +1,14 @@
 <?php
 $p_options = [
     'format' => $item->format->sizesStr,
-    'material' => Yii::t('app/orders', $item->paintMaterial->name),
-    'base' => Yii::t('app/orders', $item->backgroundMaterial->name),
+    'material' => $item->paintMaterial->transName,
+    'base' =>  $item->backgroundMaterial->transName,
     'faces_count' => $item->faces_count,
-    'background_color' => Yii::t('app/orders', $item->backgroundColour->colour->name),
+    'background_color' =>  $item->backgroundColour->colour->transName,
 ];
 ?>
 <div data-key="<?= $item->id ?>" class="cart-item">
-    <h2><?= $key + 1 ?>. <?= Yii::t('app/orders', $item->portraitType->name) ?> </h2>
+    <h2><?= $key + 1 ?>. <?= Yii::t('app/orders', $item->portraitType->transName) ?></h2>
     <input type="button" value="<?= Yii::t('app/carts', 'delete') ?>">
     <div>
         <div>
@@ -23,8 +23,8 @@ $p_options = [
         <?php if ($item->frame_id) {
             $f_options = [
                 'frame_format' => $item->frame->format->sizesStr,
-                'frame_colour' => Yii::t('app/orders', $item->frame->colour->name),
-                'mount' => Yii::t('app/orders', $item->mount ? $item->mount->colour->name : null),
+                'frame_colour' =>  $item->frame->colour->transName,
+                'mount' => $item->mount ? $item->mount->colour->transName : '',
             ];
             ?>
             <div>
