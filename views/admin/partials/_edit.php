@@ -3,16 +3,16 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 $dir = '/admin/'. $model_name;
-
+$id = $model->id ? $model->id : 0;
 $default = isset($default) ? $default : true;
 $with_btns = isset($with_btns) ? $with_btns : true;
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'edit-form',
     'method' => 'POST',
-    'action' =>  Url::to([$dir . '/update', 'id' => $model->id]),
+    'action' =>  Url::to([$dir . '/update', 'id' => $id]),
     'enableAjaxValidation' => true,
-    'validationUrl' => Url::to([$dir . "/validate", 'id' => $model->id]),
+    'validationUrl' => Url::to([$dir . "/validate", 'id' => $id]),
     'options' => ['enctype'=>'multipart/form-data']
 ]); ?>
 
