@@ -1,34 +1,34 @@
 <?php
+use yii\helpers\Url;
 
-use app\models\CartItem;
-use yii\bootstrap4\Nav;
-use yii\bootstrap4\NavBar;
+$is_h1 = isset($is_h1) ? $is_h1 : false;
+$h1_tag_name = $is_h1 ? "h1" : "a";
+$href = !$is_h1 ? 'href="'.$url = Url::to('/').'"'  : '';
+$logo_text = Yii::t('app/index', 'order');
 
-$cart_items = CartItem::getCartItemsForMenu();
 ?>
+<!--[if IE]>
+    <div class="browserupgrade"> <?=  Yii::t('app/index', 'ie_error') ?></div>
+<![endif]-->
 
-<header>
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
-        'items' => [
-            ['label' => Yii::t('app/orders', 'title'), 'url' => ['/order/index']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => Yii::t('app/carts', 'title') . ' ( ' .$cart_items['count'] . ' )',
-                'url' => ['/cart/index'],
-                'options' => ['id' => 'cart'],
-                'visible' => $cart_items && isset($cart_items['count'])
-            ],
-        ],
-    ]);
-    NavBar::end();
-    ?>
-</header>
+<?= sprintf('<%s %s class="logo">%s</%s >', $h1_tag_name, $href, $logo_text, $h1_tag_name)?>
+
+<button class="burger" type="button"> <?=  Yii::t('app/index', 'menu') ?></button>
+
+<div class="dropdown">
+    <div class="dropdown__cell">
+        <div class="nav">
+            <a class="nav__link" href="<?= Url::to('/gallery') ?>"><?=  Yii::t('app/index', 'gallery') ?></a>
+            <a class="nav__link" href="<?= Url::to('/order') ?>"><?=  Yii::t('app/index', 'store') ?></a>
+            <a class="nav__link" href="<?= Url::to('/contact') ?>"><?=  Yii::t('app/index', 'contact') ?></a>
+        </div>
+        <div class="media">
+            <a class="media__channel media__channel--instagram" href="#">Instagram</a>
+            <a class="media__channel media__channel--youtube" href="#">Youtube</a>
+            <a class="media__channel media__channel--facebook" href="#">Facebook</a>
+        </div>
+        <a class="cart-handler" href="#">
+            0
+        </a>
+    </div>
+</div>

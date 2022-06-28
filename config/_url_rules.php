@@ -2,6 +2,8 @@
 $rules = [
     'GET /' => 'site/index',
     'GET /order' => 'order/index',
+    '/contact' => 'site/contact',
+    'GET /gallery' => 'site/gallery',
 
     '/hyperrealism' => 'order/order-hyperrealism',
     '/photorealism' => 'order/order-photorealism',

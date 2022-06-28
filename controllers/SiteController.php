@@ -31,6 +31,8 @@ class SiteController extends BaseSiteController
      */
     public function actionIndex()
     {
+        $this->view->title = Yii::t('app/index', 'title');
+        $this->layout = 'index';
         return $this->render('index');
     }
 
@@ -43,11 +45,12 @@ class SiteController extends BaseSiteController
     {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
+            Yii::$app->session->setFlash('contactFormSubmitted',  Yii::t('app/contacts', 'contactFormSubmitted'));
 
             return $this->refresh();
         }
 
+        $this->view->title = Yii::t('app/contacts', 'title');
         return $this->render('contact', [
             'model' => $model,
         ]);
@@ -58,8 +61,8 @@ class SiteController extends BaseSiteController
      *
      * @return string
      */
-    public function actionAbout()
+    public function actionGallery()
     {
-        return $this->render('about');
+        return $this->render('gallery');
     }
 }

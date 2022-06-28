@@ -20,14 +20,16 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
-        'css/cart.css',
+        'css/style.css'
     ];
     public $js = [
-        'js/cart.js',
+        'js/outline.js',
+        'js/_burger.js',
+        'js/_select.js',
+        'js/_color-picker.js',
+        'js/_materials.js',
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap4\BootstrapAsset',
+        'yii\web\JqueryAsset'
     ];
 }

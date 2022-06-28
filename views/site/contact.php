@@ -1,68 +1,61 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap4\ActiveForm */
-/* @var $model app\models\ContactForm */
-
 use yii\bootstrap4\ActiveForm;
-use yii\bootstrap4\Html;
-use yii\captcha\Captcha;
+use yii\helpers\Html;
 
-$this->title = 'Contact';
-$this->params['breadcrumbs'][] = $this->title;
+$lan_dir = 'app/contacts';
 ?>
-<div class="site-contact">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
+<?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
+    <div class="alert">
+        <?= Yii::$app->session->getFlash('contactFormSubmitted') ?>
+    </div>
+<?php endif; ?>
 
-        <div class="alert alert-success">
-            Thank you for contacting us. We will respond to you as soon as possible.
-        </div>
-
-        <p>
-            Note that if you turn on the Yii debugger, you should be able
-            to view the mail message on the mail panel of the debugger.
-            <?php if (Yii::$app->mailer->useFileTransport): ?>
-                Because the application is in development mode, the email is not sent but saved as
-                a file under <code><?= Yii::getAlias(Yii::$app->mailer->fileTransportPath) ?></code>.
-                Please configure the <code>useFileTransport</code> property of the <code>mail</code>
-                application component to be false to enable email sending.
-            <?php endif; ?>
-        </p>
-
-    <?php else: ?>
-
-        <p>
-            If you have business inquiries or other questions, please fill out the following form to contact us.
-            Thank you.
-        </p>
-
-        <div class="row">
-            <div class="col-lg-5">
-
-                <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
-
-                    <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
-
-                    <?= $form->field($model, 'email') ?>
-
-                    <?= $form->field($model, 'subject') ?>
-
-                    <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
-
-                    <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-                        'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
-                    ]) ?>
-
-                    <div class="form-group">
-                        <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
-                    </div>
-
-                <?php ActiveForm::end(); ?>
-
+<div class="contacts container">
+    <div class="contacts__middle">
+        <div class="contacts__content">
+            <div class="contacts__slogan">
+                <?= Yii::t($lan_dir, 'text') ?>
+            </div>
+            <div class="contacts__social media media--inlined">
+                <a class="media__channel media__channel--instagram" href="#">Instagram</a>
+                <a class="media__channel media__channel--youtube" href="#">Youtube</a>
+                <a class="media__channel media__channel--facebook" href="#">Facebook</a>
             </div>
         </div>
+        <div class="contacts__sidebar">
+            <div class="contacts__form form">
+                <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 
-    <?php endif; ?>
+                <h1 class="form__heading">
+                    <?= Yii::t($lan_dir, 'title') ?>
+                </h1>
+
+                <div class="form__fieldset">
+                    <?php
+                    $input_options = ['options' => ['class' => 'form__field input'], 'labelOptions' => ['class' => 'input__label']];
+                    ?>
+
+                    <?= $form->field($model, 'name', $input_options)
+                        ->textInput(['placeholder' => Yii::t($lan_dir, 'name_placeholder'), 'class' => 'input__widget']) ?>
+
+                    <?= $form->field($model, 'email', $input_options)
+                        ->textInput(['placeholder' => Yii::t($lan_dir, 'email_placeholder'), 'class' => 'input__widget', 'type' => "email"]) ?>
+
+                    <?= $form->field($model, 'phone', $input_options)
+                        ->textInput(['placeholder' => Yii::t($lan_dir, 'phone_placeholder'), 'class' => 'input__widget', 'type' => "tel"]) ?>
+
+                    <?php $input_options['options']['class'] .= ' input--area'; ?>
+                    <?= $form->field($model, 'body', $input_options)
+                        ->textarea(['placeholder' => Yii::t($lan_dir, 'body_placeholder'), 'class' => 'input__widget', 'rows' => 4]) ?>
+
+                </div>
+                <div class="form__footer">
+                    <?= Html::submitButton(Yii::t($lan_dir, 'submit'), ['class' => 'button']) ?>
+                </div>
+                <?php ActiveForm::end(); ?>
+            </div>
+        </div>
+    </div>
 </div>
