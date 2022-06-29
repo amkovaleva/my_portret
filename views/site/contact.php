@@ -29,7 +29,7 @@ $lan_dir = 'app/contacts';
                 <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 
                 <h1 class="form__heading">
-                    <?= Yii::t($lan_dir, 'title') ?>
+                    <?= Yii::t($lan_dir, 'header') ?>
                 </h1>
 
                 <div class="form__fieldset">

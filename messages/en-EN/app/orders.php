@@ -24,11 +24,11 @@ return [
     'ru' => '₽',
     'en' => '$',
     'eur' => '€',
-    'price_ru' => '{0, number}₽',
-    'price_en' => '${0, number}',
-    'price_eur' => '{0, number}€',
+    'price_ru' => '{0, number, integer}₽',
+    'price_en' => '${0, number, integer}',
+    'price_eur' => '{0, number, integer}€',
 
-    'faces_to' => 'up to {0, number} persons',
+    'faces_to' => 'up to {0, number, integer} persons',
     'to_cart' => 'Add to Cart',
     'miss_image' => 'Upload an image',
 

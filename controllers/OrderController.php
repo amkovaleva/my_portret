@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\base\PortraitType;
+use app\models\base\Price;
 use Yii;
 use app\models\CartItem;
 use yii\web\Response;
@@ -13,9 +14,13 @@ class OrderController extends BaseSiteController
     public function actionIndex()
     {
         $this->view->title = Yii::t('app/orders', 'title');
-        $this->layout = 'order';
-        $portrait_types = PortraitType::find()->all();
-        return $this->render('index', ['portrait_types' => $portrait_types]);
+        return $this->render('index',
+            [
+                'prices' => Price::getPricesInfo(),
+                'currencies' => [Price::CURRENCIES, Price::CURRENCY_SYMBOL],
+                'active_currency' => Price::getDefaultCurrency(),
+            ]
+        );
     }
 
     public function actionOrderHyperrealism()
@@ -47,7 +52,6 @@ class OrderController extends BaseSiteController
                 $save_result = $model->saveWithImage(true, false, json_decode($model->crop_data));
             }
         }
-
 
         return $this->render('order', [
             'model' => $this->getDefaultModel($type),

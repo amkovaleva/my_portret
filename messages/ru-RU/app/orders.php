@@ -24,9 +24,9 @@ return [
     'ru' => '₽',
     'en' => '$',
     'eur' => '€',
-    'price_ru' => '{0, number}₽',
-    'price_en' => '${0, number}',
-    'price_eur' => '{0, number}€',
+    'price_ru' => '{0, number, integer}₽',
+    'price_en' => '${0, number, integer}',
+    'price_eur' => '{0, number, integer}€',
 
     'faces_to' => 'до {0, number} лиц',
     'to_cart' => 'Добавить в корзину',

@@ -13,4 +13,13 @@ return [
         'frames' =>[ 'format', 'frame', 'mount'],
         'order' => ['price', 'count-face', 'delivery-type','pay-type', 'cancel-reason']
     ),
+    'portrait_types' => array(
+        'hyperrealism' => ['stars' => 5],
+        'photorealism' => ['stars' => 4],
+        'sketch' => ['stars' => 3],
+    ),
+    'ids' => array(
+        'portrait_types' => [1 =>'hyperrealism', 2 => 'photorealism', 3 =>'sketch']
+    )
+
 ];

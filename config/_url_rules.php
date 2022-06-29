@@ -5,10 +5,6 @@ $rules = [
     '/contact' => 'site/contact',
     'GET /gallery' => 'site/gallery',
 
-    '/hyperrealism' => 'order/order-hyperrealism',
-    '/photorealism' => 'order/order-photorealism',
-    '/sketch' => 'order/order-sketch',
-
     'POST /order/change/<field:\d+>/<value:\w+>' => 'order/change',
 
     'GET /cart' => 'cart/index',
@@ -20,6 +16,11 @@ $rules = [
     'POST /admin/mount/change/<frame_id:\d+>' => 'admin/mount/change',
     'POST /admin/mount/validate' => 'admin/mount/validate',
 ];
+
+foreach ($params['portrait_types'] as $key => &$item) {
+    $rules['/' . $key ] = 'order/order-'.$key;
+}
+
 
 $post_actions = array('validate', 'update', 'delete', 'edit');
 

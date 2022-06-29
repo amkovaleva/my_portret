@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 class Price extends ActiveRecord
 {
     const CURRENCIES = ['ru', 'en', 'eur'];
+    const CURRENCY_SYMBOL = ['₽', '$', '€'];
     const CURRENCY_PROP = ['ru'=>'price', 'en'=> 'price_usd', 'eur' => 'price_eur'];
 
     /**
@@ -68,10 +69,19 @@ class Price extends ActiveRecord
         return $this->hasOne(Format::class, ['id' => 'format_id']);
     }
 
-    public function getLocalPrice($currency)
+    public function getLocalPrice($currency = null)
     {
+        if(!$currency)
+            $currency = Price::getDefaultCurrency();
+
         $prop = self::CURRENCY_PROP[$currency];
         return $this->$prop;
+    }
+
+    public function getPriceString($currency = null){
+        if(!$currency)
+            $currency = Price::getDefaultCurrency();
+        return Price::getPriceStr($this->getLocalPrice($currency), $currency);
     }
 
     public static function getPriceStr($price, $currency){
@@ -94,6 +104,34 @@ class Price extends ActiveRecord
         foreach (Price::CURRENCIES as $cur)
             $res[$cur] = Yii::t('app/orders', $cur);
 
+        return $res;
+    }
+
+    public static function getPricesInfo(){
+        $prices = Price::find()->joinWith(['portraitType', 'paintMaterial', 'backgroundMaterial', 'format'])
+            ->addSelect(Price::tableName(). '.*, ' . Format::tableName() . '.width')
+            ->orderBy('portrait_type_id ASC, paint_material_id DESC, bg_material_id ASC, width ASC') ->all();
+        $res = [];
+        $pt = 0;
+        $pm = 0;
+        $bm = 0;
+        foreach ($prices as &$item){
+            if($pt != $item->portrait_type_id){
+                $pt = $item->portrait_type_id;
+                $pm = 0;
+                $res[$pt] = [];
+            }
+            if($pm != $item->paint_material_id){
+                $pm = $item->paint_material_id;
+                $bm = 0;
+                $res[$pt][$pm] = [];
+            }
+            if($bm != $item->bg_material_id){
+                $bm = $item->bg_material_id;
+                $res[$pt][$pm][$bm] = [];
+            }
+            $res[$pt][$pm][$bm][] = $item;
+        }
         return $res;
     }
 
