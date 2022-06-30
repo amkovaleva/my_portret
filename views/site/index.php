@@ -19,7 +19,7 @@ $lan_dir = 'app/index';
                 </div>
             </div>
             <div class="jumbotron__footer">
-                <a class="jumbotron__submit button" href="<?= Url::to('/order') ?>">
+                <a class="jumbotron__submit button" href="<?= Url::to(['/order/index']) ?>">
                     <?= Yii::t($lan_dir, 'order') ?>
                 </a>
             </div>

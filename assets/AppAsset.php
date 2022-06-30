@@ -28,6 +28,7 @@ class AppAsset extends AssetBundle
         'js/_select.js',
         'js/_color-picker.js',
         'js/_materials.js',
+        'js/_currency-store.js',
     ];
     public $depends = [
         'yii\web\JqueryAsset'

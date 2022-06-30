@@ -21,9 +21,6 @@ return [
     'not_saved' => 'An error occurred while adding an order to the cart.',
 
 
-    'ru' => '₽',
-    'en' => '$',
-    'eur' => '€',
     'price_ru' => '{0, number, integer}₽',
     'price_en' => '${0, number, integer}',
     'price_eur' => '{0, number, integer}€',

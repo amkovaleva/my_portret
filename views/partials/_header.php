@@ -18,9 +18,9 @@ $logo_text = Yii::t('app/index', 'order');
 <div class="dropdown">
     <div class="dropdown__cell">
         <div class="nav">
-            <a class="nav__link" href="<?= Url::to('/gallery') ?>"><?=  Yii::t('app/index', 'gallery') ?></a>
-            <a class="nav__link" href="<?= Url::to('/order') ?>"><?=  Yii::t('app/index', 'store') ?></a>
-            <a class="nav__link" href="<?= Url::to('/contact') ?>"><?=  Yii::t('app/index', 'contact') ?></a>
+            <a class="nav__link" href="<?= Url::to(['/site/gallery']) ?>"><?=  Yii::t('app/index', 'gallery') ?></a>
+            <a class="nav__link" href="<?= Url::to(['/order/index']) ?>"><?=  Yii::t('app/index', 'store') ?></a>
+            <a class="nav__link" href="<?= Url::to(['/site/contact']) ?>"><?=  Yii::t('app/index', 'contact') ?></a>
         </div>
         <div class="media">
             <a class="media__channel media__channel--instagram" href="#">Instagram</a>

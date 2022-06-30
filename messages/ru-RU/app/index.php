@@ -2,30 +2,30 @@
 return [
     'title' => 'Alina Sekatsky / Portrait Artist',
 
-    'save_moment' => 'Save the moment in eternity',
+    'save_moment' => 'Сохрани момент в вечности',
     'oil_pencil' => 'OIL & PENCIL',
     'studio' => 'PORTRAIT STUDIO',
-    'order' => 'Order a portrait',
+    'order' => 'Заказать портрет',
 
-    'about_competitions' => 'win in art competition',
-    'about_portraits' => 'portraits',
-    'about_experience' => 'years of art experience',
-    'about_publications' => 'publications',
+    'about_competitions' => 'побед в соревнованиях',
+    'about_portraits' => 'портретов',
+    'about_experience' => 'лет жудожественного опыта',
+    'about_publications' => 'публикаций',
 
     'ie_error' => 'You are using an <strong>outdated</strong> browser.
         Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.',
 
-    'menu' => 'Menu',
-    'gallery' => 'Gallery',
-    'store' => 'Store',
-    'contact' => 'Contact',
+    'menu' => 'Меню',
+    'gallery' => 'Галлерея',
+    'store' => 'Магазин',
+    'contact' => 'Контакты',
 
-    'privacy_policy' => 'Privacy Policy',
-    'terms_policy' => 'Terms and conditions',
-    'address' => 'Address:',
-    'address_string' => 'Yaroslavl city<br>
+    'privacy_policy' => 'Политика конфиденциальности',
+    'terms_policy' => 'Условия и положения',
+    'address' => 'Адрес:',
+    'address_string' => 'Город Ярославль<br>
                         150064<br>
-                        Russia',
+                        Россия',
 
 
 

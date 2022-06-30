@@ -78,10 +78,13 @@ class Price extends ActiveRecord
         return $this->$prop;
     }
 
-    public function getPriceString($currency = null){
-        if(!$currency)
-            $currency = Price::getDefaultCurrency();
-        return Price::getPriceStr($this->getLocalPrice($currency), $currency);
+    public function getPriceStrings(){
+
+        $prices = array_map(function ($currency){
+            return Price::getPriceStr($this->getLocalPrice($currency), $currency);
+        }, self::CURRENCIES);
+
+        return array_combine(self::CURRENCIES, $prices);
     }
 
     public static function getPriceStr($price, $currency){
@@ -96,15 +99,6 @@ class Price extends ActiveRecord
             return Price::CURRENCIES[1];
         return Price::CURRENCIES[2];
 
-    }
-
-    public static function getCurrenciesList(){
-
-        $res = [];
-        foreach (Price::CURRENCIES as $cur)
-            $res[$cur] = Yii::t('app/orders', $cur);
-
-        return $res;
     }
 
     public static function getPricesInfo(){

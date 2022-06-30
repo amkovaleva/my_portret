@@ -9,7 +9,7 @@ use app\models\OrderConsts;
 <?= $form->field($model, 'user_cookie')->hiddenInput()->label(false) ?>
 
 
-<?= $form->field($model, 'currency')->radioList(Price::getCurrenciesList(),
+<?= $form->field($model, 'currency')->radioList(Price::CURRENCY_SYMBOL,
     [
 
         'item' => function ($index, $label, $name, $checked, $value) {

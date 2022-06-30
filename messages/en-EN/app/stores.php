@@ -2,10 +2,6 @@
 return [
     'title' => 'Сделать заказ',
 
-    'hyperrealism' => 'hyperrealism',
-    'photorealism' => 'photorealism',
-    'sketch' => 'sketch',
-
     'hyperrealism_heading' => 'Hyperrealistic portrait',
     'photorealism_heading' => 'Photorealistic portrait',
     'sketch_heading' => 'Sketch',
@@ -26,9 +22,6 @@ return [
 
     'detalisation' => 'detalisation',
     'est_time' => 'est. time',
-
-    'paper_only' => 'Pencil',
-    'paper_oil' => 'Oil / Pencil',
 
     'order' => 'Order a portrait'
 

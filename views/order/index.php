@@ -9,16 +9,14 @@ use yii\helpers\Url;
         <div class="currency">
             <?php foreach ($currencies[0] as $key => &$item) { ?>
                 <label class="currency__item">
-                    <input class="currency__widget" type="radio"
+                    <input class="currency__widget" type="radio" value="<?= $currencies[0][$key] ?>"
                            name="CartItem[currency]" <?= $item == $active_currency ? 'checked' : '' ?> >
                     <span class="currency__label"><?= $currencies[1][$key] ?></span>
                 </label>
             <?php } ?>
-
         </div>
     </div>
     <div class="store__grid">
-
         <?php foreach ($prices as $portrait_type_id => &$portrait_type_info) {
             $key = Yii::$app->params['ids']['portrait_types'][$portrait_type_id];
             $type = mb_strtolower($portrait_type_info[1][1][0]->portraitType->transName);
@@ -75,14 +73,20 @@ use yii\helpers\Url;
                                             ?>
                                             <div class="store__column">
                                                 <div class="store__sub-heading">
-                                                    <?= $first->paintMaterial->transName ?>/<?= $first->backgroundMaterial->transName ?>
+                                                    <?= $first->paintMaterial->transName ?>
+                                                    / <?= $first->backgroundMaterial->transName ?>
                                                 </div>
                                                 <?php foreach ($bg_material_info as &$price) {
-                                                ?>
-                                                <div class="store__item">
-                                                    <span class="store__stat"><?= $price->format->sizesStr ?>&nbsp;cm</span>
-                                                    <span class="store__value"><?= $price->getPriceString() ?></span>
-                                                </div>
+                                                    $priceStrings = $price->priceStrings;
+                                                    ?>
+                                                    <div class="store__item">
+                                                        <span class="store__stat"><?= $price->format->sizesStr ?>&nbsp;cm</span>
+                                                        <span class="store__value"
+                                                            <?php foreach ($priceStrings as $price_key =>&$priceString) { ?>
+                                                                data-<?= $price_key ?>="<?= $priceString ?>"
+                                                            <?php } ?>
+                                                        ><?= $priceStrings[$active_currency] ?></span>
+                                                    </div>
                                                 <?php } ?>
                                             </div>
                                         <?php }

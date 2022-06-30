@@ -1,7 +1,7 @@
 <?php
 $rules = [
     'GET /' => 'site/index',
-    'GET /order' => 'order/index',
+    'GET /store' => 'order/index',
     '/contact' => 'site/contact',
     'GET /gallery' => 'site/gallery',
 

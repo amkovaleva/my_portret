@@ -1,21 +1,21 @@
 <?php
 return [
-    'title' => 'Contact Us',
-    'header' => 'Contact Us',
-    'text' => 'We’d love to<br> hear from you',
+    'title' => 'Свяжитесь с нами',
+    'header' => 'Свяжитесь с нами',
+    'text' => 'Нам важно <br> услышать вас',
 
-    'name' => 'First Name',
-    'email' => 'Email Address',
-    'body' => 'Message',
-    'phone' => 'Phone Number',
-    'name_placeholder' => 'Enter your first name',
-    'email_placeholder' => 'Enter your E-mail',
-    'body_placeholder' => 'Enter your message',
-    'phone_placeholder' => 'Enter value',
+    'name' => 'Имя',
+    'email' => 'Email адрес',
+    'body' => 'Сообщение',
+    'phone' => 'Номер телефона',
+    'name_placeholder' => 'Введите ваше имя',
+    'email_placeholder' => 'Введите ваш E-mail',
+    'body_placeholder' => 'Введите ваше сообщение',
+    'phone_placeholder' => 'Введите номер',
 
     'email_subject' => 'Contact email',
     'contactFormSubmitted' => 'Contact Message Successfully Send',
 
-    'submit' => 'Submit',
+    'submit' => 'Отправить',
 
 ];
