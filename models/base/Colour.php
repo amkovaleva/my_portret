@@ -3,6 +3,7 @@
 namespace app\models\base;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class Colour extends BaseTranslation
 {
@@ -35,4 +36,9 @@ class Colour extends BaseTranslation
         ];
     }
 
+    public static function prepareListForView($list, $id = 'id'){
+        return ArrayHelper::map($list, $id, function ($model) {
+            return [$model->colour->code, $model->colour->transName];
+        });
+    }
 }

@@ -3,10 +3,12 @@ use yii\bootstrap4\Html;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
-$this->beginPage()
+$this->beginPage();
+
+
 ?>
 <!DOCTYPE html>
-<html lang="en_US">
+<html <?=  isset($this->params['html_class']) ? 'class="'.$this->params['html_class'].'"' : '' ?> lang="en_US">
     <head>
         <meta charset="utf-8">
         <title><?= Html::encode($this->title) ?></title>
@@ -21,9 +23,10 @@ $this->beginPage()
     <body>
         <?php $this->beginBody() ?>
 
-        <?= $this->render('//partials/_header', ['is_h1' => false]) ?>
+        <?= $this->render('//partials/_header', ['is_h1' =>  isset($this->params['is_h1_logo']) && $this->params['is_h1_logo']]) ?>
         <div class="page">
             <?= $content ?>
+            <?= isset($this->params['need_footer']) && $this->params['need_footer'] ? $this->render('//partials/_footer') : '' ?>
         </div>
 
         <?php $this->endBody();?>

@@ -23,12 +23,15 @@ class AppAsset extends AssetBundle
         'css/style.css'
     ];
     public $js = [
+        'js/jquery.spincrement.js',
         'js/outline.js',
         'js/_burger.js',
         'js/_select.js',
         'js/_color-picker.js',
         'js/_materials.js',
         'js/_currency-store.js',
+        'js/_spincrement.js',
+        'js/order.js',
     ];
     public $depends = [
         'yii\web\JqueryAsset'

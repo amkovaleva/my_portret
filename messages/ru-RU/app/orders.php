@@ -1,7 +1,25 @@
 <?php
 return [
     'title' => 'Сделать заказ',
-    'portrait_type' => 'Тип портрета',
+
+    'price_ru' => '{0, number, integer}₽',
+    'price_en' => '${0, number, integer}',
+    'price_eur' => '{0, number, integer}€',
+
+    'upload_btn_text' => 'Please upload photos in good resolution.<br> The quality of the portrait depends on it',
+    'portrait_size' => 'Portrait size',
+    'faces_count' => 'Number of people',
+    'background_color_id' => 'Background',
+    'frame_size' => 'Frame size',
+    'without_frame' => 'No frame',
+    'frame_id' => 'Frame',
+    'mount_id' => 'Mat',
+    'add' => 'Add to cart',
+
+
+    //-----------------------
+
+    /*'portrait_type' => 'Тип портрета',
     'material' => 'Материал',
     'base' => 'Основа',
     'format' => 'Формат',
@@ -21,9 +39,6 @@ return [
     'not_saved' => 'При добавлении заказа в корзину произошла ошибка.',
 
 
-    'price_ru' => '{0, number, integer}₽',
-    'price_en' => '${0, number, integer}',
-    'price_eur' => '{0, number, integer}€',
 
     'faces_to' => 'до {0, number} лиц',
     'to_cart' => 'Добавить в корзину',
@@ -35,5 +50,5 @@ return [
     'change_area' => 'Изменить область фото',
 
     'cropper_title' => 'Выберите область фото',
-    'cropper_apply' => 'Применить',
+    'cropper_apply' => 'Применить',*/
 ];

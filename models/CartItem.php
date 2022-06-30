@@ -21,7 +21,7 @@ class CartItem extends BaseImage
 {
     const UPLOAD_FOLDER = 'uploads/orders/';
 
-    const DEFAULT_PORTRAIT_COLOUR = 1;
+    const DEFAULT_PORTRAIT_COLOUR = 3;
 
     public $frame_format_id;
     public $crop_data;
@@ -151,14 +151,19 @@ class CartItem extends BaseImage
         $this->faces_count = 1;
 
         $this->background_color_id = CartItem::DEFAULT_PORTRAIT_COLOUR;
+        $this->frame_format_id = $this->format_id;
+        $this->mount_id = 0;
 
-        $mount_info = Mount::getDefaultOrderObject($this->format_id);
-        if(!$mount_info)
-            return;
-
-        $this->frame_format_id = $mount_info['frame_format_id'];
-        $this->frame_id = $mount_info['frame_id'];
-        $this->mount_id = $mount_info['id'];
+        if($this->backgroundMaterial->is_mount){
+            $mount_info = Mount::getDefaultOrderObject($this->format_id);
+            if($mount_info){
+                $this->frame_format_id = $mount_info['frame_format_id'];
+                $this->frame_id = $mount_info['frame_id'];
+                $this->mount_id = $mount_info['id'];
+                return;
+            }
+        }
+        $this->frame_id = Frame::find()->where(['format_id' => $this->frame_format_id])->orderBy('colour_id DESC') -> one()->id;
     }
 
     // <editor-fold state="collapsed" desc="load of available order options">
@@ -257,7 +262,6 @@ class CartItem extends BaseImage
     public function getAvailableFormats()
     {
         $cur = $this->currency;
-        $priceField = Price::CURRENCY_PROP[$cur];
         $list = Format::find()->joinWith('prices', false, 'INNER JOIN')
             ->where([
                 'prices.portrait_type_id' => $this->portrait_type_id,
@@ -265,16 +269,16 @@ class CartItem extends BaseImage
                 'prices.bg_material_id' => $this->base_id,
             ])//->groupBy([Format::tableName().'.id', 'prices.portrait_type_id', 'prices.paint_material_id', 'prices.bg_material_id'])
             ->select([Format::tableName().'.id', 'width', 'length', 'max_faces',
-                $priceField. ' as price'])
+                Price::CURRENCY_PROP[$cur]. ' as price'])
             ->asArray()->all();
 
         $res = [];
         foreach($list as & $format){
             $coeff = CountFace::getCoefficient($format['max_faces']);
 
-            $res[$format['id']] =  $format['width'] . 'x' . $format['length']
-                . ' - ('. Price::getPriceStr(1 * $format['price'], $cur) . ' - '. Price::getPriceStr($coeff * $format['price'], $cur)
-                . ') - '. Yii::t('app/orders', 'faces_to', $format['max_faces']);
+            $res[$format['id']] =  [$format['width'] . 'x' . $format['length'],
+                Price::getPriceStr(1 * $format['price'], $cur) . ' - ' .Price::getPriceStr($coeff * $format['price'], $cur)];
+
         }
         return $res;
     }
@@ -296,7 +300,7 @@ class CartItem extends BaseImage
         for ($i = 1; $i <= $format['max_faces']; $i++) {
             foreach ($coefs as &$coef){
                 if($coef['max'] == $i){
-                    $res[$i] = $i . ' - ' . Price::getPriceStr($coef['coefficient'] * $format['price'], $this->currency);
+                    $res[$i] = [$i,  Price::getPriceStr($coef['coefficient'] * $format['price'], $this->currency)];
                     break;
                 }
             }
@@ -306,10 +310,8 @@ class CartItem extends BaseImage
 
     public function getAvailableBgColours()
     {
-        $list = BackgroundColour::find()->joinWith('colour', false)
-            ->select([BackgroundColour::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
-
-        return ArrayHelper::map($list, 'id', 'code');
+        $list = BackgroundColour::find()->joinWith('colour')->all();
+        return Colour::prepareListForView($list);
     }
 
     public function getAvailableFrameFormats()
@@ -322,6 +324,7 @@ class CartItem extends BaseImage
                 ->select(['ff.id id', 'ff.width width', 'ff.length length'])->asArray()->all();
 
         array_unshift($list, ['id' => $withoutMount->id, 'width' => $withoutMount->width, 'length' => $withoutMount->length]);
+        array_unshift($list, ['id' => 0, 'width' => 0, 'length' => 0]);
 
         return ArrayHelper::map($list, 'id', function ($model) {
             return $model['width'] . 'x' . $model['length'];
@@ -336,16 +339,15 @@ class CartItem extends BaseImage
         $with_mount = $this->frame_format_id != $this->format_id;
 
         if (!$with_mount)
-            $list = Frame::find()->joinWith('colour', false, 'INNER JOIN')
+            $list = Frame::find()->joinWith('colour', true, 'INNER JOIN')
                 ->joinWith('colour', false, 'INNER JOIN')
-                ->where(['format_id' => $this->frame_format_id])
-                ->select([Frame::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
+                ->where(['format_id' => $this->frame_format_id])->all();
         else
-            $list = Mount::find()->joinWith('frame.colour', false, 'INNER JOIN')
-                ->where(['format_id' => $this->frame_format_id])
-                ->select([Frame::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
+            $list = Mount::find()->joinWith('frame.colour', true, 'INNER JOIN')
+                ->where(['format_id' => $this->frame_format_id])->all();
 
-        return ArrayHelper::map($list, 'id', 'code');
+        return Colour::prepareListForView($list, $with_mount ? 'frame_id' : 'id');
+
     }
 
     public function getAvailableMounts()
@@ -358,13 +360,12 @@ class CartItem extends BaseImage
         if (!$with_mount)
             return [];
 
-        $list = Mount::find()->joinWith('colour', false, 'INNER JOIN')
+        $list = Mount::find()->joinWith('colour', true, 'INNER JOIN')
             ->joinWith('frame', false, 'INNER JOIN')
-            ->where(['frame_id' => $this->frame_id, 'portrait_format_id' => $this->format_id, 'format_id' => $this->frame_format_id])
-            ->select([Mount::tableName() . '.id id', Colour::tableName() . '.code code'])->asArray()->all();
+            ->where(['frame_id' => $this->frame_id, 'portrait_format_id' => $this->format_id, 'format_id' => $this->frame_format_id])->all();
 
 
-        return ArrayHelper::map($list, 'id', 'code');
+        return Colour::prepareListForView($list);
     }
 
 

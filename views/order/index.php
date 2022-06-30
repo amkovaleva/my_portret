@@ -6,15 +6,7 @@ use yii\helpers\Url;
 
 <div class="store">
     <div class="store__currency">
-        <div class="currency">
-            <?php foreach ($currencies[0] as $key => &$item) { ?>
-                <label class="currency__item">
-                    <input class="currency__widget" type="radio" value="<?= $currencies[0][$key] ?>"
-                           name="CartItem[currency]" <?= $item == $active_currency ? 'checked' : '' ?> >
-                    <span class="currency__label"><?= $currencies[1][$key] ?></span>
-                </label>
-            <?php } ?>
-        </div>
+        <?= $this->render('/partials/_currency') ?>
     </div>
     <div class="store__grid">
         <?php foreach ($prices as $portrait_type_id => &$portrait_type_info) {

@@ -42,7 +42,7 @@ $lan_dir = 'app/index';
             ?>
             <?php foreach ($list as $key => &$item) { ?>
                 <div class="about__feature about__feature--<?= $item['class'] ?>">
-                    <b class="about__counter">
+                    <b class="about__counter about__counter--spincrement" data-from="0" data-to="<?= $item['count'] ?>">
                         <?= $item['count'] ?>
                     </b>
                     <div class="about__stat">

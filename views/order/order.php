@@ -2,7 +2,6 @@
 
 use app\models\base\Format;
 use app\models\base\Frame;
-use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
@@ -13,54 +12,89 @@ $form = ActiveForm::begin([
     'enableClientValidation' => false,
     'options' => ['change_action' => Url::to(['order/change'])]
 ]); ?>
-    <h1><?= Yii::t('app/orders', 'title') ?></h1>
-<?php if ($save_result !== null) { ?>
-    <h3><?= Yii::t('app/orders', ($save_result ? '' : 'not_') . 'saved') ?></h3>
-<?php } ?>
-    <div class="data-container">
-        <div id="preview">
-            <?= $form->field($model, 'crop_data')->hiddenInput()->label(false) ?>
-            <div id="frame-content" class="no-image <?= $model->frameImageUrl ? 'with-frame' : '' ?>"
-                 data-alt="<?= Yii::t('app/orders', 'img_alt') ?>">
-                <div id="upload-content">
-                    <?= $form->field($model, 'image')->fileInput()->label(false) ?>
-                    <div id="drop-zone">
-                        DROP HERE
+
+<?= $form->field($model, 'portrait_type_id')->hiddenInput()->label(false) ?>
+    <div class="order">
+        <div class="order__sidebar">
+            <div class="order__currency">
+                <?= $this->render('/partials/_currency') ?>
+            </div>
+            <div class="order__uploading-hint">
+                <button class="upload" type="button">
+                    <?= Yii::t('app/orders', 'upload_btn_text') ?>
+                </button>
+            </div>
+            <div class="order__tools-selection">
+                <div class="materials">
+                    <?php
+                    $availableMaterials = $model->availableMaterials;
+                    $material_name = $availableMaterials[$model->material_id];
+                    ?>
+                    <div class="materials__output title title--smallest">
+                        <?= $material_name ?>
+                    </div>
+                    <div class="materials__tools-choice">
+                        <?= $this->render('_material_tools', ['model' => $model, 'availableMaterials' => $availableMaterials]) ?>
+                    </div>
+                    <div class="materials__surfaces-choice">
+                        <?= $this->render('_material_surface', ['model' => $model]) ?>
                     </div>
                 </div>
-                <img src="<?= $model->frameImageUrl ?>" alt="<?= Yii::t('app/orders', 'frame') ?>" class="frame"/>
             </div>
-            <input type="button" id="clear" value="<?= Yii::t('app/orders', 'clear') ?>">
-            <input type="button" id="change-orientation" value="<?= Yii::t('app/orders', 'change_orientation') ?>">
-            <input type="button" id="change-area" value="<?= Yii::t('app/orders', 'change_area') ?>">
-        </div>
-        <div class="form">
-            <?= $this->render('/order/_main_options', ['model' => $model, 'form' => $form]) ?>
-            <?= $this->render('/order/_style_options', ['model' => $model, 'form' => $form]) ?>
-            <div style="display: none" id="validation">
-                <?= Yii::t('app/orders', 'miss_image') ?>
+            <div class="order__portrait-size">
+                <div class="label">
+                    <?= Yii::t('app/orders', 'portrait_size') ?>
+                </div>
+                <?= $form->field($model, 'format_id')->hiddenInput()->label(false) ?>
+                <div class="select">
+                    <?= $this->render('_portrait_size', ['model' => $model]) ?>
+                </div>
             </div>
-            <?= Html::submitButton(Yii::t('app/orders', 'to_cart')) ?>
-        </div>
-    </div>
+            <div class="order__people">
+                <div class="label">
+                    <?= Yii::t('app/orders', 'faces_count') ?>
+                </div>
+                <?= $form->field($model, 'faces_count')->hiddenInput()->label(false) ?>
+                <div class="select">
+                    <?= $this->render('_faces_count', ['model' => $model]) ?>
+                </div>
+            </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="crop-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
-         data-keyboard="false" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel"> <?= Yii::t('app/orders', 'cropper_title') ?></h5>
+            <?= $this->render('_colour_picker', [
+                'model' => $model, 'colours_list' => $model->availableBgColours,
+                'class_name' => 'order__background', 'field_name' => 'background_color_id'
+            ]) ?>
+
+            <div class="order__frame-size">
+                <div class="label">
+                    <?= Yii::t('app/orders', 'frame_size') ?>
                 </div>
-                <div class="modal-body">
-                    <img src="#" alt="<?= Yii::t('app/orders', 'crop_alt') ?>">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                            data-dismiss="modal"> <?= Yii::t('app/orders', 'cropper_apply') ?></button>
+                <?= $form->field($model, 'frame_format_id')->hiddenInput()->label(false) ?>
+                <div class="select">
+                    <?= $this->render('_frame_sizes', ['model' => $model]) ?>
                 </div>
             </div>
+
+            <?= $this->render('_colour_picker', [
+                'model' => $model, 'colours_list' => $model->availableFrames,
+                'class_name' => 'order__frame-color', 'field_name' => 'frame_id'
+            ]) ?>
+
+            <?= $this->render('_colour_picker', [
+                'model' => $model, 'colours_list' => $model->availableMounts,
+                'class_name' => 'order__mat', 'field_name' => 'mount_id'
+            ]) ?>
+
+            <?= $this->render('_addons') ?>
+
+            <div class="order__side-submit">
+                <button class="button" type="button">
+                    <?= Yii::t('app/orders', 'add') ?>
+                </button>
+            </div>
         </div>
+
+        <?= $this->render('_preview') ?>
     </div>
 
 <?php ActiveForm::end(); ?>

@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use app\models\base\PortraitType;
 use app\models\base\Price;
 use Yii;
 use app\models\CartItem;
@@ -17,7 +16,6 @@ class OrderController extends BaseSiteController
         return $this->render('index',
             [
                 'prices' => Price::getPricesInfo(),
-                'currencies' => [Price::CURRENCIES, Price::CURRENCY_SYMBOL],
                 'active_currency' => Price::getDefaultCurrency(),
             ]
         );
@@ -42,8 +40,7 @@ class OrderController extends BaseSiteController
     private function order($type)
     {
         $this->view->title = Yii::t('app/orders', 'title');
-        $this->layout = 'order';
-
+        Yii::$app->view->params['html_class'] = 'fixed-header';
         $save_result = null;
         if( Yii::$app->request->isPost){
             $model = new CartItem();
