@@ -6,15 +6,15 @@ return [
     'price_en' => '${0, number, integer}',
     'price_eur' => '{0, number, integer}€',
 
-    'upload_btn_text' => 'Please upload photos in good resolution.<br> The quality of the portrait depends on it',
-    'portrait_size' => 'Portrait size',
-    'faces_count' => 'Number of people',
-    'background_color_id' => 'Background',
-    'frame_size' => 'Frame size',
-    'without_frame' => 'No frame',
-    'frame_id' => 'Frame',
-    'mount_id' => 'Mat',
-    'add' => 'Add to cart',
+    'upload_btn_text' => 'Загрузите фото в хорошем качестве.<br> Качество детализации зависит от качества фото',
+    'portrait_size' => 'Формат портрета',
+    'faces_count' => 'Количество лиц',
+    'background_color_id' => 'Фон',
+    'frame_size' => 'Размер рамы',
+    'without_frame' => 'Без рамы',
+    'frame_id' => 'Рама',
+    'mount_id' => 'Паспарту',
+    'add' => 'Добавить в корзину',
 
 
     //-----------------------
