@@ -2,16 +2,16 @@
 return [
     'title' => 'Свяжитесь с нами',
     'header' => 'Свяжитесь с нами',
-    'text' => 'Нам важно <br> услышать вас',
+    'text' => 'Нам важно <br> услышать Вас',
 
     'name' => 'Имя',
-    'email' => 'Email адрес',
+    'email' => 'E-mail адрес',
     'body' => 'Сообщение',
     'phone' => 'Номер телефона',
-    'name_placeholder' => 'Введите ваше имя',
-    'email_placeholder' => 'Введите ваш E-mail',
-    'body_placeholder' => 'Введите ваше сообщение',
-    'phone_placeholder' => 'Введите номер',
+    'name_placeholder' => 'Введите Ваше имя',
+    'email_placeholder' => 'Введите Ваш E-mail',
+    'body_placeholder' => 'Введите Ваше сообщение',
+    'phone_placeholder' => 'Введите номер телефона',
 
     'email_subject' => 'Contact email',
     'contactFormSubmitted' => 'Contact Message Successfully Send',

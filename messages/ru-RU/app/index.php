@@ -1,15 +1,15 @@
 <?php
 return [
-    'title' => 'Alina Sekatsky / Portrait Artist',
+    'title' => 'Alina Sekatski / Portrait Artist',
 
     'save_moment' => 'Сохрани момент в вечности',
-    'oil_pencil' => 'OIL & PENCIL',
+    'oil_pencil' => 'OIL&PENCIL',
     'studio' => 'PORTRAIT STUDIO',
     'order' => 'Заказать портрет',
 
-    'about_competitions' => 'побед в соревнованиях',
+    'about_competitions' => 'побед в конкурсах',
     'about_portraits' => 'портретов',
-    'about_experience' => 'лет жудожественного опыта',
+    'about_experience' => 'лет художественного опыта',
     'about_publications' => 'публикаций',
 
     'ie_error' => 'You are using an <strong>outdated</strong> browser.
