@@ -20,7 +20,8 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/style.css'
+        'css/style.css',
+        'css/site.css'
     ];
     public $js = [
         'js/jquery.spincrement.js',
@@ -31,6 +32,7 @@ class AppAsset extends AssetBundle
         'js/_materials.js',
         'js/_currency-store.js',
         'js/_spincrement.js',
+        'js/_modal.js',
         'js/order.js',
     ];
     public $depends = [

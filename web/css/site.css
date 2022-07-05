@@ -1,28 +1,46 @@
-
-.fade{
-    display: none;
-}
-.modal{
+/* ширма (полупрозрачное затенение под модальным окном) */
+.shim {
+    /* фиксируем, растягиваем на весь доступный экран */
     position: fixed;
-    z-index: 5;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    max-width: 100vw;
-    max-height: 100vh;
-    background: white;
+    bottom: 0; left: 0; top: 0; right: 0;
+
+    /* если в модальном окне много содержимого, показываем скроллбар */
+    overflow: auto;
+
+    /* однопальцевый скролл для iPad*/
+    -webkit-overflow-scrolling: touch;
 }
-.modal .modal-dialog, .modal .modal-content{
-    height: 100%;
+
+/* фикс для странностей в iPad */
+.shim > * {
+    -webkit-transform: translateZ(0px);
 }
-.modal .modal-body{
-    height: 80%;
-    margin: auto;
+
+/* декоративная часть ширмы: делаем полупрозрачной и чёрной */
+.shim {
+    background: rgba(255,255,255,0.2);
+    padding: 70px;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000); /* IE6–IE8 */
+    zoom: 1;
+    z-index: 700;
+    align-items:center;
+    justify-content: center;
+    display: flex;
 }
-.modal img{
-    max-width: 100%;
-    max-height: 100%;
-    margin: auto;
-    display: block;
+.shim .modal{
+    text-align: center;
+    background-color: #000;
+    border-radius: 19px;
+    padding: 70px;
+}
+.modal__heading{
+    font-size: 22px;
+    line-height: 22px;
+    letter-spacing: .17em;
+    font-weight: bold;
+}
+.modal__content{
+    padding: 50px 0;
+    font-size: 15px;
+    line-height: 20px;
 }
