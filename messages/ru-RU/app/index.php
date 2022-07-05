@@ -16,7 +16,7 @@ return [
         Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.',
 
     'menu' => 'Меню',
-    'gallery' => 'Галлерея',
+    'gallery' => 'Галерея',
     'store' => 'Магазин',
     'contact' => 'Контакты',
 
