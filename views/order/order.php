@@ -1,9 +1,9 @@
 <?php
 
-use app\models\base\Format;
-use app\models\base\Frame;
+use app\models\base\Currency;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+
 
 $form = ActiveForm::begin([
     'id' => 'order-form',
@@ -34,58 +34,55 @@ $form = ActiveForm::begin([
                         <?= $material_name ?>
                     </div>
                     <div class="materials__tools-choice">
-                        <?= $this->render('_material_tools', ['model' => $model, 'availableMaterials' => $availableMaterials]) ?>
+                        <?= $this->render('_material_widget', ['model' => $model, 'availableMaterials' => $availableMaterials,
+                            'main_class' => 'tool', 'display' => 'button', 'field_name' => 'material_id']) ?>
                     </div>
                     <div class="materials__surfaces-choice">
-                        <?= $this->render('_material_surface', ['model' => $model]) ?>
+                        <?= $this->render('_material_widget', ['model' => $model, 'availableMaterials' => $model->availableBases,
+                            'main_class' => 'surface', 'display' => 'tab', 'field_name' => 'base_id']) ?>
                     </div>
-                </div>
-            </div>
-            <div class="order__portrait-size">
-                <div class="label">
-                    <?= Yii::t('app/orders', 'portrait_size') ?>
-                </div>
-                <?= $form->field($model, 'format_id')->hiddenInput()->label(false) ?>
-                <div class="select">
-                    <?= $this->render('_portrait_size', ['model' => $model]) ?>
-                </div>
-            </div>
-            <div class="order__people">
-                <div class="label">
-                    <?= Yii::t('app/orders', 'faces_count') ?>
-                </div>
-                <?= $form->field($model, 'faces_count')->hiddenInput()->label(false) ?>
-                <div class="select">
-                    <?= $this->render('_faces_count', ['model' => $model]) ?>
                 </div>
             </div>
 
-            <?= $this->render('_colour_picker', [
+            <?= $this->render('_select_widget', [
+                'model' => $model, 'form' => $form, 'list' => $model->availableFormats,
+                'class_name' => 'portrait-size', 'field_name' => 'format_id'
+            ]) ?>
+
+
+            <?php
+            $availableFacesCounts = $model->availableFacesCounts;
+            $total = [$availableFacesCounts[$model->faces_count][1]];
+            ?>
+
+            <?= $this->render('_select_widget', [
+                'model' => $model, 'form' => $form, 'list' => $availableFacesCounts,
+                'class_name' => 'people', 'field_name' => 'faces_count'
+            ]) ?>
+
+
+            <?= $this->render('_colour_picker_widget', [
                 'model' => $model, 'colours_list' => $model->availableBgColours,
                 'class_name' => 'order__background', 'field_name' => 'background_color_id'
             ]) ?>
 
-            <div class="order__frame-size">
-                <div class="label">
-                    <?= Yii::t('app/orders', 'frame_size') ?>
-                </div>
-                <?= $form->field($model, 'frame_format_id')->hiddenInput()->label(false) ?>
-                <div class="select">
-                    <?= $this->render('_frame_sizes', ['model' => $model]) ?>
-                </div>
-            </div>
 
-            <?= $this->render('_colour_picker', [
+            <?= $this->render('_select_widget', [
+                'model' => $model, 'form' => $form, 'list' => $model->availableFrameFormats,
+                'class_name' => 'frame-size', 'field_name' => 'frame_format_id'
+            ]) ?>
+
+            <?= $this->render('_colour_picker_widget', [
                 'model' => $model, 'colours_list' => $model->availableFrames,
                 'class_name' => 'order__frame-color', 'field_name' => 'frame_id'
             ]) ?>
 
-            <?= $this->render('_colour_picker', [
+            <?= $this->render('_colour_picker_widget', [
                 'model' => $model, 'colours_list' => $model->availableMounts,
                 'class_name' => 'order__mat', 'field_name' => 'mount_id'
             ]) ?>
 
-            <?= $this->render('_addons') ?>
+            <?= $this->render('_addons', ['addons' => $addons]) ?>
 
             <div class="order__side-submit">
                 <button class="button" type="button">
@@ -93,21 +90,7 @@ $form = ActiveForm::begin([
                 </button>
             </div>
         </div>
-
-        <?= $this->render('_preview') ?>
+        <?= $this->render('_preview', ['total' => $total]) ?>
     </div>
 
 <?php ActiveForm::end(); ?>
-
-<?php
-$formats = json_encode(Format::find()->indexBy('id')->asArray()->all());
-$frames = json_encode(Frame::find()->indexBy('id')->asArray()->all());
-$format_id = $model->format_id;
-
-$script = <<< JS
-    window.formatSizes = $formats;
-    window.frameInfos = $frames;
-    setUpFormat($format_id);
-JS;
-$this->registerJs($script);
-?>

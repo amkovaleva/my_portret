@@ -13,6 +13,9 @@
     /* spincrement for "About" */
 
     var aboutElements = $('.about__counter--spincrement');
+    if(! $('.about__counter--spincrement').length)
+        return;
+
     var aboutCoordinate = aboutElements.first().offset().top - $(window).outerHeight();
 
     function watchAbout() {

@@ -1,5 +1,6 @@
 <?php
 
+use app\models\base\Currency;
 use yii\helpers\Url;
 
 ?>
@@ -69,15 +70,14 @@ use yii\helpers\Url;
                                                     / <?= $first->backgroundMaterial->transName ?>
                                                 </div>
                                                 <?php foreach ($bg_material_info as &$price) {
-                                                    $priceStrings = $price->priceStrings;
+                                                    $priceStrings = Currency::getPriceStrings($price);
                                                     ?>
                                                     <div class="store__item">
                                                         <span class="store__stat"><?= $price->format->sizesStr ?>&nbsp;cm</span>
                                                         <span class="store__value"
-                                                            <?php foreach ($priceStrings as $price_key =>&$priceString) { ?>
-                                                                data-<?= $price_key ?>="<?= $priceString ?>"
-                                                            <?php } ?>
-                                                        ><?= $priceStrings[$active_currency] ?></span>
+                                                            <?= $this->render('_currency_attributes', ['priceStrings' => $priceStrings]) ?> >
+                                                            <?= $priceStrings[$active_currency] ?>
+                                                        </span>
                                                     </div>
                                                 <?php } ?>
                                             </div>

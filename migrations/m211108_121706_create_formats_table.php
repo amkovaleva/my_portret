@@ -32,7 +32,7 @@ class m211108_121706_create_formats_table extends Migration
             true
         );
 
-        $arr = array(['Белый', '#fff'], ['Черный', '#000'], ['Светло-серый', '#ECECEC '], ['Темно-серый', '#4F4F4F']);
+        $arr = array(['Белый', '#fff'], ['Черный', '#000'], ['Серый', '#ABACAC '], ['Темно-серый', '#3A3939']);
         foreach ($arr as &$value) {
             $this->insert(
                 '{{%colours}}',

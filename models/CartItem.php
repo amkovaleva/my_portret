@@ -7,6 +7,7 @@ use app\models\base\BackgroundMaterial;
 use app\models\base\BaseImage;
 use app\models\base\Colour;
 use app\models\base\CountFace;
+use app\models\base\Currency;
 use app\models\base\Format;
 use app\models\base\Frame;
 use app\models\base\Mount;
@@ -125,7 +126,7 @@ class CartItem extends BaseImage
 
 
     public function getPriceStr(){
-        return Price::getPriceStr($this->cost, $this->currency) ;
+        return Currency::getPriceStr($this->cost, $this->currency) ;
     }
 
     public function getImgName()
@@ -146,8 +147,8 @@ class CartItem extends BaseImage
         $this->base_id = $price->bg_material_id;
         $this->material_id = $price->paint_material_id;
         $this->format_id = $price->format_id;
-        $this->currency = Price::getDefaultCurrency();
-        $this->cost = $price->getLocalPrice($this->currency);
+        $this->currency = Currency::getDefaultCurrency();
+        $this->cost = Currency::getLocalPrice($price,$this->currency);
         $this->faces_count = 1;
 
         $this->background_color_id = CartItem::DEFAULT_PORTRAIT_COLOUR;
@@ -210,7 +211,7 @@ class CartItem extends BaseImage
         ])->one();
 
         if ($price) {
-            $this->cost = $price->getLocalPrice($this->currency);
+            $this->cost = Currency::getLocalPrice($price,$this->currency);
             if ($this->faces_count > 1) {
                 $coeff = CountFace::getCoefficient($this->faces_count);
                 $this->cost *= $coeff;
@@ -268,17 +269,23 @@ class CartItem extends BaseImage
                 'prices.paint_material_id' => $this->material_id,
                 'prices.bg_material_id' => $this->base_id,
             ])//->groupBy([Format::tableName().'.id', 'prices.portrait_type_id', 'prices.paint_material_id', 'prices.bg_material_id'])
-            ->select([Format::tableName().'.id', 'width', 'length', 'max_faces',
-                Price::CURRENCY_PROP[$cur]. ' as price'])
+            ->select([Format::tableName().'.id', 'width', 'length', 'max_faces',  'price', 'price_usd', 'price_eur'])
             ->asArray()->all();
 
         $res = [];
         foreach($list as & $format){
             $coeff = CountFace::getCoefficient($format['max_faces']);
 
-            $res[$format['id']] =  [$format['width'] . 'x' . $format['length'],
-                Price::getPriceStr(1 * $format['price'], $cur) . ' - ' .Price::getPriceStr($coeff * $format['price'], $cur)];
+            $res[$format['id']] =  [$format['width'] . 'x' . $format['length'] . ' cm'];
 
+            $prices = array_map(function ($currency) use($format, $coeff){
+                $price = $format[Currency::CURRENCY_PROP[$currency]];
+                return Currency::getPriceStr(1 * $price, $currency) . ' - ' .Currency::getPriceStr($coeff * $price, $currency);
+            }, Currency::CURRENCIES);
+            $prices = array_combine(Currency::CURRENCIES, $prices);
+
+            $res[$format['id']][] = $prices[$cur];
+            $res[$format['id']][] = $prices;
         }
         return $res;
     }
@@ -292,7 +299,7 @@ class CartItem extends BaseImage
                 'prices.bg_material_id' => $this->base_id,
                 Format::tableName().'.id' => $this->format_id,
             ])
-            ->select(['max_faces',  Price::CURRENCY_PROP[$this->currency]. ' as price'])
+            ->select(['max_faces',  'price', 'price_usd', 'price_eur'])
             ->asArray()->one();
 
         $coefs = CountFace::find()->where('max <= '.$format['max_faces'])->asArray()->all();
@@ -300,7 +307,16 @@ class CartItem extends BaseImage
         for ($i = 1; $i <= $format['max_faces']; $i++) {
             foreach ($coefs as &$coef){
                 if($coef['max'] == $i){
-                    $res[$i] = [$i,  Price::getPriceStr($coef['coefficient'] * $format['price'], $this->currency)];
+                    $coefficient = $coef['coefficient'];
+                    $res[$i] = [$i];
+
+                    $prices = array_map(function ($currency) use($format, $coefficient){
+                        return Currency::getPriceStr($coefficient * $format[Currency::CURRENCY_PROP[$currency]], $currency);
+                    }, Currency::CURRENCIES);
+                    $prices = array_combine(Currency::CURRENCIES, $prices);
+
+                    $res[$i][] = $prices[$this->currency];
+                    $res[$i][] = $prices;
                     break;
                 }
             }

@@ -1,3 +1,8 @@
+<?php
+
+use app\models\base\Currency;
+
+?>
 
 <div class="order__content">
     <div class="order__preview">
@@ -10,17 +15,19 @@
     </div>
     <div class="order__footer">
         <div class="order__operations">
-            <button class="order__option action action--clear" type="button">Очистить</button>
-            <button class="order__option action action--rotate" type="button">Изменить ориентацию</button>
-            <button class="order__option action action--move" type="button">Изменить область фото</button>
+            <button class="order__option action action--clear" type="button"><?= Yii::t('app/orders', 'clear') ?></button>
+            <button class="order__option action action--rotate" type="button"><?= Yii::t('app/orders', 'change_orientation') ?></button>
+            <button class="order__option action action--move" type="button"><?= Yii::t('app/orders', 'change_area') ?></button>
         </div>
         <div class="order__total-price">
-            $10999 Total price
+            <span><?= Currency::getPriceStr(array_sum(array_map(function ($price){
+                return 1 * preg_replace("/[^0-9]/", "", $price);
+                },$total)), Currency::getDefaultCurrency()) ?></span> <?= Yii::t('app/orders', 'total') ?>
         </div>
     </div>
     <div class="order__main-submit">
         <button class="button" type="button">
-            Add to cart
+            <?= Yii::t('app/orders', 'add') ?>
         </button>
     </div>
 </div>

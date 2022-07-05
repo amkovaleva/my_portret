@@ -1,34 +1,29 @@
+<?php
 
+use app\models\base\Currency;
+
+?>
 <div class="order__addons">
     <div class="checklist">
         <div class="checklist__heading title title--smaller">
-            Add.
+            <?= Yii::t('app/orders', 'addons') ?>
         </div>
         <div class="checklist__list">
-            <label class="checklist__item choice choice--checkbox choice--full-width">
-                <input class="choice__widget" type="checkbox" name="">
-                <i class="choice__icon"></i>
-                <span class="choice__label">
-                                        Drawing Process Video
-                                        <span class="choice__price">$150</span>
-                                    </span>
-            </label>
-            <label class="checklist__item choice choice--checkbox choice--full-width">
-                <input class="choice__widget" type="checkbox" name="">
-                <i class="choice__icon"></i>
-                <span class="choice__label">
-                                        Scanned Drawing Animation
-                                        <span class="choice__price">$50</span>
-                                    </span>
-            </label>
-            <label class="checklist__item choice choice--checkbox choice--full-width">
-                <input class="choice__widget" type="checkbox" name="">
-                <i class="choice__icon"></i>
-                <span class="choice__label">
-                                        High Quality Scanned Drawing
-                                        <span class="choice__price">$20</span>
-                                    </span>
-            </label>
+            <?php foreach ($addons as $item) { ?>
+                <label class="checklist__item choice choice--checkbox choice--full-width">
+                    <input class="choice__widget" type="checkbox" name="CartItem[addons]">
+                    <i class="choice__icon"></i>
+                    <span class="choice__label">
+                        <?= $item->transName ?>
+                        <?php
+                        $priceStrings = Currency::getPriceStrings($item);
+                        ?>
+                        <span class="choice__price"  <?= $this->render('_currency_attributes', ['priceStrings' => $priceStrings]) ?>>
+                            <?= $priceStrings[Currency::getDefaultCurrency()] ?>
+                        </span>
+                    </span>
+                </label>
+            <?php } ?>
         </div>
     </div>
 </div>

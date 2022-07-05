@@ -7,14 +7,24 @@ return [
     'price_eur' => '{0, number, integer}€',
 
     'upload_btn_text' => 'Please upload photos in good resolution.<br> The quality of the portrait depends on it',
-    'portrait_size' => 'Portrait size',
+    'format_id' => 'Portrait size',
     'faces_count' => 'Number of people',
     'background_color_id' => 'Background',
-    'frame_size' => 'Frame size',
-    'without_frame' => 'No frame',
+    'frame_format_id' => 'Frame size',
+    'empty_frame_format_id' => 'No frame',
     'frame_id' => 'Frame',
     'mount_id' => 'Mat',
     'add' => 'Add to cart',
+    'addons' => 'Add.',
+
+
+    'total' => 'Total price',
+    'clear' => 'Очистить',
+    'change_orientation' => 'Изменить ориентацию',
+    'change_area' => 'Изменить область фото',
+
+
+
 
 
     //-----------------------

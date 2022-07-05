@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\base\Addon;
+use app\models\base\Currency;
 use app\models\base\Price;
 use Yii;
 use app\models\CartItem;
@@ -16,7 +18,7 @@ class OrderController extends BaseSiteController
         return $this->render('index',
             [
                 'prices' => Price::getPricesInfo(),
-                'active_currency' => Price::getDefaultCurrency(),
+                'active_currency' => Currency::getDefaultCurrency(),
             ]
         );
     }
@@ -53,6 +55,7 @@ class OrderController extends BaseSiteController
         return $this->render('order', [
             'model' => $this->getDefaultModel($type),
             'save_result' => $save_result,
+            'addons' => Addon::find()->all(),
         ]);
     }
 

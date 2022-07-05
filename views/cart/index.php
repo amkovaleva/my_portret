@@ -8,7 +8,7 @@ foreach ($items as $key => &$item) {
     $total[$item->currency] = $accumulator + $item->cost;
 }
 $total_info = array_map(function (&$cost, $currency) {
-    return Price::getPriceStr($cost, $currency);
+    return Currency::getPriceStr($cost, $currency);
 }, $total, array_keys($total));
 ?>
 

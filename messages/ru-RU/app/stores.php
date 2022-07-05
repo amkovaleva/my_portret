@@ -2,7 +2,6 @@
 return [
     'title' => 'Сделать заказ',
 
-
     'hyperrealism_heading' => 'Гиперреализм',
     'photorealism_heading' => 'Фотореализм',
     'sketch_heading' => 'Набросок',

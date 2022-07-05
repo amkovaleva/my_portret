@@ -7,9 +7,6 @@ use yii\db\ActiveRecord;
 
 class Price extends ActiveRecord
 {
-    const CURRENCIES = ['ru', 'en', 'eur'];
-    const CURRENCY_SYMBOL = ['₽', '$', '€'];
-    const CURRENCY_PROP = ['ru'=>'price', 'en'=> 'price_usd', 'eur' => 'price_eur'];
 
     /**
      * @return string the name of the table associated with this ActiveRecord class.
@@ -67,38 +64,6 @@ class Price extends ActiveRecord
     public function getFormat()
     {
         return $this->hasOne(Format::class, ['id' => 'format_id']);
-    }
-
-    public function getLocalPrice($currency = null)
-    {
-        if(!$currency)
-            $currency = Price::getDefaultCurrency();
-
-        $prop = self::CURRENCY_PROP[$currency];
-        return $this->$prop;
-    }
-
-    public function getPriceStrings(){
-
-        $prices = array_map(function ($currency){
-            return Price::getPriceStr($this->getLocalPrice($currency), $currency);
-        }, self::CURRENCIES);
-
-        return array_combine(self::CURRENCIES, $prices);
-    }
-
-    public static function getPriceStr($price, $currency){
-        return Yii::t('app/orders', 'price_'.$currency, $price);
-    }
-
-    public static function getDefaultCurrency()
-    {
-        if (Yii::$app->language == 'ru-RU')
-            return Price::CURRENCIES[0];
-        else if (Yii::$app->language == 'en-EN')
-            return Price::CURRENCIES[1];
-        return Price::CURRENCIES[2];
-
     }
 
     public static function getPricesInfo(){

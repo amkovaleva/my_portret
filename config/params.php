@@ -11,7 +11,7 @@ return [
     'admin_models' => array(
         'base' => [ 'colour',  'background-colour', 'background-material', 'paint-material', 'portrait-type'],
         'frames' =>[ 'format', 'frame', 'mount'],
-        'order' => ['price', 'count-face', 'delivery-type','pay-type', 'cancel-reason']
+        'order' => ['price','addon', 'count-face', 'delivery-type','pay-type', 'cancel-reason']
     ),
     'portrait_types' => array(
         'hyperrealism' => ['stars' => 5],
