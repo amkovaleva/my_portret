@@ -1,6 +1,7 @@
 <?php
 return [
     'title' => 'Alina Sekatski / Portrait Artist',
+    'gallery_title' => 'Alina Sekatski / Portrait Artist',
 
     'save_moment' => 'Сохрани момент в вечности',
     'oil_pencil' => 'OIL&PENCIL',

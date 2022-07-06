@@ -45,8 +45,36 @@
     line-height: 20px;
 }
 
-@media (max-width:600px) {
+.site-gallery h1{
+    padding: 40px;
+}
+.gallery__container .row{
+    flex-wrap: wrap;
+    text-align: center;
+}
+.gallery__container .row > div {
+    flex-grow: 1;
+    width: 33%;
+    box-sizing:border-box;
+}
+
+.gallery__container .row > div *{
+    max-width: 100%;
+    box-sizing:content-box;
+}
+
+@media (max-width:900px) {
     .shim,  .shim .modal{
         padding: 40px;
+    }
+
+    .gallery__container .row > div {
+        width: 100%;
+    }
+}
+@media (min-width:900px) and (max-width:1200px) {
+
+    .gallery__container .row > div {
+        width: 50%;
     }
 }

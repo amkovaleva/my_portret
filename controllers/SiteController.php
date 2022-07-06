@@ -65,6 +65,7 @@ class SiteController extends BaseSiteController
      */
     public function actionGallery()
     {
+        $this->view->title = Yii::t('app/index', 'gallery_title');
         return $this->render('gallery');
     }
 }

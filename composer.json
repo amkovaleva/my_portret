@@ -21,7 +21,8 @@
         "2amigos/yii2-usuario": "~1.0",
         "intervention/image": "^2.7",
         "demi/cropper": "~1.0",
-      "ext-simplexml": "*"
+      "ext-simplexml": "*",
+        "powerkernel/yii2-photoswipe": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
