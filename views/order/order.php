@@ -1,6 +1,6 @@
 <?php
 
-use app\models\base\Currency;
+use app\models\OrderConsts;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
@@ -33,54 +33,38 @@ $form = ActiveForm::begin([
                     <div class="materials__output title title--smallest">
                         <?= $material_name ?>
                     </div>
-                    <div class="materials__tools-choice">
-                        <?= $this->render('_material_widget', ['model' => $model, 'availableMaterials' => $availableMaterials,
-                            'main_class' => 'tool', 'display' => 'button', 'field_name' => 'material_id']) ?>
-                    </div>
-                    <div class="materials__surfaces-choice">
-                        <?= $this->render('_material_widget', ['model' => $model, 'availableMaterials' => $model->availableBases,
-                            'main_class' => 'surface', 'display' => 'tab', 'field_name' => 'base_id']) ?>
-                    </div>
+                    <?= $this->render('_material_widget', array_merge(['model' => $model, 'list' => $availableMaterials],
+                        OrderConsts::FIELD_RENDER_PARAMS[OrderConsts::PAINT_MATERIAL])) ?>
+
+                    <?= $this->render('_material_widget',  array_merge(['model' => $model, 'list' => $model->availableBases],
+                        OrderConsts::FIELD_RENDER_PARAMS[OrderConsts::BG_MATERIAL])) ?>
                 </div>
             </div>
 
-            <?= $this->render('_select_widget', [
-                'model' => $model, 'form' => $form, 'list' => $model->availableFormats,
-                'class_name' => 'portrait-size', 'field_name' => 'format_id'
-            ]) ?>
-
+            <?= $this->render('_select_widget',  array_merge(['model' => $model, 'list' => $model->availableFormats],
+                OrderConsts::FIELD_RENDER_PARAMS[OrderConsts::FORMAT])) ?>
 
             <?php
             $availableFacesCounts = $model->availableFacesCounts;
             $total = [$availableFacesCounts[$model->faces_count][1]];
             ?>
 
-            <?= $this->render('_select_widget', [
-                'model' => $model, 'form' => $form, 'list' => $availableFacesCounts,
-                'class_name' => 'people', 'field_name' => 'faces_count'
-            ]) ?>
-
+            <?= $this->render('_select_widget', array_merge(['model' => $model, 'list' => $availableFacesCounts],
+                OrderConsts::FIELD_RENDER_PARAMS[OrderConsts::FACES])) ?>
 
             <?= $this->render('_colour_picker_widget', [
-                'model' => $model, 'colours_list' => $model->availableBgColours,
+                'model' => $model, 'list' => $model->availableBgColours,
                 'class_name' => 'order__background', 'field_name' => 'background_color_id'
             ]) ?>
 
+            <?= $this->render('_select_widget', array_merge(['model' => $model, 'list' => $model->availableFrameFormats],
+                OrderConsts::FIELD_RENDER_PARAMS[OrderConsts::FRAME_FORMAT])) ?>
 
-            <?= $this->render('_select_widget', [
-                'model' => $model, 'form' => $form, 'list' => $model->availableFrameFormats,
-                'class_name' => 'frame-size', 'field_name' => 'frame_format_id'
-            ]) ?>
+            <?= $this->render('_colour_picker_widget', array_merge(['model' => $model, 'list' => $model->availableFrames],
+                OrderConsts::FIELD_RENDER_PARAMS[OrderConsts::FRAME])) ?>
 
-            <?= $this->render('_colour_picker_widget', [
-                'model' => $model, 'colours_list' => $model->availableFrames,
-                'class_name' => 'order__frame-color', 'field_name' => 'frame_id'
-            ]) ?>
-
-            <?= $this->render('_colour_picker_widget', [
-                'model' => $model, 'colours_list' => $model->availableMounts,
-                'class_name' => 'order__mat', 'field_name' => 'mount_id'
-            ]) ?>
+            <?= $this->render('_colour_picker_widget', array_merge(['model' => $model, 'list' => $model->availableMounts],
+                OrderConsts::FIELD_RENDER_PARAMS[OrderConsts::MOUNT])) ?>
 
             <?= $this->render('_addons', ['addons' => $addons]) ?>
 

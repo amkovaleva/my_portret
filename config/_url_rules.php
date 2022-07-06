@@ -5,7 +5,7 @@ $rules = [
     '/contact' => 'site/contact',
     'GET /gallery' => 'site/gallery',
 
-    'POST /order/change/<field:\d+>/<value:\w+>' => 'order/change',
+    'POST /order/change/<field:\w+>/<value:\w+>' => 'order/change',
 
     'GET /cart' => 'cart/index',
     'POST /cart/delete/<id:\d+>' => 'cart/delete',

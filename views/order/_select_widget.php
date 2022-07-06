@@ -2,7 +2,7 @@
     <div class="label">
         <?= Yii::t('app/orders', $field_name) ?>
     </div>
-    <?= $form->field($model, $field_name)->hiddenInput()->label(false) ?>
+    <input type="hidden" name="CartItem[<?= $field_name ?>]" value="<?=$model->$field_name ?>">
     <div class="select">
         <?= $this->render('_select_control', ['model' => $model, 'list' => $list, 'field_name' => $field_name]) ?>
     </div>

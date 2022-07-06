@@ -14,8 +14,8 @@ return [
     'empty_frame_format_id' => 'Без рамы',
     'frame_id' => 'Рама',
     'mount_id' => 'Паспарту',
-    'add' => 'Add to cart',
-    'addons' => 'Добавить в корзину',
+    'add' => 'Добавить в корзину',
+    'addons' => 'Добавить к заказу',
 
 
     'total' => 'Стоимость',

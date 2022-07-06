@@ -1,8 +1,7 @@
-(function($) {
 
-    var selectValue;
+function init_select(){
 
-    $('.select__handler').on('click', function () {
+    $('.select__handler').unbind('click').on('click', function () {
         if( ! $(this).parents('.select').hasClass('select--expanded') ){
             $('.select').removeClass('select--expanded');
             $(this).parents('.select').addClass('select--expanded');
@@ -11,6 +10,28 @@
             $(this).parents('.select').removeClass('select--expanded');
         }
     });
+
+    $('.select__item').unbind('click').on('click', function () {
+        let curElem = $(this),
+            select =  curElem.parents('.select');
+
+        select.find('.select__handler').html( curElem.html());
+        select.removeClass('select--expanded');
+
+        let input = select.prev( "input" ),
+            oldValue = input.val();
+
+        if(oldValue == curElem.data("id"))
+            return;
+
+        input.val(curElem.data("id"));
+        input.trigger('change');
+    });
+}
+
+(function($) {
+
+
 
 
     /* hide popup by overlay click ( goo.gl/SJG2Hw ) */
@@ -30,11 +51,6 @@
         }
     });
 
-    $('.select__item').on('click', function () {
-        selectValue = $(this).html();
-        $(this).parents('.select').find('.select__handler').html(selectValue);
-        $(this).parents('.select').removeClass('select--expanded');
-    });
-
+    init_select();
 
 })(jQuery);

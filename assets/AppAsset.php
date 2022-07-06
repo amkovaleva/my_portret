@@ -29,11 +29,11 @@ class AppAsset extends AssetBundle
         'js/_burger.js',
         'js/_select.js',
         'js/_color-picker.js',
-        'js/_materials.js',
+       // 'js/_materials.js',
         'js/_currency-store.js',
         'js/_spincrement.js',
         'js/_modal.js',
-        'js/order.js',
+        'js/_order.js',
     ];
     public $depends = [
         'yii\web\JqueryAsset'

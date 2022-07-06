@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\base\Addon;
 use app\models\base\Currency;
 use app\models\base\Price;
+use app\models\OrderConsts;
 use Yii;
 use app\models\CartItem;
 use yii\web\Response;
@@ -68,7 +69,20 @@ class OrderController extends BaseSiteController
         if (!$this->isModelLoaded($model))
             return ['success' => false];
 
-        return $model->fillDownFrom($field, $value);
+        $data =  $model->fillDownFrom(OrderConsts::getFieldIndex($field), $value);
+        foreach ($data['render'] as &$item){
+            $changeField = $item['field_index'];
+            $item['container'] =  OrderConsts::FIELD_CONTAINER[$changeField];
+            $item['html'] = '';
+
+            if(count($item['list']))
+                $item['html'] =  $this->renderPartial(OrderConsts::FIELD_RENDER_VIEWS[$changeField],
+                    array_merge([ 'model' => $data['model'], 'list' => $item['list']], OrderConsts::FIELD_RENDER_PARAMS[$changeField]));
+
+            $item['list'] = count($item['list']);
+        }
+        unset($data['model']);
+        return $data;
     }
 
     public function isModelLoaded($model)

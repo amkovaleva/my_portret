@@ -50,7 +50,7 @@ class CartItem extends BaseImage
             [['currency'], 'string'],
             [['created_at'], 'datetime'],
             [['image'], 'file', 'extensions' => 'JPG, JPEG, PNG, BMP, WebP', //mimeTypes' => 'image/*',
-                 'maxSize' => 1024 * 1024 * 15], //15 Mb
+                'maxSize' => 1024 * 1024 * 15], //15 Mb
         ];
     }
 
@@ -118,15 +118,16 @@ class CartItem extends BaseImage
         if (!$this->frame_id)
             return '';
 
-        if(!$this->mount_id)
+        if (!$this->mount_id)
             return Yii::$app->request->baseUrl . '/' . Frame::UPLOAD_FOLDER . $this->frame_id . '.svg';
 
-        return Yii::$app->request->baseUrl . '/' . Mount::UPLOAD_FOLDER .  $this->mount_id . '.svg';
+        return Yii::$app->request->baseUrl . '/' . Mount::UPLOAD_FOLDER . $this->mount_id . '.svg';
     }
 
 
-    public function getPriceStr(){
-        return Currency::getPriceStr($this->cost, $this->currency) ;
+    public function getPriceStr()
+    {
+        return Currency::getPriceStr($this->cost, $this->currency);
     }
 
     public function getImgName()
@@ -148,31 +149,33 @@ class CartItem extends BaseImage
         $this->material_id = $price->paint_material_id;
         $this->format_id = $price->format_id;
         $this->currency = Currency::getDefaultCurrency();
-        $this->cost = Currency::getLocalPrice($price,$this->currency);
+        $this->cost = Currency::getLocalPrice($price, $this->currency);
         $this->faces_count = 1;
 
         $this->background_color_id = CartItem::DEFAULT_PORTRAIT_COLOUR;
         $this->frame_format_id = $this->format_id;
         $this->mount_id = 0;
 
-        if($this->backgroundMaterial->is_mount){
+        if ($this->backgroundMaterial->is_mount) {
             $mount_info = Mount::getDefaultOrderObject($this->format_id);
-            if($mount_info){
+            if ($mount_info) {
                 $this->frame_format_id = $mount_info['frame_format_id'];
                 $this->frame_id = $mount_info['frame_id'];
                 $this->mount_id = $mount_info['id'];
                 return;
             }
         }
-        $this->frame_id = Frame::find()->where(['format_id' => $this->frame_format_id])->orderBy('colour_id DESC') -> one()->id;
+        $this->frame_id = Frame::find()->where(['format_id' => $this->frame_format_id])->orderBy('colour_id DESC')->one()->id;
     }
 
     // <editor-fold state="collapsed" desc="load of available order options">
 
 
-    private function getFirstKey($list)
+    private function getKey($list, $is_first = true)
     {
-        foreach ($list as $key => $value) {
+        $array = $is_first ? $list : array_reverse($list, true);
+
+        foreach ($array as $key => $value) {
             return $key;
         }
         return null;
@@ -187,19 +190,21 @@ class CartItem extends BaseImage
 
         $changeField++;
 
-        $res = ['object' => null, 'items' => []];
+        $res = ['render' => []];
         if (!$isCountFacesChanged)
             while ($changeField <= OrderConsts::MOUNT) {
                 $prop = OrderConsts::FIELD_NAMES[$changeField];
                 $loadMethod = OrderConsts::FIELD_LOAD_NAMES[$changeField];
                 $list = $this->$loadMethod;
 
-                $res['items'][] = ['id' => $prop, 'items' => $list, 'type' => OrderConsts::FIELD_TYPES[$changeField],
-                    'prompt' => OrderConsts::getFieldPrompt($changeField),
-                    'is_colour' => OrderConsts::FIELD_IS_COLOUR[$changeField]];
+                $res['render'][] = [
+                    'list' => $list,
+                    'field_index' => $changeField,
+                    ];
 
-                if (!isset($list[$this->$prop]) && ($this->$prop || !OrderConsts::getFieldPrompt($changeField)))
-                    $this->$prop = $this->getFirstKey($list);
+                if (!isset($list[$this->$prop]))
+                    $this->$prop = $this->getKey($list, !in_array($changeField, [OrderConsts::FRAME_FORMAT, OrderConsts::FRAME]));
+
 
                 $changeField++;
             }
@@ -211,14 +216,14 @@ class CartItem extends BaseImage
         ])->one();
 
         if ($price) {
-            $this->cost = Currency::getLocalPrice($price,$this->currency);
+            $this->cost = Currency::getLocalPrice($price, $this->currency);
             if ($this->faces_count > 1) {
                 $coeff = CountFace::getCoefficient($this->faces_count);
                 $this->cost *= $coeff;
             }
         }
+        $res['model'] = $this;
         $res['object'] = $this->attributes;
-        $res['object']['frame_format_id'] = $this->frame_format_id;
         $res['object']['frame_img'] = $this->frameImageUrl;
 
         return $res;
@@ -253,7 +258,8 @@ class CartItem extends BaseImage
         return $this->translateList($list);
     }
 
-    private  function translateList($list){
+    private function translateList($list)
+    {
         $res = [];
         foreach ($list as &$item)
             $res[$item->id] = $item->transName;
@@ -269,18 +275,18 @@ class CartItem extends BaseImage
                 'prices.paint_material_id' => $this->material_id,
                 'prices.bg_material_id' => $this->base_id,
             ])//->groupBy([Format::tableName().'.id', 'prices.portrait_type_id', 'prices.paint_material_id', 'prices.bg_material_id'])
-            ->select([Format::tableName().'.id', 'width', 'length', 'max_faces',  'price', 'price_usd', 'price_eur'])
+            ->select([Format::tableName() . '.id', 'width', 'length', 'max_faces', 'price', 'price_usd', 'price_eur'])
             ->asArray()->all();
 
         $res = [];
-        foreach($list as & $format){
+        foreach ($list as & $format) {
             $coeff = CountFace::getCoefficient($format['max_faces']);
 
-            $res[$format['id']] =  [$format['width'] . 'x' . $format['length'] . ' cm'];
+            $res[$format['id']] = [$format['width'] . 'x' . $format['length'] . ' cm'];
 
-            $prices = array_map(function ($currency) use($format, $coeff){
+            $prices = array_map(function ($currency) use ($format, $coeff) {
                 $price = $format[Currency::CURRENCY_PROP[$currency]];
-                return Currency::getPriceStr(1 * $price, $currency) . ' - ' .Currency::getPriceStr($coeff * $price, $currency);
+                return Currency::getPriceStr(1 * $price, $currency) . ' - ' . Currency::getPriceStr($coeff * $price, $currency);
             }, Currency::CURRENCIES);
             $prices = array_combine(Currency::CURRENCIES, $prices);
 
@@ -297,20 +303,20 @@ class CartItem extends BaseImage
                 'prices.portrait_type_id' => $this->portrait_type_id,
                 'prices.paint_material_id' => $this->material_id,
                 'prices.bg_material_id' => $this->base_id,
-                Format::tableName().'.id' => $this->format_id,
+                Format::tableName() . '.id' => $this->format_id,
             ])
-            ->select(['max_faces',  'price', 'price_usd', 'price_eur'])
+            ->select(['max_faces', 'price', 'price_usd', 'price_eur'])
             ->asArray()->one();
 
-        $coefs = CountFace::find()->where('max <= '.$format['max_faces'])->asArray()->all();
+        $coefs = CountFace::find()->where('max <= ' . $format['max_faces'])->asArray()->all();
         $res = [];
         for ($i = 1; $i <= $format['max_faces']; $i++) {
-            foreach ($coefs as &$coef){
-                if($coef['max'] == $i){
+            foreach ($coefs as &$coef) {
+                if ($coef['max'] == $i) {
                     $coefficient = $coef['coefficient'];
                     $res[$i] = [$i];
 
-                    $prices = array_map(function ($currency) use($format, $coefficient){
+                    $prices = array_map(function ($currency) use ($format, $coefficient) {
                         return Currency::getPriceStr($coefficient * $format[Currency::CURRENCY_PROP[$currency]], $currency);
                     }, Currency::CURRENCIES);
                     $prices = array_combine(Currency::CURRENCIES, $prices);
@@ -387,18 +393,20 @@ class CartItem extends BaseImage
 
     // </editor-fold>
 
-    public static function getCartItemsForMenu(){
+    public static function getCartItemsForMenu()
+    {
 
-        if(!isset(Yii::$app->params['cookie_value']))
+        if (!isset(Yii::$app->params['cookie_value']))
             return null;
 
         $count = CartItem::find()->where(['user_cookie' => Yii::$app->params['cookie_value']])->count();
-        if(!$count)
+        if (!$count)
             return null;
-        return [ 'count' => $count];
+        return ['count' => $count];
     }
 
-    public static function getCartItemsForUser(){
+    public static function getCartItemsForUser()
+    {
         return CartItem::find()->where(['user_cookie' => Yii::$app->params['cookie_value']])
             ->with(['frame.colour', 'frame.format', 'mount.colour', 'format', 'portraitType', 'backgroundMaterial', 'paintMaterial', 'backgroundColour.colour'])->all();
     }
