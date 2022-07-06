@@ -17,5 +17,8 @@ return [
     'contactFormSubmitted' => 'Contact Message Successfully Send',
 
     'submit' => 'Отправить',
+    'modal_header' => 'Спасибо за Ваше обращение!',
+    'modal_message' => 'Мы обязательно Вам ответим.',
+    'modal_button' => 'Закрыть',
 
 ];

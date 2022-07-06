@@ -6,17 +6,10 @@ use yii\helpers\Html;
 $lan_dir = 'app/contacts';
 ?>
 
-<?php //if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
-    <div class="shim">
-        <div class="modal">
-            <div class="modal__heading">Спасибо за ваше обращение!</div>
-            <div class="modal__content">
-                 Мы обязательно вам ответим.
-            </div>
-            <button class="modal__close button">Закрыть</button>
-        </div>
-    </div>
-<?php //endif; ?>
+<?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
+    <?= $this->render('/partials/_modal', ['title' => Yii::t($lan_dir, 'modal_header'), 'message' => Yii::t($lan_dir, 'modal_message'),
+        'button' => Yii::t($lan_dir, 'modal_button')]) ?>
+<?php endif; ?>
 
 <div class="contacts container">
     <div class="contacts__middle">

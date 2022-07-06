@@ -32,15 +32,21 @@
     background-color: #000;
     border-radius: 19px;
     padding: 70px;
+    box-shadow: 0 0 5px 2px rgb(252 244 227 / 76%);
 }
 .modal__heading{
     font-size: 22px;
     line-height: 22px;
-    letter-spacing: .17em;
     font-weight: bold;
 }
 .modal__content{
     padding: 50px 0;
-    font-size: 15px;
+    font-size: 17px;
     line-height: 20px;
+}
+
+@media (max-width:600px) {
+    .shim,  .shim .modal{
+        padding: 40px;
+    }
 }
