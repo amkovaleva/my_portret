@@ -58,31 +58,35 @@ $lan_dir = 'app/index';
     $list = [
         ['src' => '1.jpg', 'width' => 2000, 'height' => 2572, 'alt' => ''],
         ['src' => '2.jpg', 'width' => 2000, 'height' => 2734, 'alt' => ''],
+        ['src' => '10.jpg', 'width' => 1500, 'height' => 2040, 'alt' => ''],
         ['src' => '3.jpg', 'width' => 1480, 'height' => 2000, 'alt' => ''],
         ['src' => '4.jpg', 'width' => 1402, 'height' => 2000, 'alt' => ''],
         ['src' => '5.jpg', 'width' => 1465, 'height' => 2000, 'alt' => ''],
-        ['src' => '6.gif', 'width' => 800, 'height' => 1422, 'alt' => ''],
         ['src' => '7.jpg', 'width' => 2000, 'height' => 1305, 'alt' => ''],
         ['src' => '8.jpg', 'width' => 2000, 'height' => 3000, 'alt' => ''],
-        ['src' => 'https://www.youtube.com/embed/jejuiyJBJYU', 'width' => 560, 'height' => 315, 'title' => 'YouTube video player', 'is_video' => true],
-        //['src' => '9.jpg', 'width' => 3000, 'height' => 2000, 'alt' => ''],
         ['src' => '10.jpg', 'width' => 1500, 'height' => 2040, 'alt' => ''],
+        ['src' => '4.jpg', 'width' => 1402, 'height' => 2000, 'alt' => ''],
+        ['src' => '6.gif', 'width' => 800, 'height' => 1422, 'alt' => ''],
+        ['src' => '1.jpg', 'width' => 2000, 'height' => 2572, 'alt' => ''],
+        ['src' => '2.jpg', 'width' => 2000, 'height' => 2734, 'alt' => ''],
+        ['src' => '10.jpg', 'width' => 1500, 'height' => 2040, 'alt' => ''],
+        ['src' => '3.jpg', 'width' => 1480, 'height' => 2000, 'alt' => ''],
+        ['src' => '4.jpg', 'width' => 1402, 'height' => 2000, 'alt' => ''],
     ];
     ?>
+
     <?php foreach ($list as $key => &$item) { ?>
         <div class="waterfall__item">
-            <?php if (isset($item['is_video']) && $item['is_video']) { ?>
-                <div class="video video--full-height">
-                    <iframe class="video__widget" width="<?= $item['width'] ?>" height="<?= $item['height'] ?>" src="<?= $item['src'] ?>"
-                            title="<?= $item['title'] ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-            <?php }
-            else { ?>
-                <a class="waterfall__link" href="#">
-                    <img class="waterfall__image" src="/images/index/<?= $item['src'] ?>"
-                         width="<?= $item['width'] ?>" height="<?= $item['height'] ?>" alt="<?= $item['alt'] ?>">
-                </a>
-            <?php } ?>
+            <a class="waterfall__link" href="#">
+                <img class="waterfall__image" src="/images/index/<?= $item['src'] ?>"
+                     width="<?= $item['width'] ?>" height="<?= $item['height'] ?>" alt="<?= $item['alt'] ?>">
+            </a>
         </div>
     <?php } ?>
+</div>
+
+<div class="cinema">
+    <div class="video video--22x9">
+        <iframe class="video__widget" width="560" height="315" src="https://www.youtube.com/embed/jejuiyJBJYU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
 </div>
