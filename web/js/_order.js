@@ -11,7 +11,7 @@ let sendPost = function (url, callback) {
 };
 
 let change_callback = (event) => {
-    console.log('change_callback');
+    //console.log('change_callback');
     let el = $(event.target);
     let field_type = el.attr('name').replace('CartItem[', '').replace(']', '');
 
@@ -38,10 +38,12 @@ let change_callback = (event) => {
 
             else if(item['field_index'] === 2) { // hide only paper option
 
+                let is_visible_container = container.is(":visible");
                 container.replaceWith(new_container);
 
                 if(item['list'] === 1) {
-                    new_container.show();
+                    if(is_visible_container)
+                        new_container.show();
                     new_container.slideUp();
                 }
                 else{
