@@ -13,13 +13,9 @@ return [
         'frames' =>[ 'format', 'frame', 'mount'],
         'order' => ['price','addon', 'count-face', 'delivery-type','pay-type', 'cancel-reason']
     ),
-    'portrait_types' => array(
-        'hyperrealism' => ['stars' => 5],
-        'photorealism' => ['stars' => 4],
-        'sketch' => ['stars' => 3],
-    ),
-    'ids' => array(
-        'portrait_types' => [1 =>'hyperrealism', 2 => 'photorealism', 3 =>'sketch']
-    )
+    'portrait_types' => [
+        1 =>['stars' => 5, 'key' => 'hyperrealism', 5, 'bg_image' => '/images/store/background_hyperrealism.jpg'],
+        2 => ['stars' => 4, 'key' => 'photorealism', 'bg_image' => '/images/store/background_photorealism.jpg'],
+        3 => ['stars' => 3, 'key' => 'sketch', 'bg_image' => '/images/store/background_sketch.jpg']],
 
 ];

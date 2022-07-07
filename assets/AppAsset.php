@@ -20,8 +20,8 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/style.css?v=2',
-        'css/site.css?v=2'
+        'css/style.css?v=3',
+        'css/site.css?v=3'
     ];
     public $js = [
         'js/jquery.spincrement.js',

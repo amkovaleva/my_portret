@@ -11,14 +11,15 @@ use yii\helpers\Url;
     </div>
     <div class="store__grid">
         <?php foreach ($prices as $portrait_type_id => &$portrait_type_info) {
-            $key = Yii::$app->params['ids']['portrait_types'][$portrait_type_id];
+            $params = Yii::$app->params['portrait_types'][$portrait_type_id];
+            $key = $params['key'];
             $type = mb_strtolower($portrait_type_info[1][1][0]->portraitType->transName);
             $paints = [];
             ?>
             <div class="store__tile">
                 <a class="store__preview" href="<?= Url::to(['order/order-' . $key]) ?>">
                     <div class="store__content">
-                        <img class="store__background" src="/images/store/store-background.jpg" width="630" height="525"
+                        <img class="store__background" src="<?= $params['bg_image'] ?>" width="630" height="525"
                              alt="">
                         <div class="store__fade"></div>
                         <div class="store__title"><?= $type ?>.</div>
@@ -36,7 +37,7 @@ use yii\helpers\Url;
                                         </div>
                                         <div class="store__addition">
                                             <?php $i = 0;
-                                            $starts = Yii::$app->params['portrait_types'][$key]['stars'];
+                                            $starts = $params['stars'];
                                             while ($i < $starts) { ?>
                                                 <i class="store__star"></i>
                                                 <?php $i++;
