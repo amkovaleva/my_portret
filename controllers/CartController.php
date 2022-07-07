@@ -2,37 +2,27 @@
 
 namespace app\controllers;
 
-use app\models\CartItem;
+use app\models\Order;
 use Yii;
-use yii\web\Response;
 
 class CartController extends BaseSiteController
 {
-
     public function actionIndex()
     {
+
         $this->view->title = Yii::t('app/carts', 'title');
+        $model = new Order();
+        $model->fillDefault();
 
-        return $this->render('index', ['items' => CartItem::getCartItemsForUser()]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('order_made',  true);
+
+            return $this->refresh();
+        }
+
+        return $this->render('index', [
+            'model' => $model,
+            'item' => $model->cartItem
+        ]);
     }
-
-    public function actionLoadDelModal()
-    {
-        Yii::$app->response->format = Response::FORMAT_HTML;
-        return $this->renderAjax('delete_modal');
-    }
-
-    public function actionDelete($id)
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $model = CartItem::find()->where(['id' => $id])->one();
-        if(!$model)
-            return [];
-
-        $success = $model->delete();
-        $count = CartItem::getCartItemsForMenu();
-
-        return ['success' => $success,  'count' => $count ? $count['count'] : 0];
-    }
-
 }

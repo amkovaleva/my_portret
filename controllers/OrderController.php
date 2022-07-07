@@ -53,6 +53,9 @@ class OrderController extends BaseSiteController
             }
         }
 
+        if($save_result)
+            return $this->redirect(['/cart/index']);
+
         return $this->render('order', [
             'model' => $this->getDefaultModel($type),
             'save_result' => $save_result,

@@ -14,12 +14,16 @@ $form = ActiveForm::begin([
 ]); ?>
 
 <?= $form->field($model, 'portrait_type_id')->hiddenInput()->label(false) ?>
+<?= $form->field($model, 'user_cookie')->hiddenInput()->label(false) ?>
+<?= $form->field($model, 'cost')->hiddenInput()->label(false) ?>
+
     <div class="order">
         <div class="order__sidebar">
             <div class="order__currency">
                 <?= $this->render('/partials/_currency') ?>
             </div>
             <div class="order__uploading-hint">
+                <?= $form->field($model, 'image')->fileInput(['accept' => 'image/jpeg,image/png,image/bmp'])->label(false) ?>
                 <button class="upload" type="button">
                     <?= Yii::t('app/orders', 'upload_btn_text') ?>
                 </button>
@@ -69,12 +73,15 @@ $form = ActiveForm::begin([
             <?= $this->render('_addons', ['addons' => $addons]) ?>
 
             <div class="order__side-submit">
-                <button class="button" type="button">
-                    <?= Yii::t('app/orders', 'add') ?>
-                </button>
+                <input class="button" type="submit" value="<?= Yii::t('app/orders', 'add') ?>">
             </div>
         </div>
         <?= $this->render('_preview', ['total' => $total]) ?>
     </div>
 
 <?php ActiveForm::end(); ?>
+
+
+<?= $this->render('/partials/_modal', ['title' => Yii::t('app/orders', 'no_image_title'),
+    'message' => Yii::t('app/orders', 'no_image_message'),
+    'button' => Yii::t('app/orders', 'no_image_cancel'), 'hidden' => true]) ?>

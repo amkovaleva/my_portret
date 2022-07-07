@@ -20,6 +20,7 @@ use app\models\base\Currency;
             <button class="order__option action action--move" type="button"><?= Yii::t('app/orders', 'change_area') ?></button>
         </div>
         <div class="order__total-price">
+
             <span><?= Currency::getPriceStr(array_sum(array_map(function ($price){
                 return 1 * preg_replace("/[^0-9]/", "", $price);
                 },$total)), Currency::getDefaultCurrency()) ?></span> <?= Yii::t('app/orders', 'total') ?>

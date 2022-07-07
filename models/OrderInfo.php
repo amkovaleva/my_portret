@@ -8,7 +8,7 @@ use yii\base\Model;
 /**
  * ContactForm is the model behind the contact form.
  */
-class ContactForm extends Model
+class OrderInfo extends Model
 {
     public $name;
     public $email;
@@ -23,7 +23,7 @@ class ContactForm extends Model
     public function rules()
     {
         return [
-            [['name', 'email', 'body'], 'required', 'message' => Yii::t('app/contacts', 'required_message')],
+            [['name', 'email', 'body'], 'required'],
             ['email', 'email'],
             ['phone', 'safe'],
         ];
@@ -34,7 +34,7 @@ class ContactForm extends Model
      */
     public function attributeLabels()
     {
-        $lan_dir = 'app/contacts';
+        $lan_dir = 'app/carts';
         return [
             'name' => Yii::t($lan_dir, 'name'),
             'email' => Yii::t($lan_dir, 'email'),

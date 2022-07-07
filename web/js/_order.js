@@ -1,6 +1,8 @@
 'use strict'
 
-const form = $('#order-form');
+let form;
+let fileInput;
+let default_img;
 
 let sendPost = function (url, callback) {
     $.post(url, form.serializeArray(), callback).fail(function () {
@@ -70,9 +72,38 @@ let init_change_action = () => {
     updateTotal();
 };
 
-form.unbind('submit').bind('submit', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-});
 
-init_change_action();
+(function($) {
+
+    form = $('#order-form');
+    fileInput = $('#cartitem-image');
+    default_img = $('.stage__portrait').attr('src');
+
+    form.unbind('submit').bind('submit', (event) => {
+        if (!fileInput[0].files.length) {
+            event.preventDefault();
+            event.stopPropagation();
+            $('.shim').show()
+            return false;
+        }
+    });
+    init_change_action();
+
+    $('.order__uploading-hint .upload').on('click', () => {
+        fileInput.trigger('click');
+    })
+
+    if (fileInput.length)
+        fileInput.on('change', () => {
+            const [file] = fileInput[0].files
+            if (file) {
+                let is_valid_ext = ['jpeg', 'jpg', 'bmp', 'png'].includes(file.name.split('.').pop().toLowerCase());
+                if(is_valid_ext)
+                    $('.stage__portrait').attr('src', URL.createObjectURL(file));
+                else {
+                    fileInput.val('');
+                    $('.stage__portrait').attr('src', default_img);
+                }
+            }
+        });
+})(jQuery);

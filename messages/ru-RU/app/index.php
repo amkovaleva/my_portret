@@ -21,6 +21,7 @@ return [
     'store' => 'Магазин',
     'contact' => 'Контакты',
 
+    'footer_fio' => 'Alina Sekatski',
     'privacy_policy' => 'Политика конфиденциальности',
     'terms_policy' => 'Условия и положения',
     'address' => 'Адрес:',

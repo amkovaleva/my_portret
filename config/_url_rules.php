@@ -8,8 +8,6 @@ $rules = [
     'POST /order/change/<field:\w+>/<value:\w+>' => 'order/change',
 
     'GET /cart' => 'cart/index',
-    'POST /cart/delete/<id:\d+>' => 'cart/delete',
-    'POST /load-del-modal' => 'cart/load-del-modal',
 
     'POST /admin/admin/load-del-modal' => 'admin/admin/load-del-modal',
     'GET /admin' => 'admin/admin/admin',

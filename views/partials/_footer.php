@@ -36,7 +36,7 @@ $lan_dir = 'app/index';
             </div>
         </div>
         <div class="footer__logo emblem">
-            Alina Sekatsky
+            <?= Yii::t($lan_dir, 'footer_fio')  ?>
         </div>
     </div>
 </footer>

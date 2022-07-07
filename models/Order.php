@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\models\base\BaseTranslation;
+
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -25,22 +25,31 @@ class Order extends ActiveRecord
     public function rules()
     {
         return [
-            [['pay_type_id', 'delivery_type_id', 'language', 'state', 'user_cookie',
-                'fio', 'email', 'index', 'country', 'region', 'address', ], 'required'],
-            [['phone', 'fio', 'email', 'index', 'country', 'region', 'address',
-                'language',  'track_info', 'user_comment', 'shop_comment', 'feedback'], 'string'],
-            [['pay_type_id','delivery_type_id', 'cancel_reason_id',], 'integer'],
+            [['state', 'first_name', 'last_name', 'email', 'index', 'country', 'city', 'street', 'house',  'apartment', 'cart_item_id'], 'required', 'message' => Yii::t('app/carts', 'required_message')],
+            [['phone', 'middle_name', 'first_name', 'last_name', 'email', 'phone', 'index', 'country', 'city', 'street',   'house',  'apartment'], 'string'],
             [['created_at'], 'datetime'],
+            [['state'], 'number'],
         ];
     }
 
     public function attributeLabels()
     {
-        $lan_dir = 'admin/colours';
+        $lan_dir = 'app/carts';
         return [
             'id' => Yii::t($lan_dir, 'id'),
-            'name' => Yii::t($lan_dir, 'name'),
-            'code' => Yii::t($lan_dir, 'code'),
+            'state' => Yii::t($lan_dir, 'state'),
+            'first_name' => Yii::t($lan_dir, 'first_name'),
+            'last_name' => Yii::t($lan_dir, 'last_name'),
+            'middle_name' => Yii::t($lan_dir, 'middle_name'),
+            'email' => Yii::t($lan_dir, 'email'),
+            'phone' => Yii::t($lan_dir, 'phone'),
+            'index' => Yii::t($lan_dir, 'index'),
+            'country' => Yii::t($lan_dir, 'country'),
+            'city' => Yii::t($lan_dir, 'city'),
+            'street' => Yii::t($lan_dir, 'street'),
+            'house' => Yii::t($lan_dir, 'house'),
+            'apartment' => Yii::t($lan_dir, 'apartment'),
+            'created_at' => Yii::t($lan_dir, 'created_at'),
         ];
     }
 
@@ -48,8 +57,13 @@ class Order extends ActiveRecord
     public function fillDefault()
     {
         $this->state = Order::CREATED_STATE;
-        $this->language = BaseTranslation::getDefaultLanguage();
-        $this->user_cookie = Yii::$app->params['cookie_value'];
+        $cart = CartItem::getCartItemsForUser();
+        if($cart)
+            $this->cart_item_id = $cart->id;
     }
 
+    public function getCartItem()
+    {
+        return $this->hasOne(CartItem::class, ['id' => 'cart_item_id']);
+    }
 }

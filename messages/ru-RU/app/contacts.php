@@ -21,4 +21,6 @@ return [
     'modal_message' => 'Мы обязательно Вам ответим.',
     'modal_button' => 'Закрыть',
 
+    'required_message' => 'Необходимо заполнить',
+
 ];

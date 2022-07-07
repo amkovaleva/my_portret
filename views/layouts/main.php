@@ -5,10 +5,9 @@ use app\assets\AppAsset;
 AppAsset::register($this);
 $this->beginPage();
 
-
 ?>
 <!DOCTYPE html>
-<html <?=  isset($this->params['html_class']) ? 'class="'.$this->params['html_class'].'"' : '' ?> lang="en_US">
+<html <?=  isset($this->params['html_class']) ? 'class="'.$this->params['html_class'].'"' : '' ?> lang="<?=Yii::$app->language ?>">
     <head>
         <meta charset="utf-8">
         <title><?= Html::encode($this->title) ?></title>

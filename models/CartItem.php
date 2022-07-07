@@ -45,7 +45,7 @@ class CartItem extends BaseImage
         return [
             [['portrait_type_id', 'format_id', 'material_id', 'base_id', 'background_color_id',
                 'imageFile', 'cost', 'currency', 'faces_count', 'user_cookie'], 'required'],
-            [['frame_id', 'mount_id', 'frame_format_id', 'crop_data'], 'safe'],
+            [['frame_id', 'mount_id', 'frame_format_id', 'crop_data', 'addons'], 'safe'],
             [['cost', 'faces_count'], 'number'],
             [['currency'], 'string'],
             [['created_at'], 'datetime'],
@@ -181,6 +181,14 @@ class CartItem extends BaseImage
         return null;
     }
 
+    private function translateList($list)
+    {
+        $res = [];
+        foreach ($list as &$item)
+            $res[$item->id] = $item->transName;
+        return $res;
+    }
+
     public function fillDownFrom($changeField, $value)
     {
 
@@ -256,14 +264,6 @@ class CartItem extends BaseImage
             ])->all();
 
         return $this->translateList($list);
-    }
-
-    private function translateList($list)
-    {
-        $res = [];
-        foreach ($list as &$item)
-            $res[$item->id] = $item->transName;
-        return $res;
     }
 
     public function getAvailableFormats()
@@ -408,6 +408,7 @@ class CartItem extends BaseImage
     public static function getCartItemsForUser()
     {
         return CartItem::find()->where(['user_cookie' => Yii::$app->params['cookie_value']])
-            ->with(['frame.colour', 'frame.format', 'mount.colour', 'format', 'portraitType', 'backgroundMaterial', 'paintMaterial', 'backgroundColour.colour'])->all();
+            ->with(['frame.colour', 'frame.format', 'mount.colour', 'format', 'portraitType', 'backgroundMaterial', 'paintMaterial', 'backgroundColour.colour'])
+            ->orderBy(CartItem::tableName(). '.id DESC')->one();
     }
 }

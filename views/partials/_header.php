@@ -4,7 +4,7 @@ use yii\helpers\Url;
 $is_h1 = isset($is_h1) ? $is_h1 : false;
 $h1_tag_name = $is_h1 ? "h1" : "a";
 $href = !$is_h1 ? 'href="'.$url = Url::to('/').'"'  : '';
-$logo_text = Yii::t('app/index', 'order');
+$logo_text = Yii::t('app/index', 'title');
 
 ?>
 <!--[if IE]>

@@ -64,16 +64,25 @@ $lan_dir = 'app/index';
         ['src' => '6.gif', 'width' => 800, 'height' => 1422, 'alt' => ''],
         ['src' => '7.jpg', 'width' => 2000, 'height' => 1305, 'alt' => ''],
         ['src' => '8.jpg', 'width' => 2000, 'height' => 3000, 'alt' => ''],
-        ['src' => '9.jpg', 'width' => 3000, 'height' => 2000, 'alt' => ''],
+        ['src' => 'https://www.youtube.com/embed/jejuiyJBJYU', 'width' => 560, 'height' => 315, 'title' => 'YouTube video player', 'is_video' => true],
+        //['src' => '9.jpg', 'width' => 3000, 'height' => 2000, 'alt' => ''],
         ['src' => '10.jpg', 'width' => 1500, 'height' => 2040, 'alt' => ''],
     ];
     ?>
     <?php foreach ($list as $key => &$item) { ?>
         <div class="waterfall__item">
-            <a class="waterfall__link" href="#">
-                <img class="waterfall__image" src="/images/index/<?= $item['src'] ?>"
-                     width="<?= $item['width'] ?>" height="<?= $item['height'] ?>" alt="<?= $item['alt'] ?>">
-            </a>
+            <?php if (isset($item['is_video']) && $item['is_video']) { ?>
+                <div class="video video--full-height">
+                    <iframe class="video__widget" width="<?= $item['width'] ?>" height="<?= $item['height'] ?>" src="<?= $item['src'] ?>"
+                            title="<?= $item['title'] ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            <?php }
+            else { ?>
+                <a class="waterfall__link" href="#">
+                    <img class="waterfall__image" src="/images/index/<?= $item['src'] ?>"
+                         width="<?= $item['width'] ?>" height="<?= $item['height'] ?>" alt="<?= $item['alt'] ?>">
+                </a>
+            <?php } ?>
         </div>
     <?php } ?>
 </div>

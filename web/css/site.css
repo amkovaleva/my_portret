@@ -78,3 +78,6 @@
         width: 50%;
     }
 }
+.form-group.field-cartitem-image{
+    display: none;
+}

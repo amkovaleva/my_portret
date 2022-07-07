@@ -23,6 +23,7 @@ function updateTotal(){
         res += template[template.length - 1];
 
     $('.order__total-price span').text(res);
+    $('#cartitem-cost').val(total);
 }
 
 (function($) {
