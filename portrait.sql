@@ -2,10 +2,10 @@
 -- version 4.6.6deb5ubuntu0.5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Dec 21, 2021 at 09:52 PM
--- Server version: 5.7.36-0ubuntu0.18.04.1
--- PHP Version: 7.2.24-0ubuntu0.18.04.10
+-- Хост: localhost:3306
+-- Время создания: Июл 07 2022 г., 13:21
+-- Версия сервера: 5.7.36-0ubuntu0.18.04.1
+-- Версия PHP: 7.2.24-0ubuntu0.18.04.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,15 +17,38 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `portrait`
+-- База данных: `f0694443_portrait`
 --
-CREATE DATABASE IF NOT EXISTS `portrait` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-USE `portrait`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_assignment`
+-- Структура таблицы `addons`
+--
+
+DROP TABLE IF EXISTS `addons`;
+CREATE TABLE `addons` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name_en` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `price_usd` decimal(10,0) NOT NULL DEFAULT '0',
+  `price_eur` decimal(10,0) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Дамп данных таблицы `addons`
+--
+
+INSERT INTO `addons` (`id`, `name`, `name_en`, `price`, `price_usd`, `price_eur`) VALUES
+(1, 'Видео процесса рисования', 'Drawing Process Video', '150.00', '150', '150'),
+(2, 'Анимация из сканов портрета', 'Scanned Drawing Animation', '50.00', '50', '50'),
+(3, 'Высокого качества скан портрета', 'High Quality Scanned Drawing', '20.00', '20', '20');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `auth_assignment`
 --
 
 DROP TABLE IF EXISTS `auth_assignment`;
@@ -36,7 +59,7 @@ CREATE TABLE `auth_assignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `auth_assignment`
+-- Дамп данных таблицы `auth_assignment`
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
@@ -45,7 +68,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_item`
+-- Структура таблицы `auth_item`
 --
 
 DROP TABLE IF EXISTS `auth_item`;
@@ -60,7 +83,7 @@ CREATE TABLE `auth_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `auth_item`
+-- Дамп данных таблицы `auth_item`
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
@@ -70,7 +93,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_item_child`
+-- Структура таблицы `auth_item_child`
 --
 
 DROP TABLE IF EXISTS `auth_item_child`;
@@ -80,7 +103,7 @@ CREATE TABLE `auth_item_child` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `auth_item_child`
+-- Дамп данных таблицы `auth_item_child`
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
@@ -89,7 +112,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_rule`
+-- Структура таблицы `auth_rule`
 --
 
 DROP TABLE IF EXISTS `auth_rule`;
@@ -103,7 +126,7 @@ CREATE TABLE `auth_rule` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `background_colors`
+-- Структура таблицы `background_colors`
 --
 
 DROP TABLE IF EXISTS `background_colors`;
@@ -113,7 +136,7 @@ CREATE TABLE `background_colors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `background_colors`
+-- Дамп данных таблицы `background_colors`
 --
 
 INSERT INTO `background_colors` (`id`, `colour_id`) VALUES
@@ -124,7 +147,7 @@ INSERT INTO `background_colors` (`id`, `colour_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bg_materials`
+-- Структура таблицы `bg_materials`
 --
 
 DROP TABLE IF EXISTS `bg_materials`;
@@ -136,7 +159,7 @@ CREATE TABLE `bg_materials` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `bg_materials`
+-- Дамп данных таблицы `bg_materials`
 --
 
 INSERT INTO `bg_materials` (`id`, `name`, `is_mount`, `name_en`) VALUES
@@ -146,7 +169,7 @@ INSERT INTO `bg_materials` (`id`, `name`, `is_mount`, `name_en`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cancel_reasons`
+-- Структура таблицы `cancel_reasons`
 --
 
 DROP TABLE IF EXISTS `cancel_reasons`;
@@ -158,7 +181,7 @@ CREATE TABLE `cancel_reasons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `cancel_reasons`
+-- Дамп данных таблицы `cancel_reasons`
 --
 
 INSERT INTO `cancel_reasons` (`id`, `name`, `description`, `description_en`) VALUES
@@ -167,7 +190,7 @@ INSERT INTO `cancel_reasons` (`id`, `name`, `description`, `description_en`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cart_items`
+-- Структура таблицы `cart_items`
 --
 
 DROP TABLE IF EXISTS `cart_items`;
@@ -188,19 +211,10 @@ CREATE TABLE `cart_items` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Dumping data for table `cart_items`
---
-
-INSERT INTO `cart_items` (`id`, `portrait_type_id`, `format_id`, `material_id`, `base_id`, `frame_id`, `faces_count`, `mount_id`, `background_color_id`, `imageFile`, `cost`, `currency`, `user_cookie`, `created_at`) VALUES
-(78, 1, 1, 1, 1, 4, 1, 2, 1, '32d9bca5746a8f665c3197bee6e3b161_78.png', '16000.00', 'ru', '32d9bca5746a8f665c3197bee6e3b161', '2021-12-12 19:05:53'),
-(79, 2, 1, 1, 1, 4, 1, 2, 1, '32d9bca5746a8f665c3197bee6e3b161_79.png', '10000.00', 'ru', '32d9bca5746a8f665c3197bee6e3b161', '2021-12-12 19:06:13'),
-(80, 2, 1, 1, 1, 4, 1, 2, 1, '32d9bca5746a8f665c3197bee6e3b161_80.jpg', '10000.00', 'ru', '32d9bca5746a8f665c3197bee6e3b161', '2021-12-14 11:52:22');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `colours`
+-- Структура таблицы `colours`
 --
 
 DROP TABLE IF EXISTS `colours`;
@@ -212,19 +226,20 @@ CREATE TABLE `colours` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `colours`
+-- Дамп данных таблицы `colours`
 --
 
 INSERT INTO `colours` (`id`, `name`, `code`, `name_en`) VALUES
 (1, 'Белый', '#fff', 'White'),
 (2, 'Черный', '#000', 'Black'),
-(3, 'Светло-серый', '#ECECEC ', 'Light gray'),
-(4, 'Темно-серый', '#4F4F4F', 'Dark grey');
+(3, 'Серый', '#ABACAC', 'Gray'),
+(4, 'Темно-серый', '#3A3939', 'Dark grey'),
+(5, 'ert', 'rrr', 'Whiteh');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `count_faces`
+-- Структура таблицы `count_faces`
 --
 
 DROP TABLE IF EXISTS `count_faces`;
@@ -236,7 +251,7 @@ CREATE TABLE `count_faces` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `count_faces`
+-- Дамп данных таблицы `count_faces`
 --
 
 INSERT INTO `count_faces` (`id`, `min`, `max`, `coefficient`) VALUES
@@ -248,7 +263,7 @@ INSERT INTO `count_faces` (`id`, `min`, `max`, `coefficient`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `delivery_types`
+-- Структура таблицы `delivery_types`
 --
 
 DROP TABLE IF EXISTS `delivery_types`;
@@ -261,7 +276,7 @@ CREATE TABLE `delivery_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `delivery_types`
+-- Дамп данных таблицы `delivery_types`
 --
 
 INSERT INTO `delivery_types` (`id`, `name`, `name_en`, `for_ru`, `for_not_ru`) VALUES
@@ -271,7 +286,7 @@ INSERT INTO `delivery_types` (`id`, `name`, `name_en`, `for_ru`, `for_not_ru`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `formats`
+-- Структура таблицы `formats`
 --
 
 DROP TABLE IF EXISTS `formats`;
@@ -284,7 +299,7 @@ CREATE TABLE `formats` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `formats`
+-- Дамп данных таблицы `formats`
 --
 
 INSERT INTO `formats` (`id`, `name`, `length`, `width`, `max_faces`) VALUES
@@ -296,7 +311,7 @@ INSERT INTO `formats` (`id`, `name`, `length`, `width`, `max_faces`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `frames`
+-- Структура таблицы `frames`
 --
 
 DROP TABLE IF EXISTS `frames`;
@@ -310,7 +325,7 @@ CREATE TABLE `frames` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `frames`
+-- Дамп данных таблицы `frames`
 --
 
 INSERT INTO `frames` (`id`, `colour_id`, `format_id`, `width`, `name`, `imageFile`) VALUES
@@ -326,7 +341,7 @@ INSERT INTO `frames` (`id`, `colour_id`, `format_id`, `width`, `name`, `imageFil
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migration`
+-- Структура таблицы `migration`
 --
 
 DROP TABLE IF EXISTS `migration`;
@@ -336,7 +351,7 @@ CREATE TABLE `migration` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `migration`
+-- Дамп данных таблицы `migration`
 --
 
 INSERT INTO `migration` (`version`, `apply_time`) VALUES
@@ -363,12 +378,14 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 ('m211123_194014_create_cart_items_table', 1638292796),
 ('m211211_090933_change_mount_table', 1639215504),
 ('m211213_173146_change_order_table', 1640112329),
-('m211221_143200_add_translation_to_tables', 1640112329);
+('m211221_143200_add_translation_to_tables', 1640112329),
+('m220705_134209_create_addons_table', 1657030501),
+('m220707_060650_create_order_addons_table', 1657182310);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mounts`
+-- Структура таблицы `mounts`
 --
 
 DROP TABLE IF EXISTS `mounts`;
@@ -381,7 +398,7 @@ CREATE TABLE `mounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `mounts`
+-- Дамп данных таблицы `mounts`
 --
 
 INSERT INTO `mounts` (`id`, `frame_id`, `imageFile`, `portrait_format_id`, `colour_id`) VALUES
@@ -398,7 +415,7 @@ INSERT INTO `mounts` (`id`, `frame_id`, `imageFile`, `portrait_format_id`, `colo
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orders`
+-- Структура таблицы `orders`
 --
 
 DROP TABLE IF EXISTS `orders`;
@@ -407,29 +424,43 @@ CREATE TABLE `orders` (
   `pay_type_id` int(11) NOT NULL DEFAULT '1',
   `delivery_type_id` int(11) NOT NULL DEFAULT '1',
   `state` int(11) NOT NULL DEFAULT '1',
-  `fio` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `first_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `email` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `index` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `country` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `address` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `phone` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `user_comment` text COLLATE utf8_bin,
   `track_info` text COLLATE utf8_bin,
   `cancel_reason_id` int(11) DEFAULT NULL,
   `shop_comment` text COLLATE utf8_bin,
   `feedback` text COLLATE utf8_bin,
-  `cost` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `cost_usd` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `cost_eur` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `language` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'ru',
-  `user_cookie` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `middle_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `city` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `street` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `house` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `apartment` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `cart_item_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `paint_materials`
+-- Структура таблицы `order_addons`
+--
+
+DROP TABLE IF EXISTS `order_addons`;
+CREATE TABLE `order_addons` (
+  `id` int(11) NOT NULL,
+  `cart_item_id` int(11) NOT NULL DEFAULT '0',
+  `addon_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `paint_materials`
 --
 
 DROP TABLE IF EXISTS `paint_materials`;
@@ -440,7 +471,7 @@ CREATE TABLE `paint_materials` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `paint_materials`
+-- Дамп данных таблицы `paint_materials`
 --
 
 INSERT INTO `paint_materials` (`id`, `name`, `name_en`) VALUES
@@ -450,7 +481,7 @@ INSERT INTO `paint_materials` (`id`, `name`, `name_en`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pay_types`
+-- Структура таблицы `pay_types`
 --
 
 DROP TABLE IF EXISTS `pay_types`;
@@ -465,7 +496,7 @@ CREATE TABLE `pay_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `pay_types`
+-- Дамп данных таблицы `pay_types`
 --
 
 INSERT INTO `pay_types` (`id`, `name`, `name_en`, `description`, `description_en`, `for_ru`, `for_not_ru`) VALUES
@@ -475,7 +506,7 @@ INSERT INTO `pay_types` (`id`, `name`, `name_en`, `description`, `description_en
 -- --------------------------------------------------------
 
 --
--- Table structure for table `portrait_types`
+-- Структура таблицы `portrait_types`
 --
 
 DROP TABLE IF EXISTS `portrait_types`;
@@ -486,7 +517,7 @@ CREATE TABLE `portrait_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `portrait_types`
+-- Дамп данных таблицы `portrait_types`
 --
 
 INSERT INTO `portrait_types` (`id`, `name`, `name_en`) VALUES
@@ -497,7 +528,7 @@ INSERT INTO `portrait_types` (`id`, `name`, `name_en`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prices`
+-- Структура таблицы `prices`
 --
 
 DROP TABLE IF EXISTS `prices`;
@@ -513,7 +544,7 @@ CREATE TABLE `prices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `prices`
+-- Дамп данных таблицы `prices`
 --
 
 INSERT INTO `prices` (`id`, `bg_material_id`, `paint_material_id`, `portrait_type_id`, `format_id`, `price`, `price_usd`, `price_eur`) VALUES
@@ -543,7 +574,7 @@ INSERT INTO `prices` (`id`, `bg_material_id`, `paint_material_id`, `portrait_typ
 -- --------------------------------------------------------
 
 --
--- Table structure for table `profile`
+-- Структура таблицы `profile`
 --
 
 DROP TABLE IF EXISTS `profile`;
@@ -560,7 +591,7 @@ CREATE TABLE `profile` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `profile`
+-- Дамп данных таблицы `profile`
 --
 
 INSERT INTO `profile` (`user_id`, `name`, `public_email`, `gravatar_email`, `gravatar_id`, `location`, `website`, `timezone`, `bio`) VALUES
@@ -569,7 +600,7 @@ INSERT INTO `profile` (`user_id`, `name`, `public_email`, `gravatar_email`, `gra
 -- --------------------------------------------------------
 
 --
--- Table structure for table `social_account`
+-- Структура таблицы `social_account`
 --
 
 DROP TABLE IF EXISTS `social_account`;
@@ -588,7 +619,7 @@ CREATE TABLE `social_account` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `token`
+-- Структура таблицы `token`
 --
 
 DROP TABLE IF EXISTS `token`;
@@ -602,7 +633,7 @@ CREATE TABLE `token` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Структура таблицы `user`
 --
 
 DROP TABLE IF EXISTS `user`;
@@ -630,25 +661,33 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `user`
+-- Дамп данных таблицы `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `auth_key`, `unconfirmed_email`, `registration_ip`, `flags`, `confirmed_at`, `blocked_at`, `updated_at`, `created_at`, `last_login_at`, `last_login_ip`, `auth_tf_key`, `auth_tf_enabled`, `password_changed_at`, `gdpr_consent`, `gdpr_consent_date`, `gdpr_deleted`) VALUES
-(1, 'admin', 'email@example.com', '$2y$10$VR2yK3how4haEQ5J81rJvOj/WgaJeRNc.uVujoqK2gSYn88TDpAk2', 'mmw00DtK1sZAO83yuXXpsWkyz3ISHVIO', NULL, NULL, 0, 1638292795, NULL, 1638292796, 1638292796, 1640109018, '::1', '', 0, 1638292796, 0, NULL, 0);
+(1, 'admin', 'email@example.com', '$2y$10$VR2yK3how4haEQ5J81rJvOj/WgaJeRNc.uVujoqK2gSYn88TDpAk2', 'mmw00DtK1sZAO83yuXXpsWkyz3ISHVIO', NULL, NULL, 0, 1638292795, NULL, 1638292796, 1638292796, 1657028295, '::1', '', 0, 1638292796, 0, NULL, 0);
 
 --
--- Indexes for dumped tables
+-- Индексы сохранённых таблиц
 --
 
 --
--- Indexes for table `auth_assignment`
+-- Индексы таблицы `addons`
+--
+ALTER TABLE `addons`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
+  ADD UNIQUE KEY `name_en` (`name_en`);
+
+--
+-- Индексы таблицы `auth_assignment`
 --
 ALTER TABLE `auth_assignment`
   ADD PRIMARY KEY (`item_name`,`user_id`),
   ADD KEY `idx-auth_assignment-user_id` (`user_id`);
 
 --
--- Indexes for table `auth_item`
+-- Индексы таблицы `auth_item`
 --
 ALTER TABLE `auth_item`
   ADD PRIMARY KEY (`name`),
@@ -656,27 +695,27 @@ ALTER TABLE `auth_item`
   ADD KEY `idx-auth_item-type` (`type`);
 
 --
--- Indexes for table `auth_item_child`
+-- Индексы таблицы `auth_item_child`
 --
 ALTER TABLE `auth_item_child`
   ADD PRIMARY KEY (`parent`,`child`),
   ADD KEY `child` (`child`);
 
 --
--- Indexes for table `auth_rule`
+-- Индексы таблицы `auth_rule`
 --
 ALTER TABLE `auth_rule`
   ADD PRIMARY KEY (`name`);
 
 --
--- Indexes for table `background_colors`
+-- Индексы таблицы `background_colors`
 --
 ALTER TABLE `background_colors`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `colour_id` (`colour_id`);
 
 --
--- Indexes for table `bg_materials`
+-- Индексы таблицы `bg_materials`
 --
 ALTER TABLE `bg_materials`
   ADD PRIMARY KEY (`id`),
@@ -684,14 +723,14 @@ ALTER TABLE `bg_materials`
   ADD UNIQUE KEY `name_en` (`name_en`);
 
 --
--- Indexes for table `cancel_reasons`
+-- Индексы таблицы `cancel_reasons`
 --
 ALTER TABLE `cancel_reasons`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- Indexes for table `cart_items`
+-- Индексы таблицы `cart_items`
 --
 ALTER TABLE `cart_items`
   ADD PRIMARY KEY (`id`),
@@ -704,7 +743,7 @@ ALTER TABLE `cart_items`
   ADD KEY `fk-cart_items-mount_id` (`mount_id`);
 
 --
--- Indexes for table `colours`
+-- Индексы таблицы `colours`
 --
 ALTER TABLE `colours`
   ADD PRIMARY KEY (`id`),
@@ -713,20 +752,20 @@ ALTER TABLE `colours`
   ADD UNIQUE KEY `name_en` (`name_en`);
 
 --
--- Indexes for table `count_faces`
+-- Индексы таблицы `count_faces`
 --
 ALTER TABLE `count_faces`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `delivery_types`
+-- Индексы таблицы `delivery_types`
 --
 ALTER TABLE `delivery_types`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- Indexes for table `formats`
+-- Индексы таблицы `formats`
 --
 ALTER TABLE `formats`
   ADD PRIMARY KEY (`id`),
@@ -734,7 +773,7 @@ ALTER TABLE `formats`
   ADD UNIQUE KEY `ind-formats-unique` (`length`,`width`);
 
 --
--- Indexes for table `frames`
+-- Индексы таблицы `frames`
 --
 ALTER TABLE `frames`
   ADD PRIMARY KEY (`id`),
@@ -743,13 +782,13 @@ ALTER TABLE `frames`
   ADD KEY `fk-frames-format_id` (`format_id`);
 
 --
--- Indexes for table `migration`
+-- Индексы таблицы `migration`
 --
 ALTER TABLE `migration`
   ADD PRIMARY KEY (`version`);
 
 --
--- Indexes for table `mounts`
+-- Индексы таблицы `mounts`
 --
 ALTER TABLE `mounts`
   ADD PRIMARY KEY (`id`),
@@ -758,16 +797,25 @@ ALTER TABLE `mounts`
   ADD KEY `fk-frame_mount_images-frame_id` (`frame_id`);
 
 --
--- Indexes for table `orders`
+-- Индексы таблицы `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk-orders-cancel_reason_id` (`cancel_reason_id`),
   ADD KEY `fk-orders-pay_type_id` (`pay_type_id`),
-  ADD KEY `fk-orders-delivery_type_id` (`delivery_type_id`);
+  ADD KEY `fk-orders-delivery_type_id` (`delivery_type_id`),
+  ADD KEY `fk-orders-cart_item_id` (`cart_item_id`);
 
 --
--- Indexes for table `paint_materials`
+-- Индексы таблицы `order_addons`
+--
+ALTER TABLE `order_addons`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `ind-order_addons-unique` (`addon_id`,`cart_item_id`),
+  ADD KEY `fk-order_addons-order_id` (`cart_item_id`);
+
+--
+-- Индексы таблицы `paint_materials`
 --
 ALTER TABLE `paint_materials`
   ADD PRIMARY KEY (`id`),
@@ -775,14 +823,14 @@ ALTER TABLE `paint_materials`
   ADD UNIQUE KEY `name_en` (`name_en`);
 
 --
--- Indexes for table `pay_types`
+-- Индексы таблицы `pay_types`
 --
 ALTER TABLE `pay_types`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- Indexes for table `portrait_types`
+-- Индексы таблицы `portrait_types`
 --
 ALTER TABLE `portrait_types`
   ADD PRIMARY KEY (`id`),
@@ -790,7 +838,7 @@ ALTER TABLE `portrait_types`
   ADD UNIQUE KEY `name_en` (`name_en`);
 
 --
--- Indexes for table `prices`
+-- Индексы таблицы `prices`
 --
 ALTER TABLE `prices`
   ADD PRIMARY KEY (`id`),
@@ -800,13 +848,13 @@ ALTER TABLE `prices`
   ADD KEY `fk-prices-paint_material_id` (`paint_material_id`);
 
 --
--- Indexes for table `profile`
+-- Индексы таблицы `profile`
 --
 ALTER TABLE `profile`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- Indexes for table `social_account`
+-- Индексы таблицы `social_account`
 --
 ALTER TABLE `social_account`
   ADD PRIMARY KEY (`id`),
@@ -815,13 +863,13 @@ ALTER TABLE `social_account`
   ADD KEY `fk_social_account_user` (`user_id`);
 
 --
--- Indexes for table `token`
+-- Индексы таблицы `token`
 --
 ALTER TABLE `token`
   ADD UNIQUE KEY `idx_token_user_id_code_type` (`user_id`,`code`,`type`);
 
 --
--- Indexes for table `user`
+-- Индексы таблицы `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
@@ -829,125 +877,135 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `idx_user_email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT for table `background_colors`
+-- AUTO_INCREMENT для таблицы `addons`
+--
+ALTER TABLE `addons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT для таблицы `background_colors`
 --
 ALTER TABLE `background_colors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `bg_materials`
+-- AUTO_INCREMENT для таблицы `bg_materials`
 --
 ALTER TABLE `bg_materials`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `cancel_reasons`
+-- AUTO_INCREMENT для таблицы `cancel_reasons`
 --
 ALTER TABLE `cancel_reasons`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `cart_items`
+-- AUTO_INCREMENT для таблицы `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 --
--- AUTO_INCREMENT for table `colours`
+-- AUTO_INCREMENT для таблицы `colours`
 --
 ALTER TABLE `colours`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
--- AUTO_INCREMENT for table `count_faces`
+-- AUTO_INCREMENT для таблицы `count_faces`
 --
 ALTER TABLE `count_faces`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT for table `delivery_types`
+-- AUTO_INCREMENT для таблицы `delivery_types`
 --
 ALTER TABLE `delivery_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `formats`
+-- AUTO_INCREMENT для таблицы `formats`
 --
 ALTER TABLE `formats`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT for table `frames`
+-- AUTO_INCREMENT для таблицы `frames`
 --
 ALTER TABLE `frames`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT for table `mounts`
+-- AUTO_INCREMENT для таблицы `mounts`
 --
 ALTER TABLE `mounts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
--- AUTO_INCREMENT for table `orders`
+-- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `paint_materials`
+-- AUTO_INCREMENT для таблицы `order_addons`
+--
+ALTER TABLE `order_addons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT для таблицы `paint_materials`
 --
 ALTER TABLE `paint_materials`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `pay_types`
+-- AUTO_INCREMENT для таблицы `pay_types`
 --
 ALTER TABLE `pay_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `portrait_types`
+-- AUTO_INCREMENT для таблицы `portrait_types`
 --
 ALTER TABLE `portrait_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `prices`
+-- AUTO_INCREMENT для таблицы `prices`
 --
 ALTER TABLE `prices`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
--- AUTO_INCREMENT for table `social_account`
+-- AUTO_INCREMENT для таблицы `social_account`
 --
 ALTER TABLE `social_account`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- Constraints for dumped tables
+-- Ограничения внешнего ключа сохраненных таблиц
 --
 
 --
--- Constraints for table `auth_assignment`
+-- Ограничения внешнего ключа таблицы `auth_assignment`
 --
 ALTER TABLE `auth_assignment`
   ADD CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `auth_item`
+-- Ограничения внешнего ключа таблицы `auth_item`
 --
 ALTER TABLE `auth_item`
   ADD CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `auth_item_child`
+-- Ограничения внешнего ключа таблицы `auth_item_child`
 --
 ALTER TABLE `auth_item_child`
   ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `background_colors`
+-- Ограничения внешнего ключа таблицы `background_colors`
 --
 ALTER TABLE `background_colors`
   ADD CONSTRAINT `fk-background_colors-colour_id` FOREIGN KEY (`colour_id`) REFERENCES `colours` (`id`);
 
 --
--- Constraints for table `cart_items`
+-- Ограничения внешнего ключа таблицы `cart_items`
 --
 ALTER TABLE `cart_items`
   ADD CONSTRAINT `fk-cart_items-background_color_id` FOREIGN KEY (`background_color_id`) REFERENCES `background_colors` (`id`),
@@ -959,14 +1017,14 @@ ALTER TABLE `cart_items`
   ADD CONSTRAINT `fk-cart_items-portrait_type_id` FOREIGN KEY (`portrait_type_id`) REFERENCES `portrait_types` (`id`);
 
 --
--- Constraints for table `frames`
+-- Ограничения внешнего ключа таблицы `frames`
 --
 ALTER TABLE `frames`
   ADD CONSTRAINT `fk-frames-colour_id` FOREIGN KEY (`colour_id`) REFERENCES `colours` (`id`),
   ADD CONSTRAINT `fk-frames-format_id` FOREIGN KEY (`format_id`) REFERENCES `formats` (`id`);
 
 --
--- Constraints for table `mounts`
+-- Ограничения внешнего ключа таблицы `mounts`
 --
 ALTER TABLE `mounts`
   ADD CONSTRAINT `fk-frame_mount_images-colour_id` FOREIGN KEY (`colour_id`) REFERENCES `colours` (`id`),
@@ -974,15 +1032,23 @@ ALTER TABLE `mounts`
   ADD CONSTRAINT `fk-frame_mount_images-portrait_format_id` FOREIGN KEY (`portrait_format_id`) REFERENCES `formats` (`id`);
 
 --
--- Constraints for table `orders`
+-- Ограничения внешнего ключа таблицы `orders`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `fk-orders-cancel_reason_id` FOREIGN KEY (`cancel_reason_id`) REFERENCES `cancel_reasons` (`id`),
+  ADD CONSTRAINT `fk-orders-cart_item_id` FOREIGN KEY (`cart_item_id`) REFERENCES `cart_items` (`id`),
   ADD CONSTRAINT `fk-orders-delivery_type_id` FOREIGN KEY (`delivery_type_id`) REFERENCES `delivery_types` (`id`),
   ADD CONSTRAINT `fk-orders-pay_type_id` FOREIGN KEY (`pay_type_id`) REFERENCES `pay_types` (`id`);
 
 --
--- Constraints for table `prices`
+-- Ограничения внешнего ключа таблицы `order_addons`
+--
+ALTER TABLE `order_addons`
+  ADD CONSTRAINT `fk-order_addons-addon_id` FOREIGN KEY (`addon_id`) REFERENCES `addons` (`id`),
+  ADD CONSTRAINT `fk-order_addons-order_id` FOREIGN KEY (`cart_item_id`) REFERENCES `cart_items` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `prices`
 --
 ALTER TABLE `prices`
   ADD CONSTRAINT `fk-prices-bg_material_id` FOREIGN KEY (`bg_material_id`) REFERENCES `bg_materials` (`id`),
@@ -991,19 +1057,19 @@ ALTER TABLE `prices`
   ADD CONSTRAINT `fk-prices-portrait_type_id` FOREIGN KEY (`portrait_type_id`) REFERENCES `portrait_types` (`id`);
 
 --
--- Constraints for table `profile`
+-- Ограничения внешнего ключа таблицы `profile`
 --
 ALTER TABLE `profile`
   ADD CONSTRAINT `fk_profile_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `social_account`
+-- Ограничения внешнего ключа таблицы `social_account`
 --
 ALTER TABLE `social_account`
   ADD CONSTRAINT `fk_social_account_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `token`
+-- Ограничения внешнего ключа таблицы `token`
 --
 ALTER TABLE `token`
   ADD CONSTRAINT `fk_token_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
