@@ -19,6 +19,11 @@ if($item->frame){
 else
     $options['frame_format_id'] = Yii::t($trans_dir, 'no_frame');
 
+$addons = $item->addons;
+foreach ($addons as $addon) {
+    $options[$addon->transName] = [\app\models\base\Currency::getPriceStr(\app\models\base\Currency::getLocalPrice($addon), $item->currency)];
+}
+
 $options['wrapping'] = Yii::t($trans_dir, 'included');
 $options['delivery'] = Yii::t($trans_dir, 'included');
 
@@ -30,10 +35,12 @@ $options['delivery'] = Yii::t($trans_dir, 'included');
     </h2>
     <div class="cart__summary sheet">
 
-        <?php foreach ($options as $key => $option) { ?>
+        <?php foreach ($options as $key => $option) {
+            $is_addon = is_array($option);
+            ?>
             <div class="sheet__row">
-                <div class="sheet__param"><?= Yii::t($trans_dir, $key) ?></div>
-                <div class="sheet__value"><?= $option ?></div>
+                <div class="sheet__param"><?= $is_addon ? $key : Yii::t($trans_dir, $key) ?></div>
+                <div class="sheet__value"><?= $is_addon ? $option[0] : $option ?></div>
             </div>
         <?php } ?>
     </div>

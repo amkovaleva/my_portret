@@ -66,4 +66,5 @@ class Order extends ActiveRecord
     {
         return $this->hasOne(CartItem::class, ['id' => 'cart_item_id']);
     }
+
 }

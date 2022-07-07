@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\base\Addon;
 use app\models\base\BackgroundColour;
 use app\models\base\BackgroundMaterial;
 use app\models\base\BaseImage;
@@ -26,6 +27,7 @@ class CartItem extends BaseImage
 
     public $frame_format_id;
     public $crop_data;
+    public $addon_ids;
 
     // <editor-fold state="collapsed" desc="base model description">
 
@@ -45,7 +47,7 @@ class CartItem extends BaseImage
         return [
             [['portrait_type_id', 'format_id', 'material_id', 'base_id', 'background_color_id',
                 'imageFile', 'cost', 'currency', 'faces_count', 'user_cookie'], 'required'],
-            [['frame_id', 'mount_id', 'frame_format_id', 'crop_data', 'addons'], 'safe'],
+            [['frame_id', 'mount_id', 'frame_format_id', 'crop_data', 'addon_ids'], 'safe'],
             [['cost', 'faces_count'], 'number'],
             [['currency'], 'string'],
             [['created_at'], 'datetime'],
@@ -74,9 +76,34 @@ class CartItem extends BaseImage
             'currency' => Yii::t($lan_dir, 'currency'),
         ];
     }
+
+    public function saveWithAddons()
+    {
+        $choose_addon_ids = $this->addon_ids;
+
+        $save_result = $this->saveWithImage(true, false, json_decode($this->crop_data));
+        if(!$save_result)
+            return $save_result;
+
+        foreach ($choose_addon_ids as $addon_id){
+            $link = new OrderAddon();
+            $link->cart_item_id = $this->id;
+            $link->addon_id = $addon_id;
+            $link->save();
+        }
+
+        return $save_result;
+    }
+
     // </editor-fold>
 
     // <editor-fold state="collapsed" desc="load relative objects">
+
+    public function getAddons()
+    {
+        return $this->hasMany(Addon::class, ['id' => 'addon_id'])->viaTable(OrderAddon::tableName(), ['cart_item_id' => 'id']);;
+    }
+
 
     public function getMount()
     {

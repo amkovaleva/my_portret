@@ -14,15 +14,15 @@ class m220707_060650_create_order_addons_table extends Migration
     {
         $this->createTable('{{%order_addons}}', [
             'id' => $this->primaryKey(),
-            'order_id' => $this->integer()->notNull()->defaultValue(0),
+            'cart_item_id' => $this->integer()->notNull()->defaultValue(0),
             'addon_id' => $this->integer()->notNull()->defaultValue(0),
         ]);
 
         $this->addForeignKey(
             'fk-order_addons-order_id',
             '{{%order_addons}}',
-            'order_id',
-            '{{%orders}}',
+            'cart_item_id',
+            '{{%cart_items}}',
             'id'
         );
 
@@ -32,6 +32,13 @@ class m220707_060650_create_order_addons_table extends Migration
             'addon_id',
             '{{%addons}}',
             'id'
+        );
+
+        $this->createIndex(
+            'ind-order_addons-unique',
+            '{{%order_addons}}',
+            ['addon_id', 'cart_item_id'],
+            true
         );
 
         $this->dropColumn('{{%orders}}', 'cost');

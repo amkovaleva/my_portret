@@ -11,7 +11,7 @@ use app\models\base\Currency;
         <div class="checklist__list">
             <?php foreach ($addons as $item) { ?>
                 <label class="checklist__item choice choice--checkbox choice--full-width">
-                    <input class="choice__widget" type="checkbox" name="CartItem[addons]" value="<?= $item->id ?>">
+                    <input class="choice__widget" type="checkbox" name="CartItem[addon_ids][]" value="<?= $item->id ?>">
                     <i class="choice__icon"></i>
                     <span class="choice__label">
                         <?= $item->transName ?>
