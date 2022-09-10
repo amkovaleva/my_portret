@@ -4,6 +4,8 @@ return [
     'adminEmail' => 'admin@example.com',
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
+    'bsVersion' => 4,
+
     'prices_by_default' => [7, 16, 21],
     'days_for_cart' => 30,
     'max_side_preview_img' => 300,

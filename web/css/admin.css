@@ -21,9 +21,21 @@ main .container{
 .grid-view  table.table td img {
     max-width: 60px
 }
+.grid-view  dd {
+    margin-left: 30px;
+}
+.grid-view  td {
+    vertical-align: middle;
+}
+.grid-view  .photo_preview{
+    max-width: 200px !important;
+}
 #edit-form img{
     max-width: 100%;
     max-height: 100px;
+}
+.select2-container{
+    max-width: 200px;
 }
 main > .container {
     padding: 70px 15px 20px;

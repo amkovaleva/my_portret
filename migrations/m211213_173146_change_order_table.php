@@ -138,6 +138,13 @@ class m211213_173146_change_order_table extends Migration
             'id'
         );
 
+
+        $this->createIndex(
+            'ind-order_item-unique',
+            '{{%orders}}',
+             'cart_item_id',
+            true
+        );
     }
 
     /**

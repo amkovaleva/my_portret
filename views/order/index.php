@@ -17,7 +17,7 @@ use yii\helpers\Url;
             $paints = [];
             ?>
             <div class="store__tile">
-                <a class="store__preview" href="<?= Url::to(['order/order-' . $key]) ?>">
+                <a class="store__preview" href="<?= Url::to(['/site/gallery-' . $key]) ?>" data-order="<?=  Url::to(['/order-' . $key])  ?>">
                     <div class="store__content">
                         <img class="store__background" src="<?= $params['bg_image'] ?>" width="630" height="525"
                              alt="">

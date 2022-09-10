@@ -18,4 +18,11 @@
         }
     });
 
+    $('a.store__preview').on('click', function (event) {
+        if($(event.target).hasClass('store__order')){
+            event.preventDefault();
+            location.href = $(this).data('order');
+        }
+    });
+
 })(jQuery);

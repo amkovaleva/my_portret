@@ -34,6 +34,7 @@ class AppAsset extends AssetBundle
         'js/_spincrement.js',
         'js/_modal.js',
         'js/_order.js',
+        'js/_store.js',
     ];
     public $depends = [
         'yii\web\JqueryAsset'

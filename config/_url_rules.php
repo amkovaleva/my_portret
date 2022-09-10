@@ -7,20 +7,24 @@ $rules = [
 
     'POST /order/change/<field:\w+>/<value:\w+>' => 'order/change',
 
-    'GET /cart' => 'cart/index',
+    '/cart' => 'cart/index',
+
+    'GET /admin' => 'admin/order/index',
 
     'POST /admin/admin/load-del-modal' => 'admin/admin/load-del-modal',
-    'GET /admin' => 'admin/admin/admin',
     'POST /admin/mount/change/<frame_id:\d+>' => 'admin/mount/change',
     'POST /admin/mount/validate' => 'admin/mount/validate',
+
 ];
 
-foreach ($params['portrait_types'] as $key => &$item) {
-    $rules['/' . $key ] = 'order/order-'.$key;
+foreach ($params['portrait_types'] as &$item) {
+    $rules['/order-' . $item['key'] ] = '/order/order-'.$item['key'];
+    $rules['/gallery-' . $item['key'] ] = '/site/gallery-'.$item['key'];
 }
 
 
 $post_actions = array('validate', 'update', 'delete', 'edit');
+
 
 foreach ($params['admin_models'] as &$cat) {
 
@@ -30,7 +34,7 @@ foreach ($params['admin_models'] as &$cat) {
         $rules['GET /' . $model_base_url . 's'] = $model_base_url . '/index';
 
         foreach ($post_actions as &$action)
-            $rules['POST ' . $model_base_url . '/' . $action . '/<id:\d+>'] = $model_base_url . '/' . $action;
+            $rules['POST /' . $model_base_url . '/' . $action . '/<id:\d+>'] = $model_base_url . '/' . $action;
     }
 }
 

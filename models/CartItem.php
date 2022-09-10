@@ -101,7 +101,12 @@ class CartItem extends BaseImage
 
     public function getAddons()
     {
-        return $this->hasMany(Addon::class, ['id' => 'addon_id'])->viaTable(OrderAddon::tableName(), ['cart_item_id' => 'id']);;
+        return $this->hasMany(Addon::class, ['id' => 'addon_id'])->viaTable(OrderAddon::tableName(), ['cart_item_id' => 'id']);
+    }
+
+    public function getAddonsString()
+    {
+        return implode( ArrayHelper::getColumn(ArrayHelper::toArray($this->addons), 'name'),'; ');
     }
 
 
@@ -432,10 +437,48 @@ class CartItem extends BaseImage
         return ['count' => $count];
     }
 
-    public static function getCartItemsForUser()
+    public static function getCartItemsForUser($is_draft = true)
     {
-        return CartItem::find()->where(['user_cookie' => Yii::$app->params['cookie_value']])
+        $item = CartItem::find()->where(['user_cookie' => Yii::$app->params['cookie_value']])
             ->with(['frame.colour', 'frame.format', 'mount.colour', 'format', 'portraitType', 'backgroundMaterial', 'paintMaterial', 'backgroundColour.colour'])
             ->orderBy(CartItem::tableName(). '.id DESC')->one();
+
+        if(!$is_draft || !$item)
+            return $item;
+
+        if(Order::find()->where(['cart_item_id' => $item->id])->exists())
+            return null;
     }
+
+
+    public function getPortraitOptions(){
+        $trans_dir = 'app/carts';
+        $item = $this;
+
+        $options = [
+            Yii::t($trans_dir, 'portrait_type_id') => $item->portraitType->transName,
+            Yii::t($trans_dir, 'material_id') => $item->paintMaterial->transName,
+            Yii::t($trans_dir, 'base_id') => $item->backgroundMaterial->transName,
+            Yii::t($trans_dir, 'format_id') => $item->format->sizesStr . ' cm',
+            Yii::t($trans_dir, 'background_color_id') => $item->backgroundColour->colour->transName,
+            Yii::t($trans_dir, 'faces_count') => $item->faces_count
+        ];
+        if($item->frame){
+            $options[Yii::t($trans_dir, 'frame_format_id')] = $item->frame->format->sizesStr . ' cm';
+            $options[Yii::t($trans_dir, 'frame_id')] = $item->frame->colour->transName;
+
+            if($item->mount){
+                $options[Yii::t($trans_dir, 'mount_id')] = $item->mount->colour->transName;
+            }
+        }
+        else
+            $options[Yii::t($trans_dir, 'frame_format_id')] = Yii::t($trans_dir, 'no_frame');
+
+        $addons = $item->addons;
+        foreach ($addons as $addon) {
+            $options[$addon->transName] = Currency::getPriceStr(Currency::getLocalPrice($addon), $item->currency);
+        }
+        return $options;
+    }
+
 }

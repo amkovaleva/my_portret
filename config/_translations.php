@@ -1,6 +1,7 @@
 <?php
 $fileMap = [
     'app/base' => 'base.php',
+    'app/order' => 'order.php',
 ];
 
 

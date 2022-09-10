@@ -19,6 +19,8 @@ return [
 
     'submit' =>'Разместить заказ',
     'account_title' =>'Контактная информация',
+    'portrait_title' =>'Информация о заказе',
+    'photo' =>'Фото',
     'address_title' =>'Адрес',
     'total_agreement' =>'By placing this order, I agree to the <a class="link" href="#">Terms of Agreement</a>, <a class="link" href="#">Terms of Use</a>, and <a class="link" href="#">Privacy Notice</a>',
     'total_price' =>'Стоимость',

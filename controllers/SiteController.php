@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\base\Addon;
+use app\models\CartItem;
 use Yii;
 use app\models\ContactForm;
 
@@ -36,6 +38,35 @@ class SiteController extends BaseSiteController
         Yii::$app->view->params['need_footer'] = true;
         Yii::$app->view->params['html_class'] = 'index';
         return $this->render('index');
+    }
+
+    public function actionGalleryHyperrealism()
+    {
+
+        return $this->gallary(1);
+    }
+
+    public function actionGalleryPhotorealism()
+    {
+        return $this->gallary(2);
+    }
+
+    public function actionGallerySketch()
+    {
+        return $this->gallary(3);
+    }
+
+
+    private function gallary($type)
+    {
+        $this->view->title = Yii::t('app/index', 'gallery_title');
+        Yii::$app->view->params['is_h1_logo'] = true;
+        Yii::$app->view->params['need_footer'] = true;
+        Yii::$app->view->params['html_class'] = 'index';
+
+        return $this->render('gallery', [
+            'portrait_type_id' => $type,
+        ]);
     }
 
     /**
