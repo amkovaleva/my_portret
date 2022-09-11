@@ -451,20 +451,24 @@ class CartItem extends BaseImage
     }
 
 
-    public function getPortraitOptions(){
+    public function getPortraitOptions($for_admin = false){
         $trans_dir = 'app/carts';
         $item = $this;
+        $format_field_name = $for_admin ? 'name' : 'sizesStr';
 
         $options = [
             Yii::t($trans_dir, 'portrait_type_id') => $item->portraitType->transName,
             Yii::t($trans_dir, 'material_id') => $item->paintMaterial->transName,
             Yii::t($trans_dir, 'base_id') => $item->backgroundMaterial->transName,
-            Yii::t($trans_dir, 'format_id') => $item->format->sizesStr . ' cm',
+            Yii::t($trans_dir, 'format_id') => $item->format->$format_field_name,
             Yii::t($trans_dir, 'background_color_id') => $item->backgroundColour->colour->transName,
             Yii::t($trans_dir, 'faces_count') => $item->faces_count
         ];
+        if($for_admin)
+            $options[] = null;
+
         if($item->frame){
-            $options[Yii::t($trans_dir, 'frame_format_id')] = $item->frame->format->sizesStr . ' cm';
+            $options[Yii::t($trans_dir, 'frame_format_id')] = $item->frame->format->$format_field_name;
             $options[Yii::t($trans_dir, 'frame_id')] = $item->frame->colour->transName;
 
             if($item->mount){
@@ -473,6 +477,9 @@ class CartItem extends BaseImage
         }
         else
             $options[Yii::t($trans_dir, 'frame_format_id')] = Yii::t($trans_dir, 'no_frame');
+
+        if($for_admin)
+            $options[] = null;
 
         $addons = $item->addons;
         foreach ($addons as $addon) {

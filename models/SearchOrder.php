@@ -28,7 +28,6 @@ class SearchOrder extends Order
                 'portrait_type_name' => 'pt.name',
                 'background_material_name' => 'bgM.name',
                 'paint_material_name' => 'pM.name',
-                'fio' => 'CONCAT( last_name, " ", first_name, " ", middle_name)',
                 'price' => CartItem::tableName() . '.cost',
                 'currency' => CartItem::tableName() . '.currency',
             ]);
@@ -45,24 +44,47 @@ class SearchOrder extends Order
 
         if (!($this->load($params) && $this->validate())) {
             $this->state = Order::DEFAULT_STATES;
+            $query->andFilterWhere(['in', 'state', Order::DEFAULT_STATES]);
             return $dataProvider;
         }
 
-        if($this->portrait_base_info){
-
-        }
+        if($this->state)
+            $query->andFilterWhere(['in', 'state', $this->state]);
 
         if($this->contact_info){
+            $str = mb_strtolower($this->contact_info);
 
+            $query->andFilterWhere(
+                ['or',
+                    ['like', 'LOWER( first_name)', $str],
+                    ['like', 'LOWER( last_name)', $str],
+                    ['like', 'LOWER( middle_name)', $str],
+                    ['like', 'LOWER( email)', $str],
+                    ['like', 'LOWER( phone)', $str],
+                    ['like', 'LOWER( index)', $str],
+                    ['like', 'LOWER( country)', $str],
+                    ['like', 'LOWER( city)', $str],
+                    ['like', 'LOWER( street)', $str],
+                    ['like', 'LOWER( house)', $str],
+                    ['like', 'LOWER( apartment)', $str],
+
+                ]);
         }
 
-        if($this->created_at){
+        if($this->portrait_base_info){
+            $str = mb_strtolower($this->portrait_base_info);
 
+            $query->andFilterWhere(
+                ['or',
+                    ['like', 'LOWER( pt.name)', $str],
+                    ['like', 'LOWER( pf.name)', $str],
+                    ['like', 'LOWER( bgM.name)', $str],
+                    ['like', 'LOWER( pM.name)', $str]
+                ]);
         }
 
-        if($this->state){
 
-        }
+
 
 
         return $dataProvider;

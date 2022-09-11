@@ -3,6 +3,8 @@ return [
     'title' => 'Alina Sekatski / Portrait Artist',
     'gallery_title' => 'Alina Sekatski / Portrait Artist',
 
+    'cm' => 'см',
+
     'save_moment' => 'Сохрани момент в вечности',
     'oil_pencil' => 'OIL&PENCIL',
     'studio' => 'PORTRAIT STUDIO',

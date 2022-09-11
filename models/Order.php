@@ -93,13 +93,20 @@ class Order extends ActiveRecord
         return Order::STATE_NAMES[$this->state];
     }
 
-    public function getPortraitOptions()
+    public function getPortraitOptions($is_admin = false)
     {
         $item = $this->cartItem;
         if (!$item)
             return [];
 
-        return $item->portraitOptions;
+        $res = $item->getPortraitOptions($is_admin);
+
+        if($is_admin) {
+            $res[] = null;
+            $res[Yii::t('app/carts', 'total_price')] = $this->totalPrice;
+        }
+
+        return $res;
     }
 
     public function getFIO()

@@ -15,13 +15,14 @@ use yii\grid\GridView;
             return sprintf("<a href='%s'><img src='%s' class='photo_preview'></a>", $full, $preview);
 
         },], ['attribute' => 'portrait_base_info', 'content' => function ($model, $key, $index, $column) {
-            $options = $model->portraitOptions;
+            $options = $model->getPortraitOptions(true);
             $rows = ['<dl>'];
             foreach ($options as $key => $option) {
-                $rows[] = sprintf('<dt> %s:</dt> <dd> %s; </dd>', $key, $option);
+                if(!$option)
+                    $rows[] = '<hr>';
+                else
+                    $rows[] = sprintf('<dt> %s:</dt> <dd> %s; </dd>', $key, $option);
             }
-            $rows[] = '<hr>';
-            $rows[] = sprintf('<dt> %s:</dt> <dd> %s; </dd>', Yii::t('app/carts', 'total_price'), $model->totalPrice);
             $rows[] = '</dl>';
             return implode($rows);
 

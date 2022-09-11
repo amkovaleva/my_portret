@@ -44,7 +44,7 @@ class Format extends ActiveRecord
 
     public function getSizesStr()
     {
-        return $this->width . 'x' . $this->length;
+        return $this->width . 'x' . $this->length . ' ' .Yii::t( 'app/index', 'cm');
     }
 
 }
