@@ -3,6 +3,7 @@
 use app\models\Order;
 use kartik\select2\Select2;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 ?>
 
@@ -41,4 +42,13 @@ use yii\grid\GridView;
                 'pluginOptions' => ['allowClear' => false],])],
         ['attribute' => 'created_at', 'value' => 'cartItem.created_at', 'format' => ['date', 'php:d-m-Y H:i'],
 
-        ],]]); ?>
+        ],[
+            'class' => 'yii\grid\ActionColumn',
+            'template' => '{edit}',
+            'contentOptions' => ['class' => 'action-column'],
+            'buttons' => [
+                'edit' => function ($url, $model, $key) {
+                    return Html::a('&#9998;', $url);
+                },
+            ],
+        ]]]); ?>

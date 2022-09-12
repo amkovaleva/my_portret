@@ -6,7 +6,6 @@ use Yii;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 
 class AdminController extends Controller
@@ -20,6 +19,8 @@ class AdminController extends Controller
         if (Yii::$app->user->isGuest)
             $this->redirect(Url::to('/user/login'));
 
+        $this->layout = 'admin';
+
         return true;
     }
 
@@ -29,18 +30,9 @@ class AdminController extends Controller
         return $this->renderAjax('delete_modal');
     }
 
-    public function actionAdmin()
-    {
-        $this->view->title = $this->getTitle();
-        $this->layout = 'admin';
-
-        return $this->render('index');
-    }
-
     public function actionIndex()
     {
         $this->view->title = $this->getTitle();
-        $this->layout = 'admin';
 
         $searchModel = $this->searchModel();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

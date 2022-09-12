@@ -43,8 +43,8 @@ class Order extends ActiveRecord
     {
         return [
             [['state', 'first_name', 'last_name', 'email', 'index', 'country', 'city', 'street', 'house', 'apartment', 'cart_item_id'], 'required', 'message' => Yii::t('app/carts', 'required_message')],
-            [['phone', 'middle_name', 'first_name', 'last_name', 'email', 'phone', 'index', 'country', 'city', 'street', 'house', 'apartment'], 'string'],
-            [['created_at'], 'datetime'],
+            [[ 'middle_name', 'first_name', 'last_name', 'email', 'phone', 'index', 'country', 'city', 'street', 'house', 'apartment'], 'string'],
+            [['created_at'], 'date', 'format' => 'yyyy-M-d H:m:s'],
             [['state'], 'number'],
         ];
     }

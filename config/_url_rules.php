@@ -10,6 +10,9 @@ $rules = [
     '/cart' => 'cart/index',
 
     'GET /admin' => 'admin/order/index',
+    'GET /admin/order/<id:\d+>' => 'admin/order/edit',
+    'POST /admin/order/validate/<id:\d+>' => 'admin/order/validate',
+    'POST /admin/order/update/<id:\d+>' => 'admin/order/update',
 
     'POST /admin/admin/load-del-modal' => 'admin/admin/load-del-modal',
     'POST /admin/mount/change/<frame_id:\d+>' => 'admin/mount/change',
