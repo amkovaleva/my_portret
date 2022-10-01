@@ -76,14 +76,19 @@ class CartItem extends BaseImage
             'currency' => Yii::t($lan_dir, 'currency'),
         ];
     }
-
-    public function saveWithAddons()
+    public function afterSave($insert, $changedAttributes)
     {
+        parent::afterSave($insert, $changedAttributes);
+
         $choose_addon_ids = $this->addon_ids;
 
-        $save_result = $this->saveWithImage(true, false, json_decode($this->crop_data));
-        if(!$save_result)
-            return $save_result;
+        foreach ($this->addons as $addon){
+
+            if(!in_array($addon->id, $choose_addon_ids))
+                $addon->delete();
+            else
+                unset($choose_addon_ids[array_search($addon->id, $choose_addon_ids)]);
+        }
 
         foreach ($choose_addon_ids as $addon_id){
             $link = new OrderAddon();
@@ -91,8 +96,6 @@ class CartItem extends BaseImage
             $link->addon_id = $addon_id;
             $link->save();
         }
-
-        return $save_result;
     }
 
     // </editor-fold>
@@ -420,29 +423,16 @@ class CartItem extends BaseImage
 
     // </editor-fold>
 
-    public static function getCartItemsForMenu()
-    {
 
-        if (!isset(Yii::$app->params['cookie_value']))
-            return null;
-
-        $count = CartItem::find()->where(['user_cookie' => Yii::$app->params['cookie_value']])->count();
-        if (!$count)
-            return null;
-        return ['count' => $count];
-    }
-
-    public static function getCartItemsForUser($is_draft = true)
+    public static function getCartItemsForUser()
     {
         $item = CartItem::find()->where(['user_cookie' => Yii::$app->params['cookie_value']])
             ->with(['frame.colour', 'frame.format', 'mount.colour', 'format', 'portraitType', 'backgroundMaterial', 'paintMaterial', 'backgroundColour.colour'])
             ->orderBy(CartItem::tableName(). '.id DESC')->one();
 
-        if(!$is_draft || !$item)
-            return $item;
-
         if(Order::find()->where(['cart_item_id' => $item->id])->exists())
             return null;
+        return $item;
     }
 
 

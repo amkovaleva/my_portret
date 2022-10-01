@@ -24,6 +24,10 @@ $this->beginPage();
 
         <?= $this->render('//partials/_header', ['is_h1' =>  isset($this->params['is_h1_logo']) && $this->params['is_h1_logo']]) ?>
         <div class="page">
+            <?php
+            if(Yii::$app->session->hasFlash('order_made')){  ?>
+            <h2 class="alert"><?= Yii::t('app/index', 'order_created') ?></h2>
+            <?php } ?>
             <?= $content ?>
             <?= isset($this->params['need_footer']) && $this->params['need_footer'] ? $this->render('//partials/_footer') : '' ?>
         </div>

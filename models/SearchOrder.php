@@ -20,17 +20,7 @@ class SearchOrder extends Order
     public function search($params)
     {
         $query = SearchOrder::find()->joinWith(['cartItem', 'cartItem.portraitType pt', 'cartItem.format pf',
-            'cartItem.backgroundMaterial bgM', 'cartItem.paintMaterial pM', 'cartItem.backgroundColour.colour bgC', 'cartItem.addons'])
-            ->select(Order::tableName().'.*') -> addSelect(CartItem::tableName().'.*')
-            ->addSelect([
-                'background_colour_name' => 'bgC.name',
-                'format_name' => 'pf.name',
-                'portrait_type_name' => 'pt.name',
-                'background_material_name' => 'bgM.name',
-                'paint_material_name' => 'pM.name',
-                'price' => CartItem::tableName() . '.cost',
-                'currency' => CartItem::tableName() . '.currency',
-            ]);
+            'cartItem.backgroundMaterial bgM', 'cartItem.paintMaterial pM', 'cartItem.backgroundColour.colour bgC', 'cartItem.addons']) ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -82,10 +72,6 @@ class SearchOrder extends Order
                     ['like', 'LOWER( pM.name)', $str]
                 ]);
         }
-
-
-
-
 
         return $dataProvider;
     }

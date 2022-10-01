@@ -78,7 +78,7 @@ class Order extends ActiveRecord
     public function fillDefault()
     {
         $this->state = Order::CREATED_STATE;
-        $cart = CartItem::getCartItemsForUser();
+        $cart = CartItem::getCartItemsForUser(false);
         if ($cart)
             $this->cart_item_id = $cart->id;
     }
