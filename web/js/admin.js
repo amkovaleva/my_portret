@@ -5,8 +5,9 @@ let closeModal = function (modal_id = 'modal-del') {
     $(`#${modal_id} button.close`).trigger('click');
 };
 
-let openModal = function (modal_id = 'modal-del') {
-    $(`#${modal_id} .modal-body span`).text(pressed_link.parents('tr').children().first().text());
+let openModal = function (modal_id = 'modal-del', need_set_id = true) {
+    if(need_set_id)
+        $(`#${modal_id} .modal-body span`).text(pressed_link.parents('tr').children().first().text());
     $(`#${modal_id}`).modal();
 };
 
@@ -71,16 +72,18 @@ let initGridActions = function () {
 };
 
 let initFormActions = function () {
-    let editForm = $('#edit-form'),
+    let editForm = $('#edit-form, #contact-form, #portrait-form'),
         file_input = editForm.find('input[type=file]'),
         id_input = editForm.find('input[type=hidden][id]'),
         id = id_input.val(),
         model_img = editForm.find('img');
 
     editForm.unbind('submit').submit((event) => {
+
         event.preventDefault();
         event.stopPropagation();
-        let data = new FormData(editForm[0]), url = editForm.attr('action');
+
+        let data = new FormData(event.target), url = event.target.action;
 
         $.ajax({
             url: url,
@@ -90,13 +93,20 @@ let initFormActions = function () {
             contentType: false,
             processData: false
         }).done(function (response) {
-            if (response.success) {
+            if (response.success && $.pjax) {
                 $.pjax.reload({container: '#pjax', async: false});
+            }
+            if(response.needModal){
+                openModal('modal-saved', false);
+            }
+            if(response.info_container && response.info){
+                $('#' + response.info_container).html(response.info);
             }
         }).fail(function () {
             console.log("error");
         });
     });
+
     editForm.find('button.btn-secondary').unbind('click').click(() => {
         editForm[0].reset();
         $.pjax.reload({container: '#pjax', async: false});

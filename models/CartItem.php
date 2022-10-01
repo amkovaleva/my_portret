@@ -50,7 +50,7 @@ class CartItem extends BaseImage
             [['frame_id', 'mount_id', 'frame_format_id', 'crop_data', 'addon_ids'], 'safe'],
             [['cost', 'faces_count'], 'number'],
             [['currency'], 'string'],
-            [['created_at'], 'datetime'],
+            [['created_at'], 'datetime','on'=>'insert'],
             [['image'], 'file', 'extensions' => 'JPG, JPEG, PNG, BMP, WebP', //mimeTypes' => 'image/*',
                 'maxSize' => 1024 * 1024 * 15], //15 Mb
         ];
@@ -63,15 +63,15 @@ class CartItem extends BaseImage
     {
         $lan_dir = 'app/orders';
         return [
-            'portrait_type_id' => Yii::t($lan_dir, 'portrait_type'),
-            'material_id' => Yii::t($lan_dir, 'material'),
-            'base_id' => Yii::t($lan_dir, 'base'),
-            'format_id' => Yii::t($lan_dir, 'format'),
+            'portrait_type_id' => Yii::t($lan_dir, 'portrait_type_id'),
+            'material_id' => Yii::t($lan_dir, 'material_id'),
+            'base_id' => Yii::t($lan_dir, 'base_id'),
+            'format_id' => Yii::t($lan_dir, 'format_id'),
             'frame_id' => Yii::t($lan_dir, 'frame'),
             'faces_count' => Yii::t($lan_dir, 'faces_count'),
             'frame_format_id' => Yii::t($lan_dir, 'frame_format'),
             'mount_id' => Yii::t($lan_dir, 'mount'),
-            'background_color_id' => Yii::t($lan_dir, 'background_color'),
+            'background_color_id' => Yii::t($lan_dir, 'background_color_id'),
             'cost' => Yii::t($lan_dir, 'cost'),
             'currency' => Yii::t($lan_dir, 'currency'),
         ];
@@ -248,12 +248,7 @@ class CartItem extends BaseImage
 
                 $changeField++;
             }
-        $price = Price::find()->where([
-            'portrait_type_id' => $this->portrait_type_id,
-            'paint_material_id' => $this->material_id,
-            'bg_material_id' => $this->base_id,
-            'format_id' => $this->format_id,
-        ])->one();
+        $price = Price::getPriceForCartItem($this);
 
         if ($price) {
             $this->cost = Currency::getLocalPrice($price, $this->currency);

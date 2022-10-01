@@ -4,6 +4,7 @@ namespace app\models\base;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 class BackgroundColour extends ActiveRecord
 {
@@ -38,4 +39,9 @@ class BackgroundColour extends ActiveRecord
         return $this->hasOne(Colour::class, ['id' => 'colour_id']);
     }
 
+    public static function getList()
+    {
+        $list = BackgroundColour::find()->joinWith('colour')->all();
+        return ArrayHelper::map($list, 'id', function ($model) {return $model->colour->transName;});
+    }
 }

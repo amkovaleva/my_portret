@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 ?>
 <?php $form = ActiveForm::begin([
-    'id' => 'edit-form',
+    'id' => 'contact-form',
     'method' => 'POST',
     'action' =>  Url::to(['/admin/order/update', 'id' => $model->id]),
     'enableAjaxValidation' => true,
@@ -17,21 +17,21 @@ use yii\widgets\ActiveForm;
 
 <h2><?= Yii::t('admin/orders', 'edit_contact_info') ?></h2>
 <div class="row">
-    <div class="col">
+    <div class="col-sm-12 col-md-4">
         <?= $form->field($model, 'last_name'); ?>
     </div>
-    <div class="col">
+    <div class="col-sm-12 col-md-4">
         <?= $form->field($model, 'first_name'); ?>
     </div>
-    <div class="col">
+    <div class="col-sm-12 col-md-4">
         <?= $form->field($model, 'middle_name'); ?>
     </div>
 </div>
 <div class="row">
-    <div class="col">
+    <div class="col-sm-12 col-md-6">
         <?= $form->field($model, 'email'); ?>
     </div>
-    <div class="col">
+    <div class="col-sm-12 col-md-6">
         <?= $form->field($model, 'phone'); ?>
     </div>
 </div>
@@ -39,25 +39,25 @@ use yii\widgets\ActiveForm;
 <h2><?= Yii::t('admin/orders', 'edit_address_info') ?></h2>
 
 <div class="row">
-    <div class="col">
+    <div class="col-sm-12 col-md-4">
         <?= $form->field($model, 'country'); ?>
     </div>
-    <div class="col">
+    <div class="col-sm-12 col-md-4">
         <?= $form->field($model, 'city'); ?>
     </div>
-    <div class="col">
+    <div class="col-sm-12 col-md-4">
         <?= $form->field($model, 'street'); ?>
     </div>
 </div>
 
 <div class="row">
-    <div class="col">
+    <div class="col-sm-12 col-md-4">
         <?= $form->field($model, 'house'); ?>
     </div>
-    <div class="col">
+    <div class="col-sm-12 col-md-4">
         <?= $form->field($model, 'apartment'); ?>
     </div>
-    <div class="col">
+    <div class="col-sm-12 col-md-4">
         <?= $form->field($model, 'index'); ?>
     </div>
 </div>

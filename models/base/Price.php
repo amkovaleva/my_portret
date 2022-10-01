@@ -94,4 +94,13 @@ class Price extends ActiveRecord
         return $res;
     }
 
+    public static function getPriceForCartItem($cartItem){
+        return Price::find()->where([
+            'portrait_type_id' => $cartItem->portrait_type_id,
+            'paint_material_id' => $cartItem->material_id,
+            'bg_material_id' => $cartItem->base_id,
+            'format_id' => $cartItem->format_id,
+        ])->one();
+    }
+
 }

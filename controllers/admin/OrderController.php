@@ -2,10 +2,12 @@
 
 namespace app\controllers\admin;
 
+use app\models\CartItem;
 use app\models\Order;
 use app\models\SearchOrder;
 use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class OrderController extends AdminController
 {
@@ -22,6 +24,17 @@ class OrderController extends AdminController
         ]);
     }
 
+    public function actionUpdate($id = 0)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = $this->getModelById($id);
+
+        if ($this->isModelLoaded($model)) {
+            return ['success' => $model->save(), 'needModal' => true];
+        }
+        return [];
+    }
+
     public function getModelById($id = 0)
     {
         $model = Order::findOne(['id' => $id]);
@@ -31,6 +44,7 @@ class OrderController extends AdminController
 
         return $model;
     }
+
 
     /**
      * @throws NotFoundHttpException

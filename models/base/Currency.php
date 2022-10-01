@@ -21,6 +21,11 @@ class Currency
 
     }
 
+    public static function getCurrenciesList()
+    {
+        return array_combine(self::CURRENCIES, self::CURRENCY_SYMBOL);
+    }
+
     public static function getPriceStr($price, $currency){
         return Yii::t('app/orders', 'price_'.$currency, $price);
     }

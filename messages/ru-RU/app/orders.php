@@ -8,7 +8,12 @@ return [
 
     'upload_btn_text' => 'Загрузите фото в хорошем качестве.<br> Качество детализации зависит от качества фото',
     'format_id' => 'Формат портрета',
+    'portrait_type_id' => 'Стиль портрета',
+    'material_id' => 'Чем нарисовать?',
+    'base_id' => 'На чем нарисовать?',
     'faces_count' => 'Количество лиц',
+    'currency' => 'Валюта',
+    'cost' => 'Стоимость',
     'background_color_id' => 'Фон',
     'frame_format_id' => 'Размер рамы',
     'empty_frame_format_id' => 'Без рамы',

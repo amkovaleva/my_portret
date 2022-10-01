@@ -36,6 +36,9 @@ class CountFace extends ActiveRecord
 
     public static function getCoefficient($val)
     {
-        return CountFace::find()->where('max >= ' . $val . ' and min <= ' . $val)->one()->coefficient;
+        $obj = CountFace::find()->where('max >= ' . $val . ' and min <= ' . $val)->one();
+        if($obj)
+            return $obj->coefficient;
+        return null;
     }
 }
