@@ -19,8 +19,8 @@ class SearchOrder extends Order
 
     public function search($params)
     {
-        $query = SearchOrder::find()->joinWith(['cartItem', 'cartItem.portraitType pt', 'cartItem.format pf',
-            'cartItem.backgroundMaterial bgM', 'cartItem.paintMaterial pM', 'cartItem.backgroundColour.colour bgC', 'cartItem.addons']) ;
+        $query = SearchOrder::find()->joinWith('cartItem', true, 'INNER JOIN')->joinWith(['cartItem.portraitType pt', 'cartItem.format pf',
+            'cartItem.backgroundMaterial bgM', 'cartItem.paintMaterial pM', 'cartItem.backgroundColour.colour bgC']) ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

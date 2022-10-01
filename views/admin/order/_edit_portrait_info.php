@@ -80,6 +80,7 @@ $model->addon_ids = array_keys(ArrayHelper::map($model->addons, 'id', 'name'));
         <?= $form->field($model, 'addon_ids')->checkboxList(Addon::getListForEditOrder())->label(false); ?>
     </div>
 </div>
+<hr/>
 
 
 <div class="form-group">
