@@ -127,3 +127,9 @@ a.desc:after {
     border-radius: 20px;
     margin-bottom: 30px;
 }
+#cartitem-addon_ids{
+    padding-left: 50px;
+}
+#cartitem-addon_ids label{
+    display: block;
+}

@@ -6,6 +6,7 @@ use app\models\CartItem;
 use app\models\Order;
 use app\models\SearchOrder;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 

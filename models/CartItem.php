@@ -82,13 +82,16 @@ class CartItem extends BaseImage
 
         $choose_addon_ids = $this->addon_ids;
 
-        foreach ($this->addons as $addon){
+        foreach ($this->orderAddons as $addon){
 
-            if(!in_array($addon->id, $choose_addon_ids))
+            if(!$choose_addon_ids || !in_array($addon->id, $choose_addon_ids))
                 $addon->delete();
             else
                 unset($choose_addon_ids[array_search($addon->id, $choose_addon_ids)]);
         }
+
+        if(!$choose_addon_ids)
+            return;
 
         foreach ($choose_addon_ids as $addon_id){
             $link = new OrderAddon();
@@ -105,6 +108,11 @@ class CartItem extends BaseImage
     public function getAddons()
     {
         return $this->hasMany(Addon::class, ['id' => 'addon_id'])->viaTable(OrderAddon::tableName(), ['cart_item_id' => 'id']);
+    }
+
+    public function getOrderAddons()
+    {
+        return $this->hasMany(OrderAddon::classname(), ['cart_item_id' => 'id']);
     }
 
     public function getAddonsString()

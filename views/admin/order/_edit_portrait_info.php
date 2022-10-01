@@ -1,5 +1,6 @@
 <?php
 
+use app\models\base\Addon;
 use app\models\base\BackgroundColour;
 use app\models\base\BackgroundMaterial;
 use app\models\base\CountFace;
@@ -13,7 +14,9 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 $change_url = Url::to(["/admin/cart-item/change", 'id' => $model->id]);
+$model->addon_ids = array_keys(ArrayHelper::map($model->addons, 'id', 'name'));
 ?>
+
 <?php $form = ActiveForm::begin([
     'id' => 'edit-form',
     'method' => 'POST',
@@ -67,6 +70,14 @@ $change_url = Url::to(["/admin/cart-item/change", 'id' => $model->id]);
     </div>
     <div class="col-sm-12 col-md-6">
         <?= $form->field($model, 'currency')->dropDownList(Currency::getCurrenciesList()); ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h6><?= Yii::t('admin/orders', 'addons_info') ?></h6>
+    </div>
+    <div class="col-sm-12">
+        <?= $form->field($model, 'addon_ids')->checkboxList(Addon::getListForEditOrder())->label(false); ?>
     </div>
 </div>
 

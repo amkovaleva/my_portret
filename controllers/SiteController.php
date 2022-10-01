@@ -97,6 +97,9 @@ class SiteController extends BaseSiteController
     public function actionGallery()
     {
         $this->view->title = Yii::t('app/index', 'gallery_title');
+        Yii::$app->view->params['is_h1_logo'] = true;
+        Yii::$app->view->params['need_footer'] = true;
+        Yii::$app->view->params['html_class'] = 'index';
         return $this->render('gallery');
     }
 }

@@ -37,4 +37,16 @@ class Addon extends BaseTranslation
             'price_eur' => Yii::t($lan_dir, 'price_eur'),
         ];
     }
+
+    public static function getListForEditOrder(){
+        $list = Addon::find()->all();
+        return ArrayHelper::map($list, 'id', function ($model) {
+            $res = $model->transName;
+            foreach(Currency::CURRENCIES as $cur){
+                $cur_prop = Currency::CURRENCY_PROP[$cur];
+                $res .= " / " .Currency::getPriceStr($model->$cur_prop, $cur);
+            }
+            return $res;
+        });
+    }
 }
