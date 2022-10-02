@@ -86,4 +86,54 @@ class OrderConsts
               return $key;
       return 1;
     }
+
+
+    const CREATED_STATE = 1;
+    const APPROVED_STATE = 2;
+    const CANCELED_STATE = 0;
+    const IN_PROGRESS_STATE = 3;
+    const FINISHED_STATE = 4;
+    const IN_THE_WAY_STATE = 5;
+    const DELIVERED_STATE = 6;
+
+    const DEFAULT_STATES = [
+        self::CREATED_STATE ,
+        self::APPROVED_STATE,
+        self::IN_PROGRESS_STATE,
+        self::FINISHED_STATE,
+        self::IN_THE_WAY_STATE
+    ];
+
+    const STATE_MOVEMENTS = [
+        self::CREATED_STATE => [self::APPROVED_STATE, self::CANCELED_STATE],
+        self::APPROVED_STATE => [self::IN_PROGRESS_STATE, self::CANCELED_STATE],
+        self::CANCELED_STATE => [],
+        self::IN_PROGRESS_STATE => [self::FINISHED_STATE, self::CANCELED_STATE],
+        self::FINISHED_STATE => [self::IN_THE_WAY_STATE],
+        self::IN_THE_WAY_STATE => [self::DELIVERED_STATE],
+        self::DELIVERED_STATE => []
+    ];
+
+
+    public static function stateNames(){
+        return  [
+            self::CREATED_STATE => Yii::t('app/orders', 'state_' . self::CREATED_STATE),
+            self::APPROVED_STATE => Yii::t('app/orders', 'state_'. self::APPROVED_STATE),
+            self::CANCELED_STATE => Yii::t('app/orders', 'state_'. self::CANCELED_STATE),
+            self::IN_PROGRESS_STATE => Yii::t('app/orders', 'state_'. self::IN_PROGRESS_STATE),
+            self::FINISHED_STATE => Yii::t('app/orders', 'state_'. self::FINISHED_STATE),
+            self::IN_THE_WAY_STATE => Yii::t('app/orders', 'state_'. self::IN_THE_WAY_STATE),
+            self::DELIVERED_STATE => Yii::t('app/orders', 'state_'. self::DELIVERED_STATE)
+        ];
+    }
+
+    public static function statesForChange($cur_sate){
+        $next_states = OrderConsts::STATE_MOVEMENTS[$cur_sate];
+        $states[$cur_sate] = OrderConsts::stateNames()[$cur_sate];
+        foreach ($next_states as $next_state) {
+            $states[$next_state] = OrderConsts::stateNames()[$next_state];
+        }
+        return $states;
+    }
+
 }

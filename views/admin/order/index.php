@@ -1,6 +1,6 @@
 <?php
 
-use app\models\Order;
+use app\models\OrderConsts;
 use kartik\select2\Select2;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -37,7 +37,7 @@ use yii\helpers\Html;
             return implode($rows);
 
         },], ['attribute' => 'state', 'value' => 'stateName',
-            'filter' => Select2::widget(['name' => 'SearchOrder[state]', 'data' => Order::STATE_NAMES, 'value' => $searchModel->state,
+            'filter' => Select2::widget(['name' => 'SearchOrder[state]', 'data' => OrderConsts::stateNames(), 'value' => $searchModel->state,
                 'options' => ['placeholder' => 'Select a color ...', 'multiple' => true],
                 'pluginOptions' => ['allowClear' => false],])],
         ['attribute' => 'created_at', 'value' => 'cartItem.created_at', 'format' => ['date', 'php:d-m-Y H:i'],

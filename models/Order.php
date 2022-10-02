@@ -9,30 +9,6 @@ use yii\db\ActiveRecord;
 class Order extends ActiveRecord
 {
 
-    const CREATED_STATE = 1;
-    const APPROVED_STATE = 2;
-    const CANCELED_STATE = 0;
-    const IN_PROGRESS_STATE = 3;
-    const FINISHED_STATE = 4;
-    const IN_THE_WAY_STATE = 5;
-    const DELIVERED_STATE = 6;
-
-    const STATE_NAMES = [
-        self::CREATED_STATE => 'Создан',
-        self::APPROVED_STATE => "Одобрен",
-        self::CANCELED_STATE => "Отменен",
-        self::IN_PROGRESS_STATE => "В прогрессе",
-        self::FINISHED_STATE => "Закончен",
-        self::IN_THE_WAY_STATE => "В пути",
-        self::DELIVERED_STATE => "Доставлен"
-    ];
-    const DEFAULT_STATES = [
-        self::CREATED_STATE ,
-        self::APPROVED_STATE,
-        self::IN_PROGRESS_STATE,
-        self::FINISHED_STATE,
-        self::IN_THE_WAY_STATE
-    ];
 
     public static function tableName()
     {
@@ -42,10 +18,15 @@ class Order extends ActiveRecord
     public function rules()
     {
         return [
-            [['state', 'first_name', 'last_name', 'email', 'index', 'country', 'city', 'street', 'house', 'apartment', 'cart_item_id'], 'required', 'message' => Yii::t('app/carts', 'required_message')],
-            [[ 'middle_name', 'first_name', 'last_name', 'email', 'phone', 'index', 'country', 'city', 'street', 'house', 'apartment'], 'string'],
+            [['state', 'first_name', 'last_name', 'email', 'index',
+                'country', 'city', 'street', 'house', 'apartment', 'cart_item_id'], 'required',
+                'message' => Yii::t('app/carts', 'required_message')],
+            [['middle_name', 'first_name', 'last_name', 'email', 'phone',
+                'index', 'country', 'city', 'street', 'house', 'apartment',
+                'shop_comment', 'shop_comment', 'user_comment', 'track_info'], 'string'],
             [['created_at'], 'date', 'format' => 'yyyy-M-d H:m:s'],
-            [['state'], 'number'],
+            [['state', 'cancel_reason_id'], 'number'],
+            ['track_info', 'required', 'when' => function ($model) { return $model->state >= OrderConsts::IN_THE_WAY_STATE; }]
         ];
     }
 
@@ -72,12 +53,16 @@ class Order extends ActiveRecord
             'portrait_base_info' => Yii::t($lan_dir, 'portrait_title'),
             'total_price' => Yii::t($lan_dir, 'total_price'),
             'photo' => Yii::t($lan_dir, 'photo'),
+            'cancel_reason_id' => Yii::t($lan_dir, 'cancel_reason_id'),
+            'shop_comment' => Yii::t($lan_dir, 'shop_comment'),
+            'user_comment' => Yii::t($lan_dir, 'user_comment'),
+            'track_info' => Yii::t($lan_dir, 'track_info'),
         ];
     }
 
     public function fillDefault()
     {
-        $this->state = Order::CREATED_STATE;
+        $this->state = OrderConsts::CREATED_STATE;
         $cart = CartItem::getCartItemsForUser(false);
         if ($cart)
             $this->cart_item_id = $cart->id;
@@ -90,7 +75,12 @@ class Order extends ActiveRecord
 
     public function getStateName()
     {
-        return Order::STATE_NAMES[$this->state];
+        return OrderConsts::stateNames()[$this->state];
+    }
+
+    public function getIsCanceled()
+    {
+        return OrderConsts::CANCELED_STATE === $this->state;
     }
 
     public function getPortraitOptions($is_admin = false)
@@ -101,7 +91,7 @@ class Order extends ActiveRecord
 
         $res = $item->getPortraitOptions($is_admin);
 
-        if($is_admin) {
+        if ($is_admin) {
             $res[] = null;
             $res[Yii::t('app/carts', 'total_price')] = $this->totalPrice;
         }

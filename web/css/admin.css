@@ -127,6 +127,9 @@ a.desc:after {
     border-radius: 20px;
     margin-bottom: 30px;
 }
+.bordered h6{
+    margin-top: 30px;
+}
 #cartitem-addon_ids{
     padding-left: 50px;
 }

@@ -28,7 +28,7 @@ class CartItemController extends AdminController
 
         if ($this->isModelLoaded($model)) {
             $info = [
-                'info_container' => 'info_container',
+                'info_container' => 'info_container', 'pjax_id' => '',
                 'info' => $this->renderPartial('//admin/order/info_view',
                     [
                         'price' => Price::getPriceForCartItem($model),

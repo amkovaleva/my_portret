@@ -72,7 +72,7 @@ let initGridActions = function () {
 };
 
 let initFormActions = function () {
-    let editForm = $('#edit-form, #contact-form, #portrait-form'),
+    let editForm = $('#edit-form, #contact-form, #portrait-form, #status-form'),
         file_input = editForm.find('input[type=file]'),
         id_input = editForm.find('input[type=hidden][id]'),
         id = id_input.val(),
@@ -94,9 +94,13 @@ let initFormActions = function () {
             processData: false
         }).done(function (response) {
             if (response.success && $.pjax) {
-                $.pjax.reload({container: '#pjax', async: false});
+                if(response.pjax_id === undefined)
+                    $.pjax.reload({container: '#pjax', async: false});
+                else if(response.pjax_id)
+                    $.pjax.reload({container: '#'+response.pjax_id, async: false});
+
             }
-            if(response.needModal){
+            if(response.success && response.needModal){
                 openModal('modal-saved', false);
             }
             if(response.info_container && response.info){

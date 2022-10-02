@@ -42,7 +42,7 @@ class OrderFilter extends Model
 
     public function fillDefault()
     {
-        $this->state = Order::CREATED_STATE;
+        $this->state = OrderConsts::CREATED_STATE;
         $cart = CartItem::getCartItemsForUser();
         if($cart)
             $this->cart_item_id = $cart->id;

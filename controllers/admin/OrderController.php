@@ -2,11 +2,9 @@
 
 namespace app\controllers\admin;
 
-use app\models\CartItem;
 use app\models\Order;
 use app\models\SearchOrder;
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -31,7 +29,23 @@ class OrderController extends AdminController
         $model = $this->getModelById($id);
 
         if ($this->isModelLoaded($model)) {
-            return ['success' => $model->save(), 'needModal' => true];
+            return ['success' => $model->save(), 'needModal' => true, 'pjax_id' => ''];
+        }
+        return [];
+    }
+
+    public function actionUpdateState($id = 0)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = $this->getModelById($id);
+
+        if ($this->isModelLoaded($model)) {
+
+            if(!$model->isCanceled && $model->cancel_reason_id)
+                $model->cancel_reason_id = null;
+
+            $saved =  $model->save();
+            return ['success' => $saved, 'needModal' => true, 'pjax_id' => 'status_pjax'];
         }
         return [];
     }

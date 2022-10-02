@@ -33,8 +33,8 @@ class SearchOrder extends Order
         ]);
 
         if (!($this->load($params) && $this->validate())) {
-            $this->state = Order::DEFAULT_STATES;
-            $query->andFilterWhere(['in', 'state', Order::DEFAULT_STATES]);
+            $this->state = OrderConsts::DEFAULT_STATES;
+            $query->andFilterWhere(['in', 'state', OrderConsts::DEFAULT_STATES]);
             return $dataProvider;
         }
 

@@ -13,6 +13,7 @@ $rules = [
     'GET /admin/order/<id:\d+>' => 'admin/order/edit',
     'POST /admin/order/validate/<id:\d+>' => 'admin/order/validate',
     'POST /admin/order/update/<id:\d+>' => 'admin/order/update',
+    'POST /admin/order/update-state/<id:\d+>' => 'admin/order/update-state',
     'POST /admin/cart-item/update/<id:\d+>' => 'admin/cart-item/update',
     'POST /admin/cart-item/change/<id:\d+>' => 'admin/cart-item/change',
     'POST /admin/cart-item/validate/<id:\d+>' => 'admin/cart-item/validate',
