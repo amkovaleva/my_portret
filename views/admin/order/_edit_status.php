@@ -38,7 +38,7 @@ use yii\widgets\ActiveForm;
     <?php
     if (in_array(OrderConsts::IN_THE_WAY_STATE, array_keys($states))) { ?>
         <div <?= $model->state < OrderConsts::IN_THE_WAY_STATE ? 'style="display: none"' : '' ?> class="change-action">
-            <?= $form->field($model, 'track_info')->textarea(['data-show' => OrderConsts::IN_THE_WAY_STATE]); ?>
+            <?= $form->field($model, 'track_info')->textarea(['data-show' => OrderConsts::IN_THE_WAY_STATE,'data-min-show' => 1]); ?>
         </div>
     <?php } ?>
 

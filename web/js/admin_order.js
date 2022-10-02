@@ -26,8 +26,13 @@ let init_change_status = function (){
     $('#order-state').unbind('change').bind('change', (event)=>{
         let new_val = $(event.target).val();
         $('.change-action').each(( index, element)=>{
-            let div =  $( element ), hidden = div.find('[data-show]'), show_on = hidden.length ? $(hidden[0]).attr('data-show') : -1;
-            if(show_on === new_val)
+
+            let div =  $( element ),
+                hidden = div.find('[data-show]'),
+                show_on = hidden.length ? $(hidden[0]).attr('data-show') : -1,
+                is_min = hidden.attr('data-min-show');
+
+            if(!is_min && show_on === new_val || is_min && show_on <= new_val)
                 div.show();
             else
                 div.hide();
