@@ -16,6 +16,7 @@ $form = ActiveForm::begin([
 <?= $form->field($model, 'portrait_type_id')->hiddenInput()->label(false) ?>
 <?= $form->field($model, 'user_cookie')->hiddenInput()->label(false) ?>
 <?= $form->field($model, 'cost')->hiddenInput()->label(false) ?>
+<?= $form->field($model, 'crop_data')->hiddenInput()->label(false) ?>
 
     <div class="order">
         <div class="order__sidebar">
@@ -81,7 +82,9 @@ $form = ActiveForm::begin([
 
 <?php ActiveForm::end(); ?>
 
+<?= $this->render('_crop_wnd', ['model' => $model]) ?>
 
 <?= $this->render('/partials/_modal', ['title' => Yii::t('app/orders', 'no_image_title'),
     'message' => Yii::t('app/orders', 'no_image_message'),
     'button' => Yii::t('app/orders', 'no_image_cancel'), 'hidden' => true]) ?>
+

@@ -37,6 +37,7 @@ class AppAsset extends AssetBundle
         'js/_store.js',
     ];
     public $depends = [
-        'yii\web\JqueryAsset'
+        'yii\web\JqueryAsset',
+        'demi\cropper\CropperAsset'
     ];
 }
