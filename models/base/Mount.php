@@ -3,6 +3,7 @@
 namespace app\models\base;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class Mount extends BaseImage
 {
@@ -75,6 +76,22 @@ class Mount extends BaseImage
         return $res;
     }
 
+    public static function getPossibleMounts($frame_id = 0)
+    {
+        $frame = Frame::find()->where([Frame::tableName() . '.id' => $frame_id])->one();
+
+        if (!$frame)
+            return [];
+
+        $list = Mount::find()->where(['frame_id' => $frame_id])->joinWith('frame.format')->joinWith('colour')->all();
+
+        $res = [];
+        foreach ($list as &$mount) {
+            $res[] = ['id' => $mount->id, 'name' => $mount->colour->transName . ' '. $mount->frame->format->name];
+        }
+        return $res;
+    }
+
     public static function getDefaultOrderObject($portrait_format_id)
     {
         return Mount::find()->joinWith('frame', false, 'INNER JOIN')
@@ -88,5 +105,11 @@ class Mount extends BaseImage
                 ]
             )
             ->select([Mount::tableName() . '.*', Frame::tableName() . '.format_id as frame_format_id'])->asArray()->one();
+    }
+
+    public static function getList($frame_id){
+        return ArrayHelper::map(Mount::find()->joinWith('colour')->where(['frame_id' => $frame_id])->all(), 'id', function ($model){
+            return $model->colour->transName;
+        });
     }
 }

@@ -67,10 +67,10 @@ class CartItem extends BaseImage
             'material_id' => Yii::t($lan_dir, 'material_id'),
             'base_id' => Yii::t($lan_dir, 'base_id'),
             'format_id' => Yii::t($lan_dir, 'format_id'),
-            'frame_id' => Yii::t($lan_dir, 'frame'),
+            'frame_id' => Yii::t($lan_dir, 'frame_id'),
             'faces_count' => Yii::t($lan_dir, 'faces_count'),
             'frame_format_id' => Yii::t($lan_dir, 'frame_format'),
-            'mount_id' => Yii::t($lan_dir, 'mount'),
+            'mount_id' => Yii::t($lan_dir, 'mount_id'),
             'background_color_id' => Yii::t($lan_dir, 'background_color_id'),
             'cost' => Yii::t($lan_dir, 'cost'),
             'currency' => Yii::t($lan_dir, 'currency'),
@@ -112,7 +112,7 @@ class CartItem extends BaseImage
 
     public function getOrderAddons()
     {
-        return $this->hasMany(OrderAddon::classname(), ['cart_item_id' => 'id']);
+        return $this->hasMany(OrderAddon::class, ['cart_item_id' => 'id']);
     }
 
     public function getAddonsString()
@@ -460,16 +460,7 @@ class CartItem extends BaseImage
         if($for_admin)
             $options[] = null;
 
-        if($item->frame){
-            $options[Yii::t($trans_dir, 'frame_format_id')] = $item->frame->format->$format_field_name;
-            $options[Yii::t($trans_dir, 'frame_id')] = $item->frame->colour->transName;
-
-            if($item->mount){
-                $options[Yii::t($trans_dir, 'mount_id')] = $item->mount->colour->transName;
-            }
-        }
-        else
-            $options[Yii::t($trans_dir, 'frame_format_id')] = Yii::t($trans_dir, 'no_frame');
+        $options += $item->getFrameInfo($for_admin);
 
         if($for_admin)
             $options[] = null;
@@ -478,6 +469,25 @@ class CartItem extends BaseImage
         foreach ($addons as $addon) {
             $options[$addon->transName] = Currency::getPriceStr(Currency::getLocalPrice($addon), $item->currency);
         }
+        return $options;
+    }
+
+    public function getFrameInfo($for_admin = false){
+        $trans_dir = 'app/carts';
+        $options = [];
+        $format_field_name = $for_admin ? 'name' : 'sizesStr';
+
+        if($this->frame){
+            $options[Yii::t($trans_dir, 'frame_format_id')] = $this->frame->format->$format_field_name;
+            $options[Yii::t($trans_dir, 'frame_id')] = $this->frame->colour->transName;
+
+            if($this->mount){
+                $options[Yii::t($trans_dir, 'mount_id')] = $this->mount->colour->transName;
+            }
+        }
+        else
+            $options[Yii::t($trans_dir, 'frame_format_id')] = Yii::t($trans_dir, 'no_frame');
+
         return $options;
     }
 

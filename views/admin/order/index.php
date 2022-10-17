@@ -40,7 +40,7 @@ use yii\helpers\Html;
             'filter' => Select2::widget(['name' => 'SearchOrder[state]', 'data' => OrderConsts::stateNames(), 'value' => $searchModel->state,
                 'options' => ['placeholder' => 'Select a color ...', 'multiple' => true],
                 'pluginOptions' => ['allowClear' => false],])],
-        ['attribute' => 'created_at', 'value' => 'cartItem.created_at', 'format' => ['date', 'php:d-m-Y H:i'],
+        ['attribute' => 'created_at', 'value' => 'cartItem.created_at', 'format' => ['date', 'php:d.m.Y H:i'],
 
         ],[
             'class' => 'yii\grid\ActionColumn',

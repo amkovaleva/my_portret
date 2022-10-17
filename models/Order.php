@@ -148,6 +148,12 @@ class Order extends ActiveRecord
             Yii::t($trans_dir, 'phone') => $this->phone,
             Yii::t($trans_dir, 'address_title') => $this->addressString,
         ];
+        if($this->track_info)
+            $options[Yii::t($trans_dir, 'track_info')] = $this->track_info;
+        if($this->shop_comment)
+            $options[Yii::t($trans_dir, 'shop_comment')] = $this->shop_comment;
+        if($this->user_comment)
+            $options[Yii::t($trans_dir, 'user_comment')] = $this->user_comment;
         return $options;
     }
 }

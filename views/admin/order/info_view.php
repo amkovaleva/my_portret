@@ -1,7 +1,9 @@
-
+<div class="row">
+    <div class="col">
+        <h5><?= Yii::t('admin/orders', 'current_price_title') ?></h5>
+    </div>
 <div class="col-12">
     <?php use app\models\base\Currency;
-
     $is_coeff = !empty($faces_coeff);
     if(!$is_coeff) { ?>
         <?= Yii::t('admin/orders', 'no_coeff') ?>
@@ -25,3 +27,4 @@
     </div>
 <?php }
 }?>
+</div>

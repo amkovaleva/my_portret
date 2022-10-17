@@ -136,3 +136,6 @@ a.desc:after {
 #cartitem-addon_ids label{
     display: block;
 }
+.pagination li{
+    padding-right: 10px;
+}

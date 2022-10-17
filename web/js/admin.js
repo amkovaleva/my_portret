@@ -135,10 +135,11 @@ let initFormActions = function () {
             return;
         }
         let el = $(event.target);
-        sendPost(el.attr('change_url') + el.val() + '/', (info) => {
+        sendPost(el.attr('change_url') + ( parseInt( el.val()) || 0) + '/', (info) => {
             let updated_list = $('#'+ info.id)
             updated_list.html('');
-            updated_list.append($('<option>').text('--'));
+            if(!info.without_prompt)
+                updated_list.append($('<option>').text('--'));
             if (info.length === 0 || info.items.length === 0)
                 return;
             info.items.forEach(option => {
@@ -147,6 +148,7 @@ let initFormActions = function () {
                 op.text(option.name);
                 updated_list.append(op);
             })
+            updated_list.trigger('change');
         });
     };
     need_callback_change.unbind('change', change_callback).bind('change', change_callback);

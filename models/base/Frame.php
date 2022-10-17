@@ -3,6 +3,7 @@
 namespace app\models\base;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class Frame extends BaseImage
 {
@@ -53,4 +54,30 @@ class Frame extends BaseImage
         return $this->hasOne(Format::class, ['id' => 'format_id']);
     }
 
+    public function getMounts()
+    {
+        return $this->hasMany(Mount::class, ['frame_id' => 'id']);
+    }
+
+    public static function getList($portrait_format_id, $possible_mount, $for_ajax = false){
+        $frames = Frame::find()->where(['format_id' => $portrait_format_id])->all();
+        $res = [];
+        if($for_ajax)
+            foreach ($res as &$item)
+                $res[] = ['id' => $item->id, 'name' => $item->name];
+        else
+            $res = ArrayHelper::map($frames, 'id', 'name');
+
+        $frames_with_mount = [];
+        if($possible_mount) {
+            $list = Frame::find()->joinWith('mounts')->where(['portrait_format_id'=>$portrait_format_id])->all();
+            if($for_ajax)
+                foreach ($list as &$item)
+                    $res[] = ['id' => $item->id, 'name' => $item->name];
+            else
+                $frames_with_mount = ArrayHelper::map($list, 'id', 'name');
+        }
+        return $res + $frames_with_mount;
+
+    }
 }
