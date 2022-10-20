@@ -77,7 +77,7 @@ $form = ActiveForm::begin([
                 <input class="button" type="submit" value="<?= Yii::t('app/orders', 'add') ?>">
             </div>
         </div>
-        <?= $this->render('_preview', ['total' => $total]) ?>
+        <?= $this->render('_preview', ['total' => $total, 'item' => $model]) ?>
     </div>
 
 <?php ActiveForm::end(); ?>
