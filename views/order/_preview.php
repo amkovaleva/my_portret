@@ -10,7 +10,7 @@ use app\models\base\Currency;
             <div class="stage__inner">
                 <img class="stage__portrait" src="/images/store/defaul-upload.jpg" width="1500" height="2141" alt="">
             </div>
-            <div class="stage__frame" style="background-image: url(frames/frame_30x40cm_black_white_mat.svg)"></div>
+            <!--<div class="stage__frame" style="background-image: url(frames/frame_30x40cm_black_white_mat.svg)"></div>-->
         </div>
     </div>
     <div class="order__footer">
