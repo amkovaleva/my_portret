@@ -3,10 +3,11 @@
 let form;
 let fileInput;
 let modal;
+let crop_image_container;
 let crop_container;
 let default_img;
+let uploaded_img;
 let originImage;
-let resultImage = null;
 let cropData, cropper, sideSizes = [];
 let isPortraitOrientation = true;
 
@@ -19,17 +20,21 @@ let sendPost = function (url, callback) {
 let getElemByProp = function (field) {
     return $('#cartitem-' + field);
 };
+
 let getFormatID = function () {
     return getElemByProp('format_id').val();
 };
+
 let change_callback = (event) => {
-    //console.log('change_callback');
+
     let el = $(event.target);
     let field_type = el.attr('name').replace('CartItem[', '').replace(']', '');
 
     if(field_type === 'material_id')
         $('.materials__output').text($('.materials__tools-choice .materials__widget:checked ~ span').text());
 
+    if(field_type === 'format_id')
+        setUpFormat()
 
     sendPost(form.attr('change_action') + field_type + '/' + el.val() + '/', (info) => {
         let render_info = info['render'];
@@ -88,9 +93,14 @@ let init_change_action = () => {
 
 
 let changeArea = function () {
-    if (fileInput.val()) {
+    if (isImgUploaded())
         show_crop_wnd();
-    }
+    else
+        setDefaultPhoto();
+};
+
+let isImgUploaded = function (){
+    return !!fileInput.val()
 };
 
 let loadPhoto = function (src) {
@@ -98,9 +108,23 @@ let loadPhoto = function (src) {
     originImage.attr('src', src);
 };
 
+let clearPhoto = function () {
+    fileInput.val('');
+    setDefaultPhoto();
+};
+
+let setDefaultPhoto = function () {
+    uploaded_img.attr('src', isPortraitOrientation ? default_img : default_img.replace('.', '-r.'));
+};
+
+let changeOrientation = function () {
+    isPortraitOrientation = !isPortraitOrientation;
+    changeArea();
+};
+
 let setUpFormat = function () {
     let format = window.formatSizes[getFormatID()],
-        newSizes = [1 * format.length, 1 * format.width],
+        newSizes = [+format.length, +format.width],
         is_old_format = sideSizes.length && sideSizes[0] === newSizes[0] && sideSizes[1] === newSizes[1];
 
     sideSizes = newSizes;
@@ -111,8 +135,13 @@ let setUpFormat = function () {
 let show_crop_wnd = function (){
 
     modal.show();
-    crop_container.height(originImage.height());
-    crop_container.width(originImage.width());
+    let height = originImage.height(),
+        width = originImage.width(),
+        image_ratio = Math.min(crop_container.height() / height, crop_container.width() / width);
+
+    crop_image_container.height(image_ratio * height);
+    crop_image_container.width(image_ratio * width);
+
     let ratio = isPortraitOrientation ? sideSizes[1] / sideSizes[0] : sideSizes[0] / sideSizes[1];
     originImage.cropper({aspectRatio: ratio});
     cropper = originImage.data('cropper');
@@ -124,63 +153,74 @@ let show_crop_wnd = function (){
 let hide_crop_wnd = function (){
     cropData = cropper.getData();
 
-    if (!resultImage) {
-        resultImage = $('<img alt="' + frameContainer.attr('data-alt') + '">').addClass('result');
-        frameContainer.prepend(resultImage);
-    }
-
     let canvas = $('<canvas>').attr('width', cropData.width).attr('height', cropData.height)[0],
         ctx = canvas.getContext("2d");
 
     ctx.drawImage(originImage[0], cropData.x, cropData.y, cropData.width, cropData.height, 0, 0, cropData.width, cropData.height);
-    resultImage.attr('src', canvas.toDataURL());
+    uploaded_img.attr('src', canvas.toDataURL());
 
-    updatePhotoPosition();
-    crop_container.height('');
-    crop_container.width('');
+    crop_image_container.height('');
+    crop_image_container.width('');
     cropper.destroy();
+    modal.hide();
 };
 
-(function($) {
+let init_portrait_data = function (){
 
     form = $('#order-form');
     fileInput = $('#cartitem-image');
-    default_img = $('.stage__portrait').attr('src');
+    uploaded_img = $('.stage__portrait');
+    default_img = uploaded_img.attr('src');
     modal = $('#crop-modal');
-    crop_container = modal.find('.modal__content');
+    crop_container = $('.modal__content');
+    crop_image_container = modal.find('.cropper_content');
     originImage = modal.find('img');
 
+    modal.find('.button.btn-secondary').click(hide_crop_wnd);
+    uploaded_img.click(()=> fileInput.trigger(isImgUploaded() ? 'change' : 'click'));
 
-    form.unbind('submit').bind('submit', (event) => {
-        if (!fileInput[0].files.length) {
-            event.preventDefault();
-            event.stopPropagation();
-            $('.shim').show()
-            return false;
-        }
-        getElemByProp('crop_data').val(JSON.stringify(cropData));
-    });
-    init_change_action();
+    $('.order__option.action--move').click(changeArea);
+    $('.order__option.action--clear').click(clearPhoto);
+    $('.order__option.action--rotate').click(changeOrientation);
+
+};
+
+let init_file_actions = function (){
 
     $('.order__uploading-hint .upload').on('click', () => {
         fileInput.trigger('click');
     })
-
-    $('#change-area').click(changeArea);
 
     if (fileInput.length)
         fileInput.on('change', () => {
             const [file] = fileInput[0].files
             if (file) {
                 let is_valid_ext = ['jpeg', 'jpg', 'bmp', 'png'].includes(file.name.split('.').pop().toLowerCase());
-                if(is_valid_ext){
+                if(is_valid_ext)
                     loadPhoto(URL.createObjectURL(file));
-                }
-                else {
-                    fileInput.val('');
-                    $('.stage__portrait').attr('src', default_img);
-                }
+                else
+                    clearPhoto();
+
             }
         });
+
+};
+
+(function($) {
+
+    init_portrait_data();
+
+    form.unbind('submit').bind('submit', (event) => {
+        if (!fileInput[0].files.length) {
+            event.preventDefault();
+            event.stopPropagation();
+            $('#image_validation').show()
+            return false;
+        }
+        getElemByProp('crop_data').val(JSON.stringify(cropData));
+    });
+
+    init_change_action();
+    init_file_actions();
 
 })(jQuery);

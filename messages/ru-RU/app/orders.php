@@ -28,6 +28,9 @@ return [
     'change_orientation' => 'Изменить ориентацию',
     'change_area' => 'Изменить область фото',
 
+    'cropper_title' => 'Выберите область фото',
+    'cropper_apply' => 'Применить',
+
     'no_image_title' => 'Не удалось выполнить действие.',
     'no_image_message' => 'Пожалуйста, загрузите фото. <br> <br> Допустимы jpeg, jpg, bmp и png форматы.',
     'no_image_cancel' => 'Закрыть',
@@ -72,7 +75,5 @@ return [
     'clear' => 'Очистить',
     'change_orientation' => 'Изменить ориентацию',
     'change_area' => 'Изменить область фото',
-
-    'cropper_title' => 'Выберите область фото',
-    'cropper_apply' => 'Применить',*/
+,*/
 ];

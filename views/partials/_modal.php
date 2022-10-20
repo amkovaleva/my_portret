@@ -1,5 +1,5 @@
 
-<div class="shim" <?= (isset($hidden) && $hidden) ? 'style="display:none"' : ''?> >
+<div id="<?= (isset($id) && $id) ? $id : ''?>" class="shim" <?= (isset($hidden) && $hidden) ? 'style="display:none"' : ''?> >
     <div class="modal">
         <div class="modal__heading"><?= $title ?></div>
         <div class="modal__content">

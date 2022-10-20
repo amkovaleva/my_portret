@@ -86,5 +86,7 @@ $form = ActiveForm::begin([
 
 <?= $this->render('/partials/_modal', ['title' => Yii::t('app/orders', 'no_image_title'),
     'message' => Yii::t('app/orders', 'no_image_message'),
-    'button' => Yii::t('app/orders', 'no_image_cancel'), 'hidden' => true]) ?>
+    'button' => Yii::t('app/orders', 'no_image_cancel'),
+    'hidden' => true,
+    'id' => 'image_validation']) ?>
 
