@@ -27,8 +27,8 @@ $logo_text = Yii::t('app/index', 'title');
             <a class="media__channel media__channel--youtube" href="#">Youtube</a>
             <a class="media__channel media__channel--facebook" href="#">Facebook</a>
         </div>
-        <a class="cart-handler" href="#">
+        <!--<a class="cart-handler" href="#">
             0
-        </a>
+        </a>-->
     </div>
 </div>

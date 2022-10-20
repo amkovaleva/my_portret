@@ -82,7 +82,9 @@
     max-width: 100%;
     box-sizing:content-box;
 }
-
+.media{
+    right: 70px;
+}
 @media (max-width:900px) {
     .shim,  .shim .modal{
         padding: 40px;
