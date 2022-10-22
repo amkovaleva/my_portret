@@ -16,16 +16,16 @@ $lan_dir = 'app/index';
             </div>
             <div class="footer__contacts">
                 <div class="footer__channel">
-                    <a class="channel channel--phone" href="tel:+79108197820">+7 (910) 819-78-20</a>
+                    <a class="channel channel--phone" href="tel:+79109681674">+7 (910) 968-16-74</a>
                 </div>
                 <div class="footer__channel">
-                    <a class="channel channel--email" href="mailto:oil.pencil.portrait@gmail.com">oil.pencil.portrait@gmail.com</a>
+                    <a class="channel channel--email" href="mailto:alinastart@gmail.com">alinastart@gmail.com</a>
                 </div>
                 <div class="footer__channel">
-                    <a class="channel channel--facebook" href="https://www.facebook.com/oil.pencil.portrait">oil.pencil.portrait</a>
+                    <a class="channel channel--facebook" href="https://www.facebook.com/sekatsky.alina/">sekatsky.alina</a>
                 </div>
                 <div class="footer__channel">
-                    <a class="channel channel--instagram" href="https://www.instagram.com/alina.sekatsky">@alina.sekatsky</a>
+                    <a class="channel channel--instagram" href="https://www.instagram.com/sekatski">@sekatski</a>
                 </div>
             </div>
             <div class="footer__policy">

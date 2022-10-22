@@ -23,9 +23,9 @@ $logo_text = Yii::t('app/index', 'title');
             <a class="nav__link" href="<?= Url::to(['/site/contact']) ?>"><?=  Yii::t('app/index', 'contact') ?></a>
         </div>
         <div class="media">
-            <a class="media__channel media__channel--instagram" href="#">Instagram</a>
-            <a class="media__channel media__channel--youtube" href="#">Youtube</a>
-            <a class="media__channel media__channel--facebook" href="#">Facebook</a>
+            <a class="media__channel media__channel--instagram" href="https://www.instagram.com/sekatski">Instagram</a>
+            <a class="media__channel media__channel--youtube" href="https://www.youtube.com/c/sekatski1">Youtube</a>
+            <a class="media__channel media__channel--facebook" href="https://www.facebook.com/sekatsky.alina/">Facebook</a>
         </div>
         <!--<a class="cart-handler" href="#">
             0
