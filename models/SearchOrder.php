@@ -51,7 +51,6 @@ class SearchOrder extends Order
                     ['like', 'LOWER( middle_name)', $str],
                     ['like', 'LOWER( email)', $str],
                     ['like', 'LOWER( phone)', $str],
-                    ['like', 'LOWER( index)', $str],
                     ['like', 'LOWER( country)', $str],
                     ['like', 'LOWER( city)', $str],
                     ['like', 'LOWER( street)', $str],
