@@ -23,7 +23,7 @@ $logo_text = Yii::t('app/index', 'title');
             <a class="nav__link" href="<?= Url::to(['/site/contact']) ?>"><?=  Yii::t('app/index', 'contact') ?></a>
         </div>
         <div class="media">
-            <?= $this->render('/partials/_socials') ?>a>
+            <?= $this->render('/partials/_socials') ?>
         </div>
         <!--<a class="cart-handler" href="#">
             0
