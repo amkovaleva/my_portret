@@ -87,8 +87,8 @@ class m211108_132404_create_mounts_table extends Migration
 
         $this->createTable('{{%frame_mount_images}}', [
             'id' => $this->primaryKey(),
-            'mount_id' => $this->integer()->notNull()->defaultValue(1),
-            'frame_id' => $this->integer()->notNull()->defaultValue(1),
+            'mount_id' => $this->integer()->notNull()->defaultValue(0),
+            'frame_id' => $this->integer()->notNull()->defaultValue(0),
             'imageFile' => $this->string()->notNull()->defaultValue('')
         ]);
 

@@ -12,8 +12,8 @@ class m211211_090933_change_mount_table extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('{{%frame_mount_images}}', 'portrait_format_id', 'int(11)');
-        $this->addColumn('{{%frame_mount_images}}', 'colour_id', 'int(11)');
+        $this->addColumn('{{%frame_mount_images}}', 'portrait_format_id', 'int(11)  not null');
+        $this->addColumn('{{%frame_mount_images}}', 'colour_id', 'int(11)  not null');
 
         $this->addForeignKey(
             'fk-frame_mount_images-colour_id',
@@ -64,9 +64,6 @@ SET fmi.portrait_format_id = m.portrait_format_id, fmi.colour_id = m.colour_id')
             ['portrait_format_id', 'colour_id', 'frame_id'],
             true
         );
-
-        $this->alterColumn('{{%frame_mount_images}}', 'portrait_format_id', 'int(11) not null');
-        $this->alterColumn('{{%frame_mount_images}}', 'colour_id', 'int(11) not null');
 
 
         $this->addForeignKey(

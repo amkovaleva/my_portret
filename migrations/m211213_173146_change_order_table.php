@@ -88,10 +88,12 @@ class m211213_173146_change_order_table extends Migration
         );
 
         $this->createTable('{{%orders}}', [
-            'id' => $this->primaryKey(),
+
+        'id' => $this->primaryKey(),
             'pay_type_id' => $this->integer()->notNull()->defaultValue(1),
             'delivery_type_id' => $this->integer()->notNull()->defaultValue(1),
             'state' => $this->integer()->notNull()->defaultValue(1),
+            'cart_item_id' => $this->integer()->notNull()->defaultValue(0),
 
             'fio' => $this->string()->notNull()->defaultValue(''),
             'email' => $this->string()->notNull()->defaultValue(''),
@@ -137,6 +139,7 @@ class m211213_173146_change_order_table extends Migration
             '{{%delivery_types}}',
             'id'
         );
+
 
 
         $this->createIndex(

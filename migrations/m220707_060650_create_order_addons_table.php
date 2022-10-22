@@ -54,7 +54,6 @@ class m220707_060650_create_order_addons_table extends Migration
         $this->addColumn('{{%orders}}', 'street', $this->string());
         $this->addColumn('{{%orders}}', 'house', $this->string());
         $this->addColumn('{{%orders}}', 'apartment', $this->string());
-        $this->addColumn('{{%orders}}', 'cart_item_id', $this->integer()->notNull()->defaultValue(0));
 
 
         $this->addForeignKey(
