@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:3306
--- Время создания: Окт 21 2022 г., 19:29
+-- Время создания: Окт 22 2022 г., 19:33
 -- Версия сервера: 5.7.39-0ubuntu0.18.04.2
 -- Версия PHP: 7.2.24-0ubuntu0.18.04.13
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- База данных: `portrait`
 --
+CREATE DATABASE IF NOT EXISTS `portrait` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+USE `portrait`;
 
 -- --------------------------------------------------------
 
@@ -26,6 +28,7 @@ SET time_zone = "+00:00";
 -- Структура таблицы `addons`
 --
 
+DROP TABLE IF EXISTS `addons`;
 CREATE TABLE `addons` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -50,6 +53,7 @@ INSERT INTO `addons` (`id`, `name`, `name_en`, `price`, `price_usd`, `price_eur`
 -- Структура таблицы `auth_assignment`
 --
 
+DROP TABLE IF EXISTS `auth_assignment`;
 CREATE TABLE `auth_assignment` (
   `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
@@ -69,6 +73,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 -- Структура таблицы `auth_item`
 --
 
+DROP TABLE IF EXISTS `auth_item`;
 CREATE TABLE `auth_item` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `type` smallint(6) NOT NULL,
@@ -93,6 +98,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 -- Структура таблицы `auth_item_child`
 --
 
+DROP TABLE IF EXISTS `auth_item_child`;
 CREATE TABLE `auth_item_child` (
   `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL
@@ -111,6 +117,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 -- Структура таблицы `auth_rule`
 --
 
+DROP TABLE IF EXISTS `auth_rule`;
 CREATE TABLE `auth_rule` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `data` blob,
@@ -124,6 +131,7 @@ CREATE TABLE `auth_rule` (
 -- Структура таблицы `background_colors`
 --
 
+DROP TABLE IF EXISTS `background_colors`;
 CREATE TABLE `background_colors` (
   `id` int(11) NOT NULL,
   `colour_id` int(11) NOT NULL DEFAULT '1'
@@ -144,6 +152,7 @@ INSERT INTO `background_colors` (`id`, `colour_id`) VALUES
 -- Структура таблицы `bg_materials`
 --
 
+DROP TABLE IF EXISTS `bg_materials`;
 CREATE TABLE `bg_materials` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Бумага',
@@ -165,6 +174,7 @@ INSERT INTO `bg_materials` (`id`, `name`, `is_mount`, `name_en`) VALUES
 -- Структура таблицы `cancel_reasons`
 --
 
+DROP TABLE IF EXISTS `cancel_reasons`;
 CREATE TABLE `cancel_reasons` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -185,6 +195,7 @@ INSERT INTO `cancel_reasons` (`id`, `name`, `description`, `description_en`) VAL
 -- Структура таблицы `cart_items`
 --
 
+DROP TABLE IF EXISTS `cart_items`;
 CREATE TABLE `cart_items` (
   `id` int(11) NOT NULL,
   `portrait_type_id` int(11) NOT NULL DEFAULT '1',
@@ -214,7 +225,10 @@ INSERT INTO `cart_items` (`id`, `portrait_type_id`, `format_id`, `material_id`, 
 (6, 2, 3, 1, 1, NULL, 4, NULL, 1, '3f1e9f99a1697ad9ea287737941ecea4_6.png', '44200.00', 'ru', '3f1e9f99a1697ad9ea287737941ecea4', '2022-10-01 14:43:38'),
 (7, 3, 1, 1, 1, 4, 1, 2, 3, '3f1e9f99a1697ad9ea287737941ecea4_7.jpg', '5200.00', 'ru', '3f1e9f99a1697ad9ea287737941ecea4', '2022-10-01 16:08:48'),
 (8, 2, 1, 1, 1, 4, 1, 2, 3, '3f1e9f99a1697ad9ea287737941ecea4_8.png', '10050.00', 'ru', '3f1e9f99a1697ad9ea287737941ecea4', '2022-10-01 17:31:37'),
-(9, 2, 1, 1, 1, 4, 1, 2, 3, '3f1e9f99a1697ad9ea287737941ecea4_9.png', '10050.00', 'ru', '3f1e9f99a1697ad9ea287737941ecea4', '2022-10-20 17:28:16');
+(9, 2, 1, 1, 1, 4, 1, 2, 3, '3f1e9f99a1697ad9ea287737941ecea4_9.png', '10050.00', 'ru', '3f1e9f99a1697ad9ea287737941ecea4', '2022-10-20 17:28:16'),
+(10, 1, 1, 1, 1, 4, 1, 2, 3, '3f1e9f99a1697ad9ea287737941ecea4_10.png', '16200.00', 'ru', '3f1e9f99a1697ad9ea287737941ecea4', '2022-10-22 12:25:39'),
+(11, 1, 1, 1, 1, 4, 1, 2, 3, '3f1e9f99a1697ad9ea287737941ecea4_11.png', '16200.00', 'ru', '3f1e9f99a1697ad9ea287737941ecea4', '2022-10-22 12:26:22'),
+(12, 1, 1, 1, 1, 4, 1, 2, 3, '3f1e9f99a1697ad9ea287737941ecea4_12.png', '16000.00', 'ru', '3f1e9f99a1697ad9ea287737941ecea4', '2022-10-22 12:27:55');
 
 -- --------------------------------------------------------
 
@@ -222,6 +236,7 @@ INSERT INTO `cart_items` (`id`, `portrait_type_id`, `format_id`, `material_id`, 
 -- Структура таблицы `colours`
 --
 
+DROP TABLE IF EXISTS `colours`;
 CREATE TABLE `colours` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Белый',
@@ -246,6 +261,7 @@ INSERT INTO `colours` (`id`, `name`, `code`, `name_en`) VALUES
 -- Структура таблицы `count_faces`
 --
 
+DROP TABLE IF EXISTS `count_faces`;
 CREATE TABLE `count_faces` (
   `id` int(11) NOT NULL,
   `min` smallint(6) DEFAULT NULL,
@@ -269,6 +285,7 @@ INSERT INTO `count_faces` (`id`, `min`, `max`, `coefficient`) VALUES
 -- Структура таблицы `delivery_types`
 --
 
+DROP TABLE IF EXISTS `delivery_types`;
 CREATE TABLE `delivery_types` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -291,6 +308,7 @@ INSERT INTO `delivery_types` (`id`, `name`, `name_en`, `for_ru`, `for_not_ru`) V
 -- Структура таблицы `formats`
 --
 
+DROP TABLE IF EXISTS `formats`;
 CREATE TABLE `formats` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'A4',
@@ -315,6 +333,7 @@ INSERT INTO `formats` (`id`, `name`, `length`, `width`, `max_faces`) VALUES
 -- Структура таблицы `frames`
 --
 
+DROP TABLE IF EXISTS `frames`;
 CREATE TABLE `frames` (
   `id` int(11) NOT NULL,
   `colour_id` int(11) NOT NULL DEFAULT '1',
@@ -344,6 +363,7 @@ INSERT INTO `frames` (`id`, `colour_id`, `format_id`, `width`, `name`, `imageFil
 -- Структура таблицы `migration`
 --
 
+DROP TABLE IF EXISTS `migration`;
 CREATE TABLE `migration` (
   `version` varchar(180) COLLATE utf8_bin NOT NULL,
   `apply_time` int(11) DEFAULT NULL
@@ -387,6 +407,7 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 -- Структура таблицы `mounts`
 --
 
+DROP TABLE IF EXISTS `mounts`;
 CREATE TABLE `mounts` (
   `id` int(11) NOT NULL,
   `frame_id` int(11) NOT NULL DEFAULT '1',
@@ -416,6 +437,7 @@ INSERT INTO `mounts` (`id`, `frame_id`, `imageFile`, `portrait_format_id`, `colo
 -- Структура таблицы `orders`
 --
 
+DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
   `pay_type_id` int(11) NOT NULL DEFAULT '1',
@@ -447,11 +469,12 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`id`, `pay_type_id`, `delivery_type_id`, `state`, `first_name`, `email`, `index`, `country`, `phone`, `user_comment`, `track_info`, `cancel_reason_id`, `shop_comment`, `feedback`, `created_at`, `last_name`, `middle_name`, `city`, `street`, `house`, `apartment`, `cart_item_id`) VALUES
 (1, 1, 1, 0, 'Анастасия', 'a.kovaleva@uniyar.ac.ru', '150003', 'Russia', '+79159702329', 'fgh', NULL, NULL, 'fgh', NULL, '2022-08-31 15:08:58', 'Ковалева', 'Михайловна', 'Ярославль f', 'ftgyhrftgh', '5', '5', 1),
-(2, 1, 1, 1, 'Анастасия', 'a.kovaleva@uniyar.ac.ru', '150003', 'Russia', '+79159702329', NULL, NULL, NULL, NULL, NULL, '2022-10-01 14:24:12', 'Ковалева', 'Михайловна', 'Ярославль', 'ftgyhrftgh', '56', '567', 4),
+(2, 1, 1, 5, 'Анастасия', 'a.kovaleva@uniyar.ac.ru', '150003', 'Russia', '+79159702329', '', 'лплгп', NULL, '', NULL, '2022-10-01 14:24:12', 'Ковалева', 'Михайловна', 'Ярославль', 'ftgyhrftgh', '56', '567', 4),
 (4, 1, 1, 0, 'Андрей', 'flamebird.exe@gmail.com', '150003', 'Russia', '+79201162448', '', NULL, NULL, '', NULL, '2022-10-01 14:36:27', 'Волдаев', 'Сергеевич', 'Ярославль', 'ftgyhrftgh', '56', '567', 5),
 (5, 1, 1, 5, 'Андрей', 'flamebird.exe@gmail.com', '150003', 'Russia', '+79201162448', '', 'ergyrg', NULL, '', NULL, '2022-10-01 14:43:44', 'Волдаев', 'Сергеевич', 'Ярославль', 'ftgyhrftgh', '56', '567', 6),
 (6, 1, 1, 1, 'Константин', 'boga4ew.konstantin@gmail.com', '150003', 'Russia', '+79066357711', NULL, NULL, NULL, NULL, NULL, '2022-10-01 16:08:57', 'Богачев', 'Викторович', 'Ярославль', 'ftgyhrftgh', '56', '567', 7),
-(7, 1, 1, 1, 'Андрей', 'flamebird.exe@gmail.com', '150003', 'Russia', '+79201162448', NULL, NULL, NULL, NULL, NULL, '2022-10-20 17:29:10', 'Волдаев', 'Сергеевич', 'Ярославль', 'ftgyhrftgh', '56', '567', 9);
+(7, 1, 1, 1, 'Андрей', 'flamebird.exe@gmail.com', '150003', 'Russia', '+79201162448', NULL, NULL, NULL, NULL, NULL, '2022-10-20 17:29:10', 'Волдаев', 'Сергеевич', 'Ярославль', 'ftgyhrftgh', '56', '567', 9),
+(8, 1, 1, 1, 'Константин', 'boga4ew.konstantin@gmail.com', '150003', 'Russia', '+79066357711', NULL, NULL, NULL, NULL, NULL, '2022-10-22 12:26:45', 'Богачев', 'Викторович', 'Ярославль', 'ftgyhrftgh', '56', '567', 11);
 
 -- --------------------------------------------------------
 
@@ -459,6 +482,7 @@ INSERT INTO `orders` (`id`, `pay_type_id`, `delivery_type_id`, `state`, `first_n
 -- Структура таблицы `order_addons`
 --
 
+DROP TABLE IF EXISTS `order_addons`;
 CREATE TABLE `order_addons` (
   `id` int(11) NOT NULL,
   `cart_item_id` int(11) NOT NULL DEFAULT '0',
@@ -474,6 +498,8 @@ INSERT INTO `order_addons` (`id`, `cart_item_id`, `addon_id`) VALUES
 (34, 5, 1),
 (9, 6, 1),
 (37, 7, 1),
+(41, 10, 1),
+(43, 11, 1),
 (3, 3, 2),
 (5, 4, 2),
 (35, 5, 2),
@@ -481,6 +507,8 @@ INSERT INTO `order_addons` (`id`, `cart_item_id`, `addon_id`) VALUES
 (38, 7, 2),
 (39, 8, 2),
 (40, 9, 2),
+(42, 10, 2),
+(44, 11, 2),
 (2, 1, 3),
 (4, 3, 3),
 (6, 4, 3),
@@ -492,6 +520,7 @@ INSERT INTO `order_addons` (`id`, `cart_item_id`, `addon_id`) VALUES
 -- Структура таблицы `paint_materials`
 --
 
+DROP TABLE IF EXISTS `paint_materials`;
 CREATE TABLE `paint_materials` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Карандаш',
@@ -512,6 +541,7 @@ INSERT INTO `paint_materials` (`id`, `name`, `name_en`) VALUES
 -- Структура таблицы `pay_types`
 --
 
+DROP TABLE IF EXISTS `pay_types`;
 CREATE TABLE `pay_types` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -536,6 +566,7 @@ INSERT INTO `pay_types` (`id`, `name`, `name_en`, `description`, `description_en
 -- Структура таблицы `portrait_types`
 --
 
+DROP TABLE IF EXISTS `portrait_types`;
 CREATE TABLE `portrait_types` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Портрет',
@@ -557,6 +588,7 @@ INSERT INTO `portrait_types` (`id`, `name`, `name_en`) VALUES
 -- Структура таблицы `prices`
 --
 
+DROP TABLE IF EXISTS `prices`;
 CREATE TABLE `prices` (
   `id` int(11) NOT NULL,
   `bg_material_id` int(11) NOT NULL DEFAULT '1',
@@ -602,6 +634,7 @@ INSERT INTO `prices` (`id`, `bg_material_id`, `paint_material_id`, `portrait_typ
 -- Структура таблицы `profile`
 --
 
+DROP TABLE IF EXISTS `profile`;
 CREATE TABLE `profile` (
   `user_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -627,6 +660,7 @@ INSERT INTO `profile` (`user_id`, `name`, `public_email`, `gravatar_email`, `gra
 -- Структура таблицы `social_account`
 --
 
+DROP TABLE IF EXISTS `social_account`;
 CREATE TABLE `social_account` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -645,6 +679,7 @@ CREATE TABLE `social_account` (
 -- Структура таблицы `token`
 --
 
+DROP TABLE IF EXISTS `token`;
 CREATE TABLE `token` (
   `user_id` int(11) DEFAULT NULL,
   `code` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -658,6 +693,7 @@ CREATE TABLE `token` (
 -- Структура таблицы `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -925,7 +961,7 @@ ALTER TABLE `cancel_reasons`
 -- AUTO_INCREMENT для таблицы `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT для таблицы `colours`
 --
@@ -960,12 +996,12 @@ ALTER TABLE `mounts`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT для таблицы `order_addons`
 --
 ALTER TABLE `order_addons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT для таблицы `paint_materials`
 --
