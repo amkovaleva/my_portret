@@ -25,7 +25,7 @@ $lan_dir = 'app/index';
                     <a class="channel channel--facebook" href="https://www.facebook.com/sekatsky.alina/">sekatsky.alina</a>
                 </div>
                 <div class="footer__channel">
-                    <a class="channel channel--instagram" href="https://www.instagram.com/sekatski">@sekatski</a>
+                    <a class="channel channel--instagram" href="https://www.instagram.com/sekatski">sekatski</a>
                 </div>
             </div>
             <div class="footer__policy">

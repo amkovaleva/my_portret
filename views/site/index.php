@@ -29,15 +29,15 @@ $lan_dir = 'app/index';
 <div class="about">
     <div class="about__wrap container">
         <h2 class="about__heading dotted-title">
-            about me.
+            обо мне.
         </h2>
         <div class="about__list">
             <?php
             $list = [
-                ['count' => 1, 'class' => 'competitions'],
-                ['count' => 40, 'class' => 'portraits'],
-                ['count' => 14, 'class' => 'experience'],
-                ['count' => 10, 'class' => 'publications'],
+                ['count' => 3, 'class' => 'competitions'],
+                ['count' => 47, 'class' => 'portraits'],
+                ['count' => 15, 'class' => 'experience'],
+                ['count' => 11, 'class' => 'publications'],
             ];
             ?>
             <?php foreach ($list as $key => &$item) { ?>
@@ -56,7 +56,7 @@ $lan_dir = 'app/index';
 <div class="waterfall">
     <?php
     $list = [
-        ['src' => '1.jpg', 'width' => 2000, 'height' => 2572, 'alt' => ''],
+        ['src' => '2.jpg', 'width' => 2000, 'height' => 2572, 'alt' => ''],
         ['src' => '2.jpg', 'width' => 2000, 'height' => 2734, 'alt' => ''],
         ['src' => '10.jpg', 'width' => 1500, 'height' => 2040, 'alt' => ''],
         ['src' => '3.jpg', 'width' => 1480, 'height' => 2000, 'alt' => ''],
@@ -67,10 +67,11 @@ $lan_dir = 'app/index';
         ['src' => '10.jpg', 'width' => 1500, 'height' => 2040, 'alt' => ''],
         ['src' => '4.jpg', 'width' => 1402, 'height' => 2000, 'alt' => ''],
         ['src' => '6.gif', 'width' => 800, 'height' => 1422, 'alt' => ''],
-        ['src' => '1.jpg', 'width' => 2000, 'height' => 2572, 'alt' => ''],
-        ['src' => '2.jpg', 'width' => 2000, 'height' => 2734, 'alt' => ''],
+        ['src' => '2.jpg', 'width' => 2000, 'height' => 2572, 'alt' => ''],
+        ['src' => '1.jpg', 'width' => 2000, 'height' => 2734, 'alt' => ''],
         ['src' => '10.jpg', 'width' => 1500, 'height' => 2040, 'alt' => ''],
         ['src' => '3.jpg', 'width' => 1480, 'height' => 2000, 'alt' => ''],
+        ['src' => '4.jpg', 'width' => 1402, 'height' => 2000, 'alt' => ''],
         ['src' => '4.jpg', 'width' => 1402, 'height' => 2000, 'alt' => ''],
     ];
     ?>

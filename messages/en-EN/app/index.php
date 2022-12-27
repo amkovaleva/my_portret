@@ -1,6 +1,6 @@
 <?php
 return [
-    'title' => 'Alina Sekatsky / Portrait Artist',
+    'title' => 'Sekatski | Oil & Pencil Portrait Studio',
 
     'save_moment' => 'Save the moment in eternity',
     'oil_pencil' => 'OIL & PENCIL',
@@ -24,7 +24,7 @@ return [
     'terms_policy' => 'Terms and conditions',
     'address' => 'Address:',
     'address_string' => 'Yaroslavl city<br>
-                        150064<br>
+                        150000<br>
                         Russia',
 
 
