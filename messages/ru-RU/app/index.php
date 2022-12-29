@@ -1,16 +1,16 @@
 <?php
 return [
-    'title' => 'Alina Sekatski / Portrait Artist',
-    'gallery_title' => 'Alina Sekatski / Portrait Artist',
+    'title' => 'Sekatski | Oil & Pencil Portrait Studio',
+    'gallery_title' => 'Sekatski | Oil & Pencil Portrait Studio',
 
     'cm' => 'см',
 
-    'save_moment' => 'Сохрани момент в вечности',
-    'oil_pencil' => 'OIL&PENCIL',
+    'save_moment' => 'Математика в искусстве',
+    'oil_pencil' => 'OIL & PENCIL',
     'studio' => 'PORTRAIT STUDIO',
     'order' => 'Заказать портрет',
 
-    'about_competitions' => 'побед в конкурсах',
+    'about_competitions' => 'победы в конкурсах',
     'about_portraits' => 'портретов',
     'about_experience' => 'лет художественного опыта',
     'about_publications' => 'публикаций',
@@ -28,11 +28,11 @@ return [
     'terms_policy' => 'Условия и положения',
     'address' => 'Адрес:',
     'address_string' => 'Город Ярославль<br>
-                        150064<br>
+                        150000<br>
                         Россия',
 
 
-    'order_created' => 'Спасибо за Ваш заказ! В ближайшее время с Вами свяжутся.',
+    'order_created' => 'Спасибо за Ваш заказ! В ближайшее время мы с Вами свяжемся.',
 
 
 

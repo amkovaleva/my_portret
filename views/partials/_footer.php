@@ -25,7 +25,7 @@ $lan_dir = 'app/index';
                     <a class="channel channel--facebook" href="https://www.facebook.com/sekatsky.alina/">sekatsky.alina</a>
                 </div>
                 <div class="footer__channel">
-                    <a class="channel channel--instagram" href="https://www.instagram.com/sekatski">@sekatski</a>
+                    <a class="channel channel--instagram" href="https://www.instagram.com/sekatski">sekatski</a>
                 </div>
             </div>
             <div class="footer__policy">
@@ -38,5 +38,8 @@ $lan_dir = 'app/index';
         <div class="footer__logo emblem">
             <?= Yii::t($lan_dir, 'footer_fio')  ?>
         </div>
+    </div>
+    <div class="footer__title">
+        <a class="footer__year">Sekatski © 2023</a>
     </div>
 </footer>

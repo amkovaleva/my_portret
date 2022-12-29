@@ -19,6 +19,7 @@ SET time_zone = "+00:00";
 --
 -- База данных: `portrait`
 --
+DROP DATABASE `portrait`;
 CREATE DATABASE IF NOT EXISTS `portrait` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 USE `portrait`;
 
