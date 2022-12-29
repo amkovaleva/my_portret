@@ -39,4 +39,7 @@ $lan_dir = 'app/index';
             <?= Yii::t($lan_dir, 'footer_fio')  ?>
         </div>
     </div>
+    <div class="footer__title">
+        <a class="footer__year">Sekatski © 2023</a>
+    </div>
 </footer>

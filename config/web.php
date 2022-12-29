@@ -6,7 +6,7 @@ $translations = require __DIR__ . '/_translations.php';
 
 $config = [
     'id' => 'basic',
-    'language' => 'ru-RU',
+    'language' => 'en-EN',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
