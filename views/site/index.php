@@ -29,7 +29,7 @@ $lan_dir = 'app/index';
 <div class="about">
     <div class="about__wrap container">
         <h2 class="about__heading dotted-title">
-            обо мне.
+            about me.
         </h2>
         <div class="about__list">
             <?php

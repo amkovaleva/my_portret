@@ -1,6 +1,6 @@
 <?php
 return [
-    'title' => 'Свяжитесь с нами',
+    'title' => 'Sekatski | Contact',
     'header' => 'Свяжитесь с нами',
     'text' => 'Нам важно <br> услышать Вас',
 
@@ -13,7 +13,7 @@ return [
     'body_placeholder' => 'Введите Ваше сообщение',
     'phone_placeholder' => 'Введите номер телефона',
 
-    'email_subject' => 'Contact email',
+    'email_subject' => 'Contact email',abou
     'contactFormSubmitted' => 'Contact Message Successfully Send',
 
     'submit' => 'Отправить',

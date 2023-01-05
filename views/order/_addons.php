@@ -6,7 +6,7 @@ use app\models\base\Currency;
 <div class="order__addons">
     <div class="checklist">
         <div class="checklist__heading title title--smaller">
-            <?= Yii::t('app/orders', 'addons') ?>
+            <?= Yii::t('app/orders', 'add.') ?>
         </div>
         <div class="checklist__list">
             <?php foreach ($addons as $item) { ?>

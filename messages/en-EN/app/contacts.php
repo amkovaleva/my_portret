@@ -1,6 +1,6 @@
 <?php
 return [
-    'title' => 'Contact Us',
+    'title' => 'Sekatski | Contact',
     'header' => 'Contact Us',
     'text' => 'We’d love to<br> hear from you',
 
@@ -16,6 +16,7 @@ return [
     'email_subject' => 'Contact email',
     'contactFormSubmitted' => 'Contact Message Successfully Send',
 
+    'required_message' => 'Required field',
     'submit' => 'Submit',
 
 ];

@@ -74,7 +74,7 @@ use yii\helpers\Url;
                                                     $priceStrings = Currency::getPriceStrings($price);
                                                     ?>
                                                     <div class="store__item">
-                                                        <span class="store__stat"><?= $price->format->sizesStr ?>&nbsp;cm</span>
+                                                        <span class="store__stat"><?= $price->format->sizesStr ?></span>
                                                         <span class="store__value"
                                                             <?= $this->render('_currency_attributes', ['priceStrings' => $priceStrings]) ?> >
                                                             <?= $priceStrings[$active_currency] ?>

@@ -74,7 +74,7 @@ $form = ActiveForm::begin([
             <?= $this->render('_addons', ['addons' => $addons]) ?>
 
             <div class="order__side-submit">
-                <input class="button" type="submit" value="<?= Yii::t('app/orders', 'add') ?>">
+                <input class="button" type="submit" value="<?= Yii::t('app/orders', 'add to cart') ?>">
             </div>
         </div>
         <?= $this->render('_preview', ['total' => $total]) ?>

@@ -1,7 +1,7 @@
 <?php
 return [
     'title' => 'Sekatski | Oil & Pencil Portrait Studio',
-    'gallery_title' => 'Sekatski | Oil & Pencil Portrait Studio',
+    'gallery_title' => 'Sekatski | Gallery',
 
     'cm' => 'см',
 

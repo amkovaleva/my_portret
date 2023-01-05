@@ -1,8 +1,9 @@
 <?php
 return [
     'title' => 'Sekatski | Oil & Pencil Portrait Studio',
+    'gallery_title' => 'Sekatski | Gallery',
 
-    'save_moment' => 'Save the moment in eternity',
+    'save_moment' => 'Math in art',
     'oil_pencil' => 'OIL & PENCIL',
     'studio' => 'PORTRAIT STUDIO',
     'order' => 'Order a portrait',

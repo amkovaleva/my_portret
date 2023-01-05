@@ -167,7 +167,7 @@ body {
     height: 100%;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    background-color: #000;
+    background-color: #080808;
     font-family: Montserrat, sans-serif;
     font-weight: 300;
     color: #FFF
@@ -186,7 +186,7 @@ body {
 .channel {
     position: relative;
     display: inline-block;
-    padding: 8px;
+    padding: 5px;
     font-size: 12px;
     line-height: 18px;
     letter-spacing: .06em;
@@ -262,7 +262,7 @@ body {
     .channel:before {
         width: 26px;
         height: 26px;
-        margin: 2px 26px 0 0
+        margin: 2px 15px 0 0
     }
 }
 
@@ -589,7 +589,7 @@ body {
     }
 
     .about__heading {
-        margin-left: -55px
+        margin-left: 0
     }
 
     .about__list {
@@ -1002,14 +1002,14 @@ body {
 
 @media (min-width: 1800px) {
     .address__heading {
-        font-size: 15px;
+        font-size: 14px;
         line-height: 29px
     }
 
     .address__content {
         margin-top: 15px;
-        font-size: 15px;
-        line-height: 29px
+        font-size: 14px;
+        line-height: 25px
     }
 }
 
@@ -1177,7 +1177,7 @@ body {
 @media (min-width: 1800px) {
     .jumbotron__cell {
         padding-top: 300px;
-        padding-bottom: 166px
+        padding-bottom: 100px
     }
 
     .jumbotron__about {
@@ -1185,13 +1185,15 @@ body {
     }
 
     .jumbotron__tools {
-        font-size: 93px;
-        line-height: 95px
+        font-size: 70px;
+        line-height: 70px;
+        font-weight: 600;
     }
 
     .jumbotron__studio {
-        font-size: 68px;
-        line-height: 53px;
+        font-size: 47px;
+        line-height: 70px;
+        letter-spacing: .01em;
         font-weight: 100;
     }
 
@@ -1843,7 +1845,7 @@ body {
         left: calc(60% - 5px);
         width: calc(40% - 20px);
         height: 154px;
-        background-color: #000
+        background-color: #080808
     }
 
     @media (min-width: 1150px) {
@@ -1906,7 +1908,7 @@ body {
     .order__sidebar:before {
         left: calc(70% - 5px);
         width: calc(30% - 20px);
-        height: 216px
+        height: 190px
     }
 
     .order__uploading-hint {
@@ -1918,7 +1920,7 @@ body {
     }
 
     .order__portrait-size {
-        margin-top: 78px
+        margin-top: 45px
     }
 
     .order__people {
@@ -1926,7 +1928,7 @@ body {
     }
 
     .order__background {
-        margin-top: 107px
+        margin-top: 80px
     }
 
     .order__frame-size {
@@ -1934,19 +1936,19 @@ body {
     }
 
     .order__frame-color {
-        margin-top: 116px
+        margin-top: 80px
     }
 
     .order__mat {
-        margin-top: 109px
+        margin-top: 80px
     }
 
     .order__addons {
-        margin-top: 109px
+        margin-top: 80px
     }
 
     .order__cart-submit, .order__side-submit {
-        margin-top: 108px
+        margin-top: 80px
     }
 }
 
@@ -2076,7 +2078,7 @@ body {
     background-size: 38px 38px;
     background-repeat: no-repeat;
     background-position: left center;
-    font-weight: 500;
+    font-weight: 300;
     font-size: 11px;
     line-height: 16px;
     color: inherit;
@@ -2097,11 +2099,11 @@ body {
 
 @media (min-width: 1800px) {
     .upload {
-        height: 30px;
+        height: 33px;
         padding: 0 0 0 48px;
         background-size: 30px 30px;
-        font-size: 15px;
-        line-height: 20px
+        font-size: 13px;
+        line-height: 17px
     }
 }
 
@@ -2145,7 +2147,7 @@ body {
     width: 100%;
     padding: 11px;
     background-color: transparent;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     font-weight: 300;
     font-size: 11px;
     line-height: 16px;
@@ -2164,7 +2166,6 @@ body {
 
 .materials__widget:checked ~ .materials__button, .materials__widget:checked ~ .materials__button:hover {
     border-color: #FFF;
-    box-shadow: 0 0 6px rgba(252, 244, 227, .73), inset 0 0 6px rgba(252, 244, 227, .73);
     cursor: default;
     transition: none
 }
@@ -2224,7 +2225,7 @@ body {
     bottom: 0;
     margin-left: -29px;
     width: 58px;
-    height: 3px;
+    height: 2px;
     border-radius: 1px;
     background-color: #FFF;
     opacity: 0;
@@ -2316,8 +2317,7 @@ body {
 }
 
 .select__handler:hover {
-    background-color: #ffffff;
-    background-color: rgba(255, 255, 255, .1)
+    background-color: #bb2649;
 }
 
 .select__body {
@@ -2378,7 +2378,7 @@ body {
         background-size: 18px 18px;
         background-position: right 30px center;
         box-shadow: inset 0 0 0 2px #bb2649;
-        padding: 26px 72px 26px 37px
+        padding: 22px 60px 22px 25px
     }
 
     .select__body {
@@ -2387,7 +2387,7 @@ body {
     }
 
     .select__item {
-        padding: 6px 72px 6px 30px
+        padding: 18px 60px 18px 25px
     }
 }
 
@@ -2411,8 +2411,8 @@ body {
 
 @media (min-width: 1800px) {
     .row {
-        font-size: 22px;
-        line-height: 28px
+        font-size: 16px;
+        line-height: 16px
     }
 }
 
@@ -2435,7 +2435,7 @@ body {
 @media (min-width: 1800px) {
     .label {
         padding-bottom: 11px;
-        font-size: 22px;
+        font-size: 16px;
         line-height: 28px
     }
 }
@@ -2478,8 +2478,8 @@ body {
 
 @media (min-width: 1800px) {
     .title--smaller, .title--smallest {
-        font-size: 55px;
-        line-height: 55px
+        font-size: 43px;
+        line-height: 45px
     }
 
     .title--even-smaller {
@@ -2597,11 +2597,11 @@ body {
     .color-picker__label {
         width: 60px;
         height: 60px;
-        box-shadow: 0 0 7px rgba(252, 244, 227, .76)
+        box-shadow: 0 0 0 rgba(252, 252, 252, .76)
     }
 
     .color-picker__widget:checked ~ .color-picker__label {
-        box-shadow: 0 0 7px 2px rgba(252, 244, 227, .76)
+        box-shadow: 0 0 7px 2px rgba(252, 252, 252, .76)
     }
 
     .color-picker__output {
@@ -2658,9 +2658,9 @@ body {
 
 @media (min-width: 1800px) {
     .button {
-        padding: 29px 20px;
-        font-size: 15px;
-        line-height: 24px
+        padding: 22px 28px;
+        font-size: 13px;
+        line-height: 18px
     }
 }
 
@@ -2801,23 +2801,23 @@ body {
 }
 
 .is-invalid {
-    color: #B74134
+    color: #BB2649
 }
 
 .is-invalid::-webkit-input-placeholder {
     font-style: normal;
-    color: #b74134
+    color: #BB2649
 }
 
 .is-invalid::-moz-placeholder {
     font-style: normal;
-    color: #b74134;
+    color: #BB2649;
     opacity: 1
 }
 
 .is-invalid:-ms-input-placeholder {
     font-style: normal;
-    color: #b74134
+    color: #BB2649
 }
 
 .input .invalid-feedback {
@@ -2826,7 +2826,7 @@ body {
     font-weight: 500;
     font-size: 14px;
     line-height: 20px;
-    color: #B74134
+    color: #BB2649
 }
 
 .input--area .input__widget {
@@ -2837,20 +2837,20 @@ body {
 @media (min-width: 1800px) {
     .input__label {
         margin-bottom: 9px;
-        font-size: 18px;
+        font-size: 14px;
         line-height: 24px
     }
 
     .input__widget {
         height: 46px;
         padding: 11px 24px;
-        font-size: 18px;
+        font-size: 14px;
         line-height: 24px
     }
 
     .input .invalid-feedback {
         margin-top: 6px;
-        font-size: 17px;
+        font-size: 13px;
         line-height: 22px
     }
 }
@@ -3427,7 +3427,7 @@ body {
 
 @media (min-width: 1800px) {
     .store__content {
-        border: 4px solid #000
+        border: 4px solid #080808
     }
 
     .store__title {
@@ -3691,7 +3691,7 @@ body {
     font-weight: 600;
     font-size: 48px;
     line-height: 50px;
-    letter-spacing: .02em;
+    letter-spacing: .01em;
     text-transform: uppercase
 }
 
@@ -3885,15 +3885,15 @@ body {
 
 @media (min-width: 1800px) {
     .choice__icon {
-        top: 10px;
+        top: 5px;
         width: 30px;
         height: 30px
     }
 
     .choice__label {
         padding: 10px 0 10px 60px;
-        font-size: 18px;
-        line-height: 30px
+        font-size: 15px;
+        line-height: 20px
     }
 
     .choice--checkbox .choice__widget:checked ~ .choice__icon {
@@ -3993,7 +3993,6 @@ body {
 .order-section__submit .button, .order-section__submit.button {
     width: auto;
     padding: 22px 28px;
-    border: 1px solid #000;
     font-size: 11px;
     line-height: 18px;
     transition: background-color 0.1s ease, color 0.1s ease
@@ -4010,13 +4009,13 @@ body {
 
 @media (min-width: 1800px) {
     .order-section {
-        padding-top: 160px;
+        padding-top: 50px;
         padding-bottom: 160px
     }
 
     .order-section__submit .button, .order-section__submit.button {
-        padding: 26px 38px;
-        font-size: 15px;
-        line-height: 28px
+        padding: 22px 28px;
+        font-size: 13px;
+        line-height: 18px
     }
 }

@@ -1,6 +1,6 @@
 <?php
 return [
-    'title' => 'Сделать заказ',
+    'title' => 'Sekatski | Store',
 
     'hyperrealism_heading' => 'Hyperrealistic portrait',
     'photorealism_heading' => 'Photorealistic portrait',
@@ -11,16 +11,17 @@ return [
     'sketch_time' => '1 week',
 
     'hyperrealism_summary_1' => '100% mathematically accurate portrait similarity',
-    'hyperrealism_summary_2' => 'high level of details',
+    'hyperrealism_summary_2' => 'the best level of details',
     'hyperrealism_summary_3' => 'premium quality materials',
-    'photorealism_summary_1' => '80% mathematically accurate portrait similarity',
+    'photorealism_summary_1' => '100% mathematically accurate portrait similarity',
     'photorealism_summary_2' => 'high level of details',
     'photorealism_summary_3' => 'premium quality materials',
-    'sketch_summary_1' => '60% mathematically accurate portrait similarity',
-    'sketch_summary_2' => 'high level of details',
+    'sketch_summary_1' => '100% mathematically accurate portrait similarity',
+    'sketch_summary_2' => 'good level of details',
     'sketch_summary_3' => 'premium quality materials',
 
-    'detalisation' => 'detalisation',
+    'required_message' => 'Required field',
+    'detalisation' => 'detailing',
     'est_time' => 'est. time',
 
     'order' => 'Order a portrait'

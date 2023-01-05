@@ -1,11 +1,10 @@
 <?php
 return [
-    'title' => 'Сделать заказ',
+    'title' => 'Sekatski | Store',
 
     'price_ru' => '{0, number, integer}₽',
     'price_en' => '${0, number, integer}',
     'price_eur' => '{0, number, integer}€',
-
     'upload_btn_text' => 'Загрузите фото в хорошем качестве.<br> Уровень детализации зависит от качества фото',
     'format_id' => 'Формат портрета',
     'portrait_type_id' => 'Стиль портрета',
