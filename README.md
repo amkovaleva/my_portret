@@ -241,3 +241,140 @@ vendor/bin/codecept run functional,unit --coverage --coverage-html --coverage-xm
 ```
 
 You can see code coverage output under the `tests/_output` directory.
+
+
+ОБНОВЛЕНИЕ ПРОДАКШЕНА
+-----------------------
+
+ВАЖНО!!!
+изображения в папке web/uploads/orders/ сайтов не хранятся в гите =>
+перед обновлением нужно сделать их бэкап!!
+
+1. Перейти на хостинг
+2.
+```
+ssh alinas8h_ssh@alinas8h.beget.tech
+   ```
+и ввести пароль от ssh.
+
+На консоли должна появиться строка, начинающаяся с alinas8h_ssh@ikarus2:
+
+2. В корне (видны папки с сайтами) выкачать проект (если нет папки my_portret)
+3.
+```
+git clone https://github.com/amkovaleva/my_portret.git
+   ```
+
+3. перейти в папку проекта
+```
+   cd my_portret
+```
+
+4. Если пропущен пункт 2 или были коммиты (с push), то обновляемся
+```
+   git fetch
+   git pull
+```
+
+5. Заменяем конфиги (если пропущен пункт 2)
+```
+   cd config/
+   rm db.php
+   cp db.php.prod db.php
+```
+
+```
+rm web.php
+cp web.php.prod.en web.php
+```
+
+```
+cd ../web/
+rm index.php
+cp index.php.prod  index.php
+```
+
+6. обновить модули (если были изменения в composer.json) или вгружали проект с нуля (пункт 2)
+   1) перейти в папку my_portret
+```		
+      cd folder - переход в папку folder
+```
+```
+      cd ../ - переход в родительскую директорию
+```
+   2)
+```
+rm vendor
+```
+   3)
+```
+composer-php7.4 install
+```
+
+7. Если нужно програть миграции
+   1) Сделать бэкап базы данных
+   - https://ikarus2.beget.com/phpMyAdmin/
+     alinas8h_sql и пароль
+   - экспорт
+   - выбрать Обычный - отображать все возможные настройки
+   - выбрать Добавить выражение CREATE DATABASE / USE
+   - вперед => должен скачаться файл
+   - Положить этот файл в корень сайта (у себя на компьютере) - заменить portrait.sql
+   - сделать коммит и пуш
+
+   2) перейти в папку my_portret
+```	
+      cd folder - переход в папку folder
+```
+```
+      cd ../ - переход в родительскую директорию
+```
+
+   3) php7.4 yii migrate
+
+7. сделать бэкап фото заказов
+```
+   rm orders_en.zip
+   rm orders_ru.zip
+   zip -r orders_en.zip sekatski.com/public_html/uploads/orders/
+   zip -r orders_ru.zip sekatsky.ru/public_html/uploads/orders/
+```
+
+8. удобнее в менеджере заменить содержимое.
+   - удалить в sekatski.com все кроме папки public_html
+   - скопировать в sekatski.com из my_portret все кроме web  и .git
+   - скопировать в sekatski.com/public_html из my_portret/web
+
+   - Аналогично скопировать sekatski.com в sekatsky.ru
+   - заменить конфиг
+```
+rm sekatsky.ru/config/web.php
+cp sekatsky.ru/config/web.php.prod.ru sekatsky.ru/config/web.php
+```
+
+   - скопировать архивы обратно и распокавать
+
+9. Не забываем обновить права на дирректрии
+
+```
+chmod 766 -R sekatski.com/public_html/uploads/
+chmod 766 -R sekatski.com/public_html/assets/
+chmod 766 -R sekatski.com/runtime/
+```
+
+```
+chmod 766 -R sekatsky.ru/public_html/uploads/
+chmod 766 -R sekatsky.ru/public_html/assets/
+chmod 766 -R sekatsky.ru/runtime/
+```
+
+
+
+
+
+	
+
+
+ 
+
+
