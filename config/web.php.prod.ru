@@ -8,7 +8,7 @@ $config = [
     'id' => 'basic',
     'language' => 'ru-RU',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'assetsAutoCompress'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
@@ -61,8 +61,10 @@ $config = [
         'assetsAutoCompress' =>
             [
                 'class' => '\skeeks\yii2\assetsAuto\AssetsAutoCompressComponent',
-                'jsFileCompileByGroups' => true,
-                'cssFileCompileByGroups' => true,
+                'enabled'=> true,
+                'jsCompress'=> true,
+                'cssFileCompile' => true,
+                'jsFileCompile' => true
             ],
         'i18n' => [
             'translations' => $translations,
