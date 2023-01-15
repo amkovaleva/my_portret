@@ -12,6 +12,7 @@ return [
     'about_portraits' => 'portraits',
     'about_experience' => 'years of art experience',
     'about_publications' => 'publications',
+    'about_me_title' => 'about me.',
 
     'ie_error' => 'You are using an <strong>outdated</strong> browser.
         Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.',

@@ -1,8 +1,8 @@
-<div class="waterfall">
+<div class=" waterfall pswp-gallery" id="my-gallery-<?= $portrait_type_id ?>">
 
     <?php
-
     use yii\helpers\Url;
+    use yii\web\View;
 
     foreach ($list as &$item){
         $item['image'] = '/images/index/' . $item['image'];
@@ -23,10 +23,26 @@
         </div>
     <?php } ?>
 </div>
+<?php if(isset($portrait_type_id) && !empty($portrait_type_id)){ ?>
+    <div class="order-section">
+        <a class="order-section__submit button"
+           href="<?= Url::to(['/order-' . Yii::$app->params['portrait_types'][$portrait_type_id]['key']]) ?>">
+            <?= Yii::t('app/index', 'order') ?>
+        </a>
+    </div>
+<?php } ?>
 
-<div class="order-section">
-    <a class="order-section__submit button"
-       href="<?= Url::to(['/order-' . Yii::$app->params['portrait_types'][$portrait_type_id]['key']]) ?>">
-        <?= Yii::t('app/index', 'order') ?>
-    </a>
-</div>
+<?php
+$this->registerJs(<<<JS
+const lightbox_$portrait_type_id = new PhotoSwipeLightbox({
+  gallery: "#my-gallery-$portrait_type_id",
+  children: "a.waterfall__link",
+  pswpModule: () => PhotoSwipe
+});
+
+lightbox_$portrait_type_id.init();
+JS
+    ,
+    View::POS_READY
+);
+?>

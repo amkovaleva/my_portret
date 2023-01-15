@@ -6,9 +6,9 @@ $translations = require __DIR__ . '/_translations.php';
 
 $config = [
     'id' => 'basic',
-    'language' => 'en-EN',
+    'language' => 'ru-RU',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log', 'assetsAutoCompress'],
+    'bootstrap' => YII_ENV_DEV ? ['log'] : ['log', 'assetsAutoCompress'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
@@ -58,8 +58,7 @@ $config = [
         'assetManager' => [
             'appendTimestamp' => true,
         ],
-        'assetsAutoCompress' =>
-            [
+        'assetsAutoCompress' =>[
                 'class' => '\skeeks\yii2\assetsAuto\AssetsAutoCompressComponent',
                 'jsFileCompileByGroups' => true,
                 'cssFileCompileByGroups' => true,
