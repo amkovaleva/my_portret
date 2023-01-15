@@ -13,7 +13,7 @@ return [
     'body_placeholder' => 'Введите Ваше сообщение',
     'phone_placeholder' => 'Введите номер телефона',
 
-    'email_subject' => 'Contact email',abou
+    'email_subject' => 'Contact email',
     'contactFormSubmitted' => 'Contact Message Successfully Send',
 
     'submit' => 'Отправить',

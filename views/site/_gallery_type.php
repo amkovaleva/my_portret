@@ -27,7 +27,7 @@
     <div class="order-section">
         <a class="order-section__submit button"
            href="<?= Url::to(['/order-' . Yii::$app->params['portrait_types'][$portrait_type_id]['key']]) ?>">
-            <?= Yii::t('app/index', 'order') ?>
+            <?= Yii::t('app/index', 'order_'.$portrait_type_id) ?>
         </a>
     </div>
 <?php } ?>

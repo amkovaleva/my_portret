@@ -9,6 +9,9 @@ return [
     'oil_pencil' => 'OIL & PENCIL',
     'studio' => 'PORTRAIT STUDIO',
     'order' => 'Заказать портрет',
+    'order_1' => 'Заказать портрет гиперреализм',
+    'order_2' => 'Заказать портрет фотореализм',
+    'order_3' => 'Заказать портрет набросок',
 
     'about_competitions' => 'победы в конкурсах',
     'about_portraits' => 'портретов',

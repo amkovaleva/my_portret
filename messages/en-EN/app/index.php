@@ -7,6 +7,9 @@ return [
     'oil_pencil' => 'OIL & PENCIL',
     'studio' => 'PORTRAIT STUDIO',
     'order' => 'Order a portrait',
+    'order_1' => 'Order a hyperrealistic portrait',
+    'order_2' => 'Order a realistic portrait',
+    'order_3' => 'Order a sketch portrait',
 
     'about_competitions' => 'win in art competition',
     'about_portraits' => 'portraits',

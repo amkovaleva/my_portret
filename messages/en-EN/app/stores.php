@@ -24,6 +24,5 @@ return [
     'detalisation' => 'detailing',
     'est_time' => 'est. time',
 
-    'order' => 'Order a portrait'
-
+    'order' => 'Order a portrait',
     ];
