@@ -251,7 +251,6 @@ You can see code coverage output under the `tests/_output` directory.
 перед обновлением нужно сделать их бэкап!!
 
 1. Перейти на хостинг
-2.
 ```
 ssh alinas8h_ssh@alinas8h.beget.tech
    ```
@@ -260,7 +259,6 @@ ssh alinas8h_ssh@alinas8h.beget.tech
 На консоли должна появиться строка, начинающаяся с alinas8h_ssh@ikarus2:
 
 2. В корне (видны папки с сайтами) выкачать проект (если нет папки my_portret)
-3.
 ```
 git clone https://github.com/amkovaleva/my_portret.git
    ```
@@ -295,19 +293,14 @@ cp index.php.prod  index.php
 ```
 
 6. обновить модули (если были изменения в composer.json) или вгружали проект с нуля (пункт 2)
-   1) перейти в папку my_portret
-```		
-      cd folder - переход в папку folder
-```
-```
-      cd ../ - переход в родительскую директорию
-```
-   2)
-```
-rm vendor
-```
-   3)
-```
+выполняется из папки my_portret
+```	
+
+cd folder - переход в папку folder
+cd ../ - переход в родительскую директорию 
+      
+rm vendor 
+
 composer-php7.4 install
 ```
 
@@ -367,14 +360,3 @@ chmod 766 -R sekatsky.ru/public_html/uploads/
 chmod 766 -R sekatsky.ru/public_html/assets/
 chmod 766 -R sekatsky.ru/runtime/
 ```
-
-
-
-
-
-	
-
-
- 
-
-
