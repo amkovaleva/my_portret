@@ -23,9 +23,13 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'errorHandler' => [
-            'errorAction' => 'site/error',
-        ],
+        'errorHandler' => YII_DEBUG ?
+            ['errorAction' => 'site/error']
+            : [
+                'class' => 'cronfy\yii\web\ErrorHandler',
+                'typesToExceptions' => YII_DEBUG ? E_ALL : false,
+                'typesToLog' => E_ALL,
+            ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             // send all mails to a file by default. You have to set
@@ -47,15 +51,24 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'enableStrictParsing'=>true,
+            'enableStrictParsing' => true,
             'rules' => $url_rules,
             'suffix' => '/',
         ],
+        'assetManager' => [
+            'appendTimestamp' => true,
+        ],
+        'assetsAutoCompress' =>
+            [
+                'class' => '\skeeks\yii2\assetsAuto\AssetsAutoCompressComponent',
+                'jsFileCompileByGroups' => true,
+                'cssFileCompileByGroups' => true,
+            ],
         'i18n' => [
             'translations' => $translations,
         ],
-
     ],
+
     'modules' => [
         'user' => [
             'class' => Da\User\Module::class,

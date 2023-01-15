@@ -20,8 +20,9 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/style.css?v=3',
-        'css/site.css?v=3'
+        'css/style.css',
+        'css/site.css',
+        'PhotoSwipe/photoswipe.css',
     ];
     public $js = [
         'js/jquery.spincrement.js',
@@ -35,9 +36,11 @@ class AppAsset extends AssetBundle
         'js/_modal.js',
         'js/_order.js',
         'js/_store.js',
+        'PhotoSwipe/photoswipe.umd.min.js',
+        'PhotoSwipe/photoswipe-lightbox.umd.min.js',
     ];
     public $depends = [
         'yii\web\JqueryAsset',
-        'demi\cropper\CropperAsset'
+        'demi\cropper\CropperAsset',
     ];
 }

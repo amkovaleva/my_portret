@@ -6,6 +6,7 @@ $input_options = ['options' => ['class' => 'form__field input'], 'labelOptions' 
 $input_style = ['placeholder' => Yii::t('app/carts', 'placeholder'), 'class' => 'input__widget'];
 
 $form = ActiveForm::begin(); ?>
+<?= $form->field($model, 'server')->hiddenInput()->label(false) ?>
 
 <div class="basket__data form">
     <h2 class="form__heading">

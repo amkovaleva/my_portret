@@ -19,7 +19,7 @@ class Order extends ActiveRecord
     {
         return [
             [['state', 'first_name', 'last_name', 'email', 'index',
-                'country', 'city', 'street', 'house', 'apartment', 'cart_item_id'], 'required',
+                'country', 'city', 'street', 'house', 'apartment', 'cart_item_id', 'server'], 'required',
                 'message' => Yii::t('app/carts', 'required_message')],
             [['middle_name', 'first_name', 'last_name', 'email', 'phone',
                 'index', 'country', 'city', 'street', 'house', 'apartment',
@@ -63,6 +63,7 @@ class Order extends ActiveRecord
     public function fillDefault()
     {
         $this->state = OrderConsts::CREATED_STATE;
+        $this->server = $_SERVER['SERVER_NAME'];
         $cart = CartItem::getCartItemsForUser(false);
         if ($cart)
             $this->cart_item_id = $cart->id;
@@ -109,7 +110,7 @@ class Order extends ActiveRecord
         $item = $this->cartItem;
         if (!$item)
             return '';
-        return $item->previewImageUrl;
+        return $this->correctURLForServer($item->previewImageUrl);
     }
 
     public function getFullPhotoUrl()
@@ -117,7 +118,7 @@ class Order extends ActiveRecord
         $item = $this->cartItem;
         if (!$item)
             return '';
-        return $item->imageUrl;
+        return $this->correctURLForServer($item->imageUrl);
     }
 
     public function getTotalPrice()
@@ -155,5 +156,9 @@ class Order extends ActiveRecord
         if($this->user_comment)
             $options[Yii::t($trans_dir, 'user_comment')] = $this->user_comment;
         return $options;
+    }
+
+    private function correctURLForServer($url){
+        return (!YII_ENV_DEV ? ('https://'. $this->server) : '') . $url;
     }
 }
